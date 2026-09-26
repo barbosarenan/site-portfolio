@@ -1,0 +1,110 @@
+---
+import Base from "../../../layouts/Base.astro";
+import Chamada from "../../../components/Chamada.astro";
+import { diagnostico, arquitetura, versoes } from "../../../dados/compasso";
+---
+<Base titulo="Compasso: SEO e arquitetura de conteúdo · Renan Barbosa" descricao="Estudo demonstrativo de SEO e conteúdo para uma empresa fictícia de agendamento. Explore o diagnóstico, as decisões e a página construída.">
+  <article class="compasso-case">
+    <header class="env case-abertura">
+      <a class="voltar" href="/#trabalhos">← Voltar aos projetos</a>
+      <p class="etiqueta">Projeto demonstrativo · empresa fictícia</p>
+      <h1>Uma página que explica<br class="quebra" /> antes de convencer.</h1>
+      <p class="introducao">Compasso. SEO e arquitetura de conteúdo para um software fictício de agendamento, da mensagem inicial à demonstração navegável.</p>
+      <div class="case-acoes"><a class="botao" href="/demonstracoes/compasso/depois/">Explorar a página</a><a class="botao vazado" href="#diagnostico">Ver o diagnóstico</a></div>
+      <dl class="ficha"><div><dt>Frentes</dt><dd>SEO · conteúdo · web</dd></div><div><dt>Entrega</dt><dd>Diagnóstico + página demonstrativa</dd></div><div><dt>Natureza</dt><dd>Estudo autoral com apoio de IA</dd></div></dl>
+    </header>
+
+    <div class="env comparacao" aria-label="Comparação da mensagem principal">
+      <section class="versao original"><span class="mini-label">01 · ponto de partida simulado</span><h2>{versoes.antes.h1}</h2><p>Uma mensagem abrangente, sem indicar produto, público ou utilidade.</p><a href="/demonstracoes/compasso/antes/">Abrir a versão inicial <span aria-hidden="true">↗</span></a></section>
+      <section class="versao proposta"><span class="mini-label">02 · proposta implementada</span><h2>{versoes.depois.h1}</h2><p>Categoria, público e funções explícitos. Um próximo passo que permite conhecer a proposta.</p><a href="/demonstracoes/compasso/depois/">Abrir a versão proposta <span aria-hidden="true">↗</span></a></section>
+    </div>
+    <nav class="env sumario" aria-label="Seções do case"><a href="#contexto">Contexto</a><a href="#diagnostico">Diagnóstico</a><a href="#arquitetura">Arquitetura</a><a href="#entrega">Entrega</a><a href="#validacao">Validação</a></nav>
+
+    <section class="env case-secao" id="contexto">
+      <div class="secao-titulo"><span class="rotulo">01 · contexto</span><h2>O visitante precisava entender o que estava sendo oferecido.</h2></div>
+      <div class="texto"><p>No briefing fictício, a Compasso oferece uma agenda online para profissionais autônomos. O desafio é transformar uma apresentação genérica em uma página que permita reconhecer o produto, entender seu uso e avaliar se ele faz sentido para a rotina do visitante.</p><p>A versão inicial foi criada especificamente para este exercício, com problemas de mensagem e estrutura documentados. Não corresponde a um site de cliente nem a um diagnóstico de desempenho real.</p><div class="nota"><strong>Escopo do estudo</strong><p>Análise do cenário, priorização, arquitetura de conteúdo, redação e implementação estática em Astro. O material foi desenvolvido com apoio de IA na estruturação, na redação e no código. Não inclui pesquisa com usuários, dados de ferramentas de busca ou operação de um software real.</p></div></div>
+    </section>
+
+    <section class="env case-secao" id="diagnostico">
+      <div class="secao-titulo"><span class="rotulo">02 · diagnóstico</span><h2>Primeiro, clareza da oferta. Depois, aprofundamento.</h2><p>Prioridades qualitativas definidas para este cenário. Não representam impacto medido em tráfego.</p></div>
+      <div class="achados">{diagnostico.map((item) => <article class="achado"><div class="achado-top"><span>{item.id}</span><span>Prioridade {item.prioridade.toLowerCase()} · esforço {item.esforco.toLowerCase()}</span></div><h3>{item.problema}</h3><p>{item.evidencia}</p><p class="decisao"><strong>Decisão:</strong> {item.decisao}</p><details><summary>Como verificar e do que depende</summary><p>{item.validacao}</p><p><strong>Dependência:</strong> {item.dependencia}</p></details></article>)}</div>
+    </section>
+
+    <section class="env case-secao" id="arquitetura">
+      <div class="secao-titulo"><span class="rotulo">03 · arquitetura</span><h2>Organizar o conteúdo pelo momento de decisão.</h2></div>
+      <div class="texto"><p>“Agendamento online para autônomos” é uma hipótese de tema comercial coerente com a oferta. A escolha não foi baseada em volume de busca ou dificuldade de palavra-chave. Em um projeto real, essa hipótese precisaria ser confrontada com pesquisas de busca e linguagem do público.</p><div class="mapa" aria-label="Arquitetura proposta para o site fictício">{arquitetura.map((pagina) => <div class="mapa-item"><span class="mini-label">{pagina.estado}</span><h3>{pagina.objetivo}</h3><code>{pagina.rota}</code><p>{pagina.conteudo}</p></div>)}</div><p class="legenda">As rotas acima representam a arquitetura do produto fictício. Apenas a página inicial foi implementada, dentro da área de demonstrações do portfólio.</p><h3>Uma decisão de escopo</h3><p>Recursos e dúvidas aparecem primeiro na página principal. Criar diversas páginas rasas apenas para acomodar termos de busca fragmentaria a explicação. A expansão proposta dependeria de conteúdo suficiente para responder a uma necessidade distinta.</p></div>
+    </section>
+
+    <section class="env case-secao" id="entrega">
+      <div class="secao-titulo"><span class="rotulo">04 · entrega</span><h2>Do diagnóstico a uma experiência navegável.</h2></div>
+      <div class="texto"><p>A página construída apresenta o produto, explica o funcionamento e conduz a uma agenda ilustrativa. Os recursos são descritos em linguagem concreta e as perguntas frequentes deixam o escopo da demonstração explícito.</p><div class="sequencia" aria-label="Sequência de conteúdo da página"><span>Oferta</span><span aria-hidden="true">→</span><span>Funcionamento</span><span aria-hidden="true">→</span><span>Agenda</span><span aria-hidden="true">→</span><span>Dúvidas</span></div><div class="metadados"><span class="mini-label">Título e descrição implementados</span><strong>{versoes.depois.titulo}</strong><p>{versoes.depois.descricao}</p></div><p class="legenda">Exemplo de metadados da página. A apresentação em buscadores pode variar.</p><div class="case-acoes"><a class="botao" href="/demonstracoes/compasso/depois/">Navegar na demonstração</a><a class="botao vazado" href="/materiais/compasso-estudo.md" download>Baixar o estudo (.md)</a></div></div>
+    </section>
+
+    <section class="env case-secao" id="validacao">
+      <div class="secao-titulo"><span class="rotulo">05 · validação</span><h2>O que a entrega permite avaliar.</h2></div>
+      <div class="texto"><ul class="validacao-lista"><li><strong>Coerência:</strong> título, abertura e seções descrevem a mesma proposta de produto.</li><li><strong>Navegação:</strong> a ação principal leva à agenda ilustrativa e os links internos conectam as seções.</li><li><strong>Estrutura:</strong> HTML estático, hierarquia de títulos e perguntas expansíveis com controles nativos.</li><li><strong>Limites:</strong> demonstrações identificadas como fictícias, com diretiva de não indexação e fora do sitemap.</li></ul><div class="nota"><strong>Entrega construída, sem resultados de negócio atribuídos.</strong><p>Este estudo não apresenta ganhos de tráfego, conversão ou posicionamento. Esses efeitos exigiriam um produto real, uma base de comparação e acompanhamento após a publicação.</p></div><h3>O próximo passo em um projeto real</h3><p>Validar a linguagem com o público, pesquisar consultas e concorrentes e instrumentar o caminho entre visita e pedido de demonstração. Essas observações ajudariam a revisar o conteúdo e decidir se a arquitetura precisa crescer.</p></div>
+    </section>
+  </article>
+  <Chamada titulo="Seu site explica bem o que você oferece?" />
+</Base>
+
+<style>
+  .compasso-case { --verde: #21392e; --verde-claro: #e9eee5; }
+  .case-abertura { padding-block: 36px 40px; }
+  .voltar { display: inline-block; padding: 8px 0; margin-bottom: 32px; font-size: 13px; color: var(--muted); }
+  .etiqueta, .mini-label { font: 11px/1.6 var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+  .etiqueta { color: var(--muted); margin-bottom: 18px; }
+  h1 { max-width: 21ch; font-size: clamp(38px, 6vw, 72px); line-height: 1.05; }
+  .introducao { margin: 24px 0; max-width: 62ch; font-size: clamp(17px, 2vw, 20px); color: var(--muted); }
+  .case-acoes { display: flex; flex-wrap: wrap; gap: 12px; }
+  .ficha { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; margin: 40px 0 0; }
+  dt { font: 11px var(--mono); text-transform: uppercase; color: var(--muted); }
+  dd { margin: 8px 0 0; font-size: 14px; }
+  .comparacao { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  .versao { padding: clamp(24px, 4vw, 46px); display: flex; flex-direction: column; }
+  .original { background: var(--surface-2); }
+  .proposta { background: var(--verde); color: #f4f5ec; }
+  .versao h2 { margin: 28px 0 20px; max-width: 20ch; font-size: clamp(28px, 3.5vw, 42px); line-height: 1.12; }
+  .versao p { font-size: 15px; max-width: 40ch; }
+  .original p, .original .mini-label { color: var(--muted); }
+  .proposta p, .proposta .mini-label { color: #c5d4c6; }
+  .versao a { padding: 10px 0; margin-top: auto; font-size: 13px; }
+  .proposta a:hover { color: #fff; }
+  .sumario { display: flex; flex-wrap: wrap; gap: 6px 28px; padding-block: 24px; border-bottom: 1px solid var(--line); }
+  .sumario a { padding: 8px 0; font-size: 13px; }
+  .case-secao { display: grid; grid-template-columns: 1fr 1.65fr; gap: 64px; padding-block: 64px; border-bottom: 1px solid var(--line); scroll-margin-top: 130px; }
+  .secao-titulo h2 { font-size: clamp(26px, 3vw, 32px); line-height: 1.15; }
+  .secao-titulo > p { color: var(--muted); font-size: 14px; margin-top: 20px; }
+  .texto > p { color: var(--muted); }
+  .texto h3 { margin: 28px 0 14px; }
+  .nota { margin: 24px 0; padding: 22px; border-left: 3px solid var(--line-strong); background: var(--surface-2); border-radius: 0 10px 10px 0; }
+  .nota p { margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+  .achados { display: grid; gap: 16px; }
+  .achado { padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  .achado-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font: 11px/1.5 var(--mono); color: var(--muted); margin-bottom: 16px; }
+  .achado h3 { margin-bottom: 12px; }
+  .achado p { font-size: 14px; color: var(--muted); }
+  .achado .decisao { color: var(--text); }
+  details { border-top: 1px solid var(--line); padding-top: 12px; }
+  summary { cursor: pointer; font-size: 13px; padding: 5px 0; }
+  summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  details p { margin-top: 12px; }
+  .mapa { display: grid; gap: 12px; margin-top: 24px; }
+  .mapa-item { padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  .mapa-item:first-child { border-left: 4px solid #45654b; }
+  .mapa-item .mini-label { color: var(--muted); }
+  .mapa-item h3 { margin: 8px 0; }
+  .mapa-item code { font: 12px var(--mono); overflow-wrap: anywhere; color: var(--muted); }
+  .mapa-item p { margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+  .texto .legenda { font-size: 12px; margin-top: 12px; }
+  .sequencia { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 24px 0; font: 12px var(--mono); }
+  .sequencia span:not([aria-hidden]) { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; }
+  .metadados { padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  .metadados .mini-label { color: var(--muted); }
+  .metadados strong { display: block; font-size: 20px; margin: 14px 0 8px; }
+  .metadados p { color: var(--muted); font-size: 14px; margin: 0; }
+  .validacao-lista { padding-left: 20px; margin: 0; }
+  .validacao-lista li { margin-bottom: 14px; color: var(--muted); }
+  .validacao-lista strong { color: var(--text); }
+  @media (max-width: 760px) { .case-secao { grid-template-columns: 1fr; gap: 24px; padding-block: 40px; } .comparacao { grid-template-columns: 1fr; } .ficha { grid-template-columns: 1fr; gap: 20px; } .quebra { display: none; } .sumario { gap: 4px 18px; } }
+</style>

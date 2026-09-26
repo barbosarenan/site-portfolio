@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Chamada from "../components/Chamada.astro";
+import CaseDestaque from "../components/CaseDestaque.astro";
 import { perfil, pilares, casos } from "../dados/perfil";
 import { getCollection } from "astro:content";
 
@@ -64,8 +65,10 @@ const fmt = (d) =>
         <span class="rotulo">01 · projetos</span>
         <h2 class="section-title">Trabalho que mostra como eu penso.</h2>
       </div>
-      <p>Menos lista de tarefas. Mais contexto, decisão e construção.</p>
+      <p>Projetos demonstrativos e experiências que conectam contexto, decisão e entrega.</p>
     </div>
+
+    <CaseDestaque />
 
     <div class="cards-grid">
       {casos.map((c, i) => (

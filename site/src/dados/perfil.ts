@@ -52,7 +52,7 @@ export const areas = [
 
 export const casos = [
   {
-    titulo: "UniSoma",
+    titulo: "Marketing em empresa de tecnologia",
     categoria: "Experiência profissional",
     papel: "marketing · SEO · conteúdo · web",
     texto: "Atuação em marketing digital, com foco em estratégia de conteúdo, SEO e evolução de experiências web.",
