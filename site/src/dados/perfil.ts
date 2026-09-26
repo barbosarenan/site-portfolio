@@ -7,7 +7,7 @@ export const perfil = {
   email: "renanb501@gmail.com",
   linkedin: "https://www.linkedin.com/in/barbosa-renan/",
   instagram: "https://instagram.com/testeiaqui.py",
-  github: "https://github.com/Blooberzin",
+  github: "https://github.com/barbosarenan",
   descricaoSite:
     "Renan Barbosa atua na interseção entre marketing, tecnologia, SEO e IA aplicada.",
 };
