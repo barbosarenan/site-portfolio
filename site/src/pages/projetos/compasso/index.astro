@@ -6,7 +6,7 @@ import { diagnostico, arquitetura, versoes } from "../../../dados/compasso";
 <Base titulo="Compasso: SEO e arquitetura de conteúdo · Renan Barbosa" descricao="Estudo demonstrativo de SEO e conteúdo para uma empresa fictícia de agendamento. Explore o diagnóstico, as decisões e a página construída.">
   <article class="compasso-case">
     <header class="env case-abertura">
-      <a class="voltar" href="/#trabalhos">← Voltar aos projetos</a>
+      <a class="voltar" href="/projetos/">← Voltar aos projetos</a>
       <p class="etiqueta">Projeto demonstrativo · empresa fictícia</p>
       <h1>Uma página que explica<br class="quebra" /> antes de convencer.</h1>
       <p class="introducao">Compasso. SEO e arquitetura de conteúdo para um software fictício de agendamento, da mensagem inicial à demonstração navegável.</p>
@@ -60,7 +60,7 @@ import { diagnostico, arquitetura, versoes } from "../../../dados/compasso";
   .ficha { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; margin: 40px 0 0; }
   dt { font: 11px var(--mono); text-transform: uppercase; color: var(--muted); }
   dd { margin: 8px 0 0; font-size: 14px; }
-  .comparacao { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  .comparacao { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
   .versao { padding: clamp(24px, 4vw, 46px); display: flex; flex-direction: column; }
   .original { background: var(--surface-2); }
   .proposta { background: var(--verde); color: #f4f5ec; }
@@ -77,10 +77,10 @@ import { diagnostico, arquitetura, versoes } from "../../../dados/compasso";
   .secao-titulo > p { color: var(--muted); font-size: 14px; margin-top: 20px; }
   .texto > p { color: var(--muted); }
   .texto h3 { margin: 28px 0 14px; }
-  .nota { margin: 24px 0; padding: 22px; border-left: 3px solid var(--line-strong); background: var(--surface-2); border-radius: 0 10px 10px 0; }
+  .nota { margin: 24px 0; padding: 22px; border-left: 3px solid var(--line-strong); background: var(--surface-2); border-radius: 0; }
   .nota p { margin: 10px 0 0; font-size: 14px; color: var(--muted); }
   .achados { display: grid; gap: 16px; }
-  .achado { padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  .achado { padding: 24px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
   .achado-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font: 11px/1.5 var(--mono); color: var(--muted); margin-bottom: 16px; }
   .achado h3 { margin-bottom: 12px; }
   .achado p { font-size: 14px; color: var(--muted); }
@@ -90,7 +90,7 @@ import { diagnostico, arquitetura, versoes } from "../../../dados/compasso";
   summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
   details p { margin-top: 12px; }
   .mapa { display: grid; gap: 12px; margin-top: 24px; }
-  .mapa-item { padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  .mapa-item { padding: 20px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
   .mapa-item:first-child { border-left: 4px solid #45654b; }
   .mapa-item .mini-label { color: var(--muted); }
   .mapa-item h3 { margin: 8px 0; }
@@ -99,7 +99,7 @@ import { diagnostico, arquitetura, versoes } from "../../../dados/compasso";
   .texto .legenda { font-size: 12px; margin-top: 12px; }
   .sequencia { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 24px 0; font: 12px var(--mono); }
   .sequencia span:not([aria-hidden]) { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; }
-  .metadados { padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  .metadados { padding: 24px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
   .metadados .mini-label { color: var(--muted); }
   .metadados strong { display: block; font-size: 20px; margin: 14px 0 8px; }
   .metadados p { color: var(--muted); font-size: 14px; margin: 0; }

@@ -15,23 +15,22 @@ const desc = descricao ?? perfil.descricaoSite;
 const imagemAbsoluta = new URL(imagem, Astro.site).href;
 
 const rotas = [
-  { href: "/", texto: "início" },
-  { href: "/sobre/", texto: "sobre" },
-  { href: "/artigos/", texto: "artigos" },
-  { href: "/lab/", texto: "lab" },
-  { href: "/servicos/", texto: "serviços" },
+  { href: "/projetos/", texto: "Projetos" },
+  { href: "/sobre/", texto: "Sobre" },
+  { href: "/artigos/", texto: "Artigos" },
 ];
 
 const aqui = Astro.url.pathname;
 const estaAtiva = (href) =>
-  href === "/" ? aqui === "/" : aqui.startsWith(href);
+  aqui.startsWith(href) || (href === "/projetos/" && aqui.startsWith("/lab/"));
 ---
 <!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f7f7f5" />
+    <meta name="theme-color" content="#f7f5ef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#171b18" media="(prefers-color-scheme: dark)" />
     <meta name="color-scheme" content="light dark" />
 
     <title>{titulo}</title>
@@ -68,8 +67,8 @@ const estaAtiva = (href) =>
 
     <header class="cabecalho">
       <div class="env">
-        <a class="marca" href="/" aria-label={perfil.nome + " — início"}>
-          {perfil.nome.toLowerCase().replace(" ", "")}
+        <a class="marca" href="/" aria-label={perfil.nome + ", início"}>
+          {perfil.nome}.
         </a>
 
         <nav aria-label="Navegação principal">
@@ -81,7 +80,7 @@ const estaAtiva = (href) =>
               {r.texto}
             </a>
           ))}
-          <a class="nav-cta" href={"mailto:" + perfil.email}>falar comigo</a>
+          <a class="nav-cta" href={"mailto:" + perfil.email}>Contato</a>
         </nav>
       </div>
     </header>
@@ -94,6 +93,7 @@ const estaAtiva = (href) =>
       <div class="env">
         <span>{perfil.nome} · {perfil.local}</span>
         <a class="direita" href={"mailto:" + perfil.email}>e-mail</a>
+        <a href="/servicos/">serviços</a>
         <a href={perfil.linkedin} rel="me noopener noreferrer">linkedin</a>
         <a href={perfil.github} rel="me noopener noreferrer">github</a>
         <a href={perfil.instagram} rel="me noopener noreferrer">instagram</a>
