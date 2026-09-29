@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import { perfil } from "../dados/perfil";
 import Analytics from "@vercel/analytics/astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
 
 const {
   titulo,
@@ -69,6 +70,7 @@ const estaAtiva = (href) =>
 
     <slot name="cabeca" />
     <Analytics />
+    <SpeedInsights />
   </head>
 
   <body>
