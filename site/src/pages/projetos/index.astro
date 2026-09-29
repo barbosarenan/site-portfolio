@@ -2,10 +2,22 @@
 import Base from "../../layouts/Base.astro";
 import Chamada from "../../components/Chamada.astro";
 import CaseDestaque from "../../components/CaseDestaque.astro";
-import { perfil, casos } from "../../dados/perfil";
+import { perfil, casos, idPessoa, compassoSchema } from "../../dados/perfil";
 const projetos = casos.filter((item) => item.categoria !== "Experiência profissional");
+const lista = {
+  "@type": "ItemList",
+  name: "Projetos de " + perfil.nome,
+  itemListElement: [
+    { "@type": "ListItem", position: 1, item: { "@id": compassoSchema["@id"] } },
+    ...projetos.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 2,
+      item: { "@type": "CreativeWork", name: p.titulo, description: p.texto, genre: p.categoria, author: { "@id": idPessoa } },
+    })),
+  ],
+};
 ---
-<Base titulo={"Projetos · " + perfil.nome} descricao="Cases demonstrativos, projetos pessoais e experimentos de Renan Barbosa em marketing, SEO, conteúdo e IA.">
+<Base titulo={"Projetos · " + perfil.nome} descricao="Cases demonstrativos, projetos pessoais e experimentos de Renan Barbosa em marketing, SEO, conteúdo e IA." tipoPagina="CollectionPage" schema={[compassoSchema, lista]}>
   <section class="env abertura">
     <span class="rotulo">Projetos</span>
     <h1>Ideias, decisões<br /> e entregas.</h1>

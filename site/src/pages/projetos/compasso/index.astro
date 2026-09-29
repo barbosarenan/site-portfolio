@@ -2,11 +2,11 @@
 import Base from "../../../layouts/Base.astro";
 import Chamada from "../../../components/Chamada.astro";
 import { diagnostico, arquitetura, versoes } from "../../../dados/compasso";
+import { compassoSchema } from "../../../dados/perfil";
 ---
-<Base titulo="Compasso: SEO e arquitetura de conteúdo · Renan Barbosa" descricao="Estudo demonstrativo de SEO e conteúdo para uma empresa fictícia de agendamento. Explore o diagnóstico, as decisões e a página construída.">
+<Base titulo="Compasso: SEO e arquitetura de conteúdo · Renan Barbosa" descricao="Estudo demonstrativo de SEO e conteúdo para uma empresa fictícia de agendamento. Explore o diagnóstico, as decisões e a página construída." tituloCurto="Compasso" schema={[compassoSchema]}>
   <article class="compasso-case">
     <header class="env case-abertura">
-      <a class="voltar" href="/projetos/">← Voltar aos projetos</a>
       <p class="etiqueta">Projeto demonstrativo · empresa fictícia</p>
       <h1>Uma página que explica<br class="quebra" /> antes de convencer.</h1>
       <p class="introducao">Compasso. SEO e arquitetura de conteúdo para um software fictício de agendamento, da mensagem inicial à demonstração navegável.</p>

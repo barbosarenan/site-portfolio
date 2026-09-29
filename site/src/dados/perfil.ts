@@ -4,12 +4,34 @@ export const perfil = {
   nome: "Renan Barbosa",
   cargo: "Analista de Marketing",
   local: "Campinas, SP",
-  email: "renanb501@gmail.com",
+  email: "contato@barbosarenan.com.br",
   linkedin: "https://www.linkedin.com/in/barbosa-renan/",
   instagram: "https://instagram.com/testeiaqui.py",
   github: "https://github.com/barbosarenan",
   descricaoSite:
     "Renan Barbosa atua na interseção entre marketing, tecnologia, SEO e IA aplicada.",
+  site: "https://barbosarenan.com.br",
+  // Temas usados no schema (knowsAbout) e no llms.txt.
+  conhecimentos: ["SEO", "Estratégia de conteúdo", "Marketing digital", "IA aplicada ao marketing", "Arquitetura de informação", "Desenvolvimento web"],
+};
+
+// Identificadores estáveis para o schema.org em todas as páginas.
+export const idPessoa = perfil.site + "/#renan";
+export const idSite = perfil.site + "/#site";
+
+// Case Compasso como obra criativa: deixa explícito que é demonstrativo e fictício.
+export const compassoSchema = {
+  "@type": "CreativeWork",
+  "@id": perfil.site + "/projetos/compasso/#case",
+  name: "Compasso: SEO e arquitetura de conteúdo",
+  description: "Projeto demonstrativo de SEO e conteúdo para uma empresa fictícia de agendamento online, com diagnóstico, arquitetura da página e demonstração navegável.",
+  url: perfil.site + "/projetos/compasso/",
+  genre: "Projeto demonstrativo",
+  creativeWorkStatus: "Demonstrativo · empresa e briefing fictícios",
+  inLanguage: "pt-BR",
+  author: { "@id": idPessoa },
+  about: ["SEO", "Arquitetura de conteúdo", "Copywriting", "Experiência do usuário"],
+  encoding: { "@type": "MediaObject", contentUrl: perfil.site + "/materiais/compasso-estudo.md", encodingFormat: "text/markdown" },
 };
 
 export const pilares = [

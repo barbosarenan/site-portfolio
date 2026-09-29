@@ -1,6 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { perfil } from "../../dados/perfil";
+import { perfil, idPessoa } from "../../dados/perfil";
 import { getCollection } from "astro:content";
 import ArtigoCard from "../../components/ArtigoCard.astro";
 
@@ -9,19 +9,22 @@ const artigos = (await getCollection("artigos", ({ data }) => !data.rascunho))
 
 const site = Astro.site;
 const listaEstruturada = {
-  "@context": "https://schema.org",
   "@type": "Blog",
+  "@id": new URL("/artigos/", site).href + "#blog",
   name: "Artigos · " + perfil.nome,
   description: "Métodos e notas sobre SEO, conteúdo e IA aplicada ao marketing.",
   url: new URL("/artigos/", site).href,
   inLanguage: "pt-BR",
-  author: { "@type": "Person", name: perfil.nome, url: site?.href },
+  author: { "@id": idPessoa },
+  publisher: { "@id": idPessoa },
   blogPost: artigos.map((a) => ({
     "@type": "BlogPosting",
+    "@id": new URL("/artigos/" + a.id + "/", site).href + "#artigo",
     headline: a.data.titulo,
     description: a.data.resumo,
     datePublished: a.data.data.toISOString(),
     url: new URL("/artigos/" + a.id + "/", site).href,
+    author: { "@id": idPessoa },
     image: new URL(a.data.capa ?? "/og.png", site).href,
   })),
 };
@@ -29,8 +32,10 @@ const listaEstruturada = {
 <Base
   titulo={"Artigos sobre SEO, conteúdo e IA aplicada · " + perfil.nome}
   descricao="Métodos e notas sobre SEO, planejamento de conteúdo e uso de IA na revisão editorial, com exemplos aplicáveis ao dia a dia do marketing."
+  tipoPagina="CollectionPage"
+  tituloCurto="Artigos"
+  schema={[listaEstruturada]}
 >
-  <script type="application/ld+json" slot="cabeca" set:html={JSON.stringify(listaEstruturada)} />
   <section class="env abertura">
     <span class="rotulo">Artigos</span>
     <h1 class="linha-um">Conhecimento construído a partir da prática.</h1>

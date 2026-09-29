@@ -1,7 +1,8 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Chamada from "../../components/Chamada.astro";
-import { perfil } from "../../dados/perfil";
+import ArtigoCard from "../../components/ArtigoCard.astro";
+import { perfil, idPessoa } from "../../dados/perfil";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -9,11 +10,11 @@ export async function getStaticPaths() {
 
   return artigos.map((a) => ({
     params: { slug: a.id },
-    props: { a },
+    props: { a, todos: artigos },
   }));
 }
 
-const { a } = Astro.props;
+const { a, todos } = Astro.props;
 const { Content } = await render(a);
 
 const fmt = (d) =>
@@ -26,41 +27,36 @@ const fmt = (d) =>
 
 const capa = a.data.capa ?? "/og.png";
 const url = new URL(Astro.url.pathname, Astro.site).href;
+const publicado = a.data.data.toISOString();
 const modificado = (a.data.atualizado ?? a.data.data).toISOString();
+const palavras = (a.body ?? "").split(/\s+/).filter(Boolean).length;
+const minutos = Math.max(1, Math.round(palavras / 200));
 
-const dadosEstruturados = {
-  "@context": "https://schema.org",
+// Leia também: artigos com mais tags em comum, depois os mais recentes.
+const relacionados = todos
+  .filter((o) => o.id !== a.id)
+  .map((o) => ({ o, comum: o.data.tags.filter((t) => a.data.tags.includes(t)).length }))
+  .sort((x, y) => y.comum - x.comum || y.o.data.data - x.o.data.data)
+  .slice(0, 3)
+  .map((r) => r.o);
+
+const artigoSchema = {
   "@type": "BlogPosting",
+  "@id": url + "#artigo",
   headline: a.data.titulo,
   description: a.data.resumo,
-  datePublished: a.data.data.toISOString(),
+  datePublished: publicado,
   dateModified: modificado,
   inLanguage: "pt-BR",
   keywords: a.data.tags.join(", "),
+  wordCount: palavras,
+  timeRequired: "PT" + minutos + "M",
   url,
-  author: {
-    "@type": "Person",
-    name: perfil.nome,
-    url: Astro.site?.href,
-    jobTitle: perfil.cargo,
-    sameAs: [perfil.linkedin, perfil.github, perfil.instagram],
-  },
-  publisher: {
-    "@type": "Person",
-    name: perfil.nome,
-  },
-  mainEntityOfPage: url,
-  image: new URL(capa, Astro.site).href,
-};
-
-const trilha = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Início", item: new URL("/", Astro.site).href },
-    { "@type": "ListItem", position: 2, name: "Artigos", item: new URL("/artigos/", Astro.site).href },
-    { "@type": "ListItem", position: 3, name: a.data.titulo, item: url },
-  ],
+  author: { "@id": idPessoa },
+  publisher: { "@id": idPessoa },
+  mainEntityOfPage: { "@id": url + "#pagina" },
+  isPartOf: { "@type": "Blog", "@id": new URL("/artigos/", Astro.site).href + "#blog" },
+  image: { "@type": "ImageObject", url: new URL(capa, Astro.site).href, width: 1200, height: 630 },
 };
 ---
 <Base
@@ -68,19 +64,19 @@ const trilha = {
   descricao={a.data.resumo}
   tipo="article"
   imagem={capa}
-  dataPublicacao={a.data.data.toISOString()}
+  dataPublicacao={publicado}
+  dataModificacao={modificado}
+  tituloCurto={a.data.titulo}
+  schema={[artigoSchema]}
 >
-  <script
-    type="application/ld+json"
-    slot="cabeca"
-    set:html={JSON.stringify(dadosEstruturados)}
-  />
-  <script type="application/ld+json" slot="cabeca" set:html={JSON.stringify(trilha)} />
   {a.data.tags.map((t) => <meta property="article:tag" content={t} slot="cabeca" />)}
 
   <article class="env abertura artigo-abertura">
-    <p class="rotulo">
-      <a href="/artigos/" style="color:inherit">artigos</a> · {fmt(a.data.data)}
+    <p class="rotulo artigo-linha-meta">
+      <span>Por <a href="/sobre/" rel="author">{perfil.nome}</a></span>
+      <span><time datetime={publicado}>{fmt(a.data.data)}</time></span>
+      {a.data.atualizado && <span>Atualizado em <time datetime={modificado}>{fmt(a.data.atualizado)}</time></span>}
+      <span>{minutos} min de leitura</span>
     </p>
 
     <h1>{a.data.titulo}</h1>
@@ -98,7 +94,22 @@ const trilha = {
     <div class="prosa rolagem">
       <Content />
     </div>
+
+    <aside class="autor" aria-label="Sobre o autor">
+      <p class="rotulo">Sobre o autor</p>
+      <p><a href="/sobre/" rel="author"><strong>{perfil.nome}</strong></a> é analista de marketing em {perfil.local} e trabalha com SEO, estratégia de conteúdo e IA aplicada ao marketing. Os artigos registram métodos e testes feitos na prática, com as fontes indicadas no fim de cada texto.</p>
+      <p class="autor-links"><a class="text-link" href={perfil.linkedin} rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a><a class="text-link" href={perfil.github} rel="me noopener">GitHub <span aria-hidden="true">↗</span></a></p>
+    </aside>
   </div>
+
+  {relacionados.length > 0 && (
+    <section class="env secao relacionados" aria-labelledby="leia-tambem">
+      <div class="section-head"><div><span class="rotulo">Continue lendo</span><h2 id="leia-tambem">Leia também</h2></div></div>
+      <div class="artigos-grade">
+        {relacionados.map((r, i) => <ArtigoCard artigo={r} ordem={i} />)}
+      </div>
+    </section>
+  )}
 
   <Chamada />
 </Base>

@@ -86,17 +86,11 @@ p { margin: 0 0 18px; }
 .prosa th, .prosa td { padding: 12px; border-bottom: 1px solid var(--line); text-align: left; }
 .prosa hr { border: 0; border-top: 1px solid var(--line); margin-block: 36px; }
 .meta, .artigo-meta { color: var(--muted); font-size: 13px; }
-.rodape { margin-top: 40px; padding-block: 28px 40px; border-top: 1px solid var(--line); color: var(--muted); }
-.rodape .env { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 20px; font-size: 12px; }
-.rodape a { display: inline-flex; align-items: center; min-height: 36px; }
-.rodape .direita { margin-left: auto; }
 .erro { min-height: 50vh; }
 @media (max-width: 760px) {
   .cards-grid.three { grid-template-columns: 1fr; }
   .chamada, .trilho { grid-template-columns: 1fr; gap: 24px; }
   .artigo-linha { grid-template-columns: 90px minmax(0, 1fr) 32px; gap: 16px; }
-  .rodape .env > span { flex-basis: 100%; }
-  .rodape .direita { margin-left: 0; }
 }
 @media (max-width: 600px) {
   .env { width: min(100% - 40px, var(--max)); }
@@ -123,7 +117,7 @@ a:hover { text-decoration-color: var(--orange); }
 .marca { font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: -.02em; }
 .cabecalho nav { gap: 36px; }
 .cabecalho nav a { display: inline-flex; align-items: center; min-height: 44px; }
-.rotulo, .meta, .artigo-meta, .case-etiqueta, .cabecalho nav, .rodape, .text-link, .project-top, .stack, .tags, figcaption, time, .botao { font-family: var(--mono); font-weight: 400; letter-spacing: .05em; text-transform: uppercase; }
+.rotulo, .meta, .artigo-meta, .case-etiqueta, .cabecalho nav, .text-link, .project-top, .stack, .tags, figcaption, time, .botao { font-family: var(--mono); font-weight: 400; letter-spacing: .05em; text-transform: uppercase; }
 .rotulo { font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
 .text-link { font-size: 13px; }
 .botao { min-height: 52px; border: 2px solid var(--text); padding: 12px 24px; font-size: 14px; font-weight: 500; box-shadow: 4px 4px 0 var(--orange); border-radius: 0; }
@@ -175,8 +169,6 @@ a:hover { text-decoration-color: var(--orange); }
 .chamada { padding-block: 88px; margin-top: 0; border-top: 2px solid var(--line); }
 .chamada h2 { font-size: 44px; max-width: 24ch; }
 .acoes { gap: 16px; }
-.rodape { margin-top: 0; border: 0; padding-block: 0; }
-.rodape .env { border-top: 2px solid var(--line); padding-block: 28px 48px; justify-content: space-between; font-size: 13px; }
 .assinatura { display: flex; align-items: center; gap: 12px; }
 .project-card, .principle-card { border: 2px solid var(--line); padding: 28px; }
 .project-card p, .principle-card p, .artigo-linha p, .item p { font-size: 18px; }
@@ -225,15 +217,16 @@ a:hover { text-decoration-color: var(--orange); }
  .chamada { padding-block: 48px; }
  .chamada h2 { font-size: 30px; }
  .chamada .acoes { flex-direction: column; }
- .rodape .env { flex-direction: column; align-items: flex-start; gap: 8px; font-size: 12px; }
 }
 
 /* ---------- Figuras: impressão Risograph (sem moldura e sem legenda) ---------- */
-.riso-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-.figura svg.riso { display: block; width: 100%; height: auto; overflow: visible;
-  /* retícula: entre os pontos a tinta fica mais leve, como nas artes do LinkedIn */
-  -webkit-mask: radial-gradient(circle, #000 44%, rgb(0 0 0 / .78) 56%) 0 0 / 4px 4px;
-  mask: radial-gradient(circle, #000 44%, rgb(0 0 0 / .78) 56%) 0 0 / 4px 4px; }
+/* A textura é uma camada estática por cima do SVG: grão de falha de tinta + retícula.
+   Filtros SVG e máscaras recalculados a cada quadro deixavam o movimento travado no celular. */
+.figura { position: relative; isolation: isolate; }
+.figura::after { content: ""; position: absolute; inset: -2px; z-index: 1; pointer-events: none;
+  background: url("/figuras/grao.png") 0 0 / 180px 180px,
+    radial-gradient(circle, transparent 44%, rgb(244 241 234 / .22) 56%) 0 0 / 4px 4px; }
+.figura svg.riso { display: block; width: 100%; height: auto; overflow: visible; }
 .editorial-hero .figura { width: 100%; max-width: 500px; justify-self: center; }
 .case-visual .figura { width: 100%; max-width: 340px; margin-inline: auto; }
 .riso .tinta { fill: var(--text); }
@@ -266,6 +259,55 @@ a:hover { text-decoration-color: var(--orange); }
   .artigo-capa-topo { margin-top: 28px; }
 }
 
+.links-secao { display: flex; flex-wrap: wrap; gap: 0 28px; }
+
+/* ---------- Trilha de navegação ---------- */
+.migalhas { padding-top: 28px; }
+.migalhas ol { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; margin: 0; padding: 0; list-style: none; font: 400 12px/1.5 var(--mono); letter-spacing: .05em; text-transform: uppercase; }
+.migalhas li { display: inline-flex; align-items: center; min-width: 0; }
+.migalhas li + li::before { content: "/"; margin-inline: 10px; opacity: .55; }
+.migalhas a { display: inline-flex; align-items: center; min-height: 32px; text-decoration: underline; text-decoration-color: transparent; transition: text-decoration-color .2s; }
+.migalhas a:hover { text-decoration-color: var(--orange); }
+.migalhas [aria-current] { max-width: 48ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; opacity: .8; }
+.migalhas + .abertura { padding-top: 40px; }
+.migalhas + .compasso-case .case-abertura { padding-top: 24px; }
+
+/* ---------- Rodapé ---------- */
+.rodape { margin-top: 0; color: var(--text); }
+.rodape-grade { display: grid; grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr)); gap: 40px; padding-block: 56px 48px; border-top: 2px solid var(--line); }
+.rodape-marca p { max-width: 30ch; margin: 18px 0 0; font-size: 16px; }
+.assinatura { display: flex; align-items: center; gap: 12px; font: 500 14px/1.5 var(--mono); letter-spacing: .05em; }
+.rodape-titulo { margin: 0 0 14px; font: 500 12px/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.rodape-titulo::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 10px; border-radius: 2px; background: var(--orange); vertical-align: 1px; }
+.rodape-coluna ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; }
+.rodape-coluna a { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding-block: 4px; font-size: 15px; line-height: 1.4; text-decoration: underline; text-decoration-color: transparent; transition: text-decoration-color .2s; overflow-wrap: anywhere; }
+.rodape-coluna a:hover { text-decoration-color: var(--orange); }
+.rodape-base { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 24px; padding-block: 20px 40px; border-top: 1px solid var(--line); font: 400 12px/1.5 var(--mono); letter-spacing: .05em; text-transform: uppercase; }
+.rodape-base a { display: inline-flex; align-items: center; min-height: 44px; gap: 8px; }
+@media (max-width: 1000px) {
+  .rodape-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .rodape-grade { grid-template-columns: 1fr; gap: 32px; padding-block: 44px 36px; }
+  .rodape-base { flex-direction: column; align-items: flex-start; gap: 0; }
+  .migalhas { padding-top: 20px; }
+  .migalhas [aria-current] { max-width: 26ch; }
+  .migalhas + .abertura { padding-top: 28px; }
+}
+
+/* ---------- Artigo: linha de autoria, autor e leitura relacionada ---------- */
+.artigo-linha-meta { display: flex; flex-wrap: wrap; gap: 4px 0; font-size: 12px; }
+.artigo-linha-meta > span + span::before { content: "·"; margin-inline: 10px; }
+.artigo-linha-meta a { text-decoration: underline; text-decoration-color: var(--orange); }
+.autor { max-width: 70ch; margin-top: 56px; padding: 28px 32px; border: 2px solid var(--line); }
+.autor .rotulo { margin-bottom: 12px; font-size: 12px; }
+.autor p { font-size: 17px; }
+.autor-links { display: flex; flex-wrap: wrap; gap: 0 28px; margin: 0; }
+.relacionados { border-top: 2px solid var(--line); }
+@media (max-width: 600px) {
+  .autor { padding: 22px; margin-top: 40px; }
+}
+
 /* ---------- Microinterações ---------- */
 .botao, .case-destaque, .competencia, .artigo-card { transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s cubic-bezier(.2,.8,.2,1); }
 .botao:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--orange); }
@@ -291,29 +333,48 @@ a:hover { text-decoration-color: var(--orange); }
   .js .hero-copy.visivel > :nth-child(3) { animation-delay: .16s; }
   .js .hero-copy.visivel > :nth-child(4) { animation-delay: .24s; }
 
+  /* Padrão (celular e toque): cada figura entra inteira, numa única camada de opacidade e deslocamento,
+     em vez de dezenas de peças redesenhadas a cada quadro. */
+  .js [data-anima] svg.riso { opacity: 0; transform: translateY(16px) scale(.96); transition: opacity .6s ease, transform .8s cubic-bezier(.2,.8,.2,1); }
+  .js [data-anima].visivel svg.riso { opacity: 1; transform: none; }
+}
+
+/* Figuras montadas peça por peça: só em telas grandes com mouse. */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) and (min-width: 761px) {
+  .js [data-anima] svg.riso, .js [data-anima].visivel svg.riso { opacity: 1; transform: none; transition: none; }
   /* convergência e conteúdo: as peças chegam, o bloco se forma, o destaque é impresso por último */
   .js [data-anima] .peca { opacity: 0; transform: translateX(-16px); transition: opacity .6s ease, transform 1s cubic-bezier(.2,.8,.2,1); transition-delay: calc(var(--i) * 22ms); }
   .js [data-anima] .bloco { opacity: 0; transform: scaleY(.55); transition: opacity .6s ease .45s, transform .9s cubic-bezier(.2,.9,.25,1.15) .45s; }
   .js [data-anima] .acento { opacity: 0; transform: translate(-4px, -3px); transition: opacity .35s ease 1.05s, transform .6s cubic-bezier(.3,1.6,.4,1) 1.05s; }
   .js [data-anima].visivel .peca, .js [data-anima].visivel .bloco { opacity: 1; transform: none; }
   .js [data-anima].visivel .acento { opacity: 1; transform: translate(.6px, .6px); }
-  .js .visivel .peca.perto { animation: fluxo 3.6s ease-in-out calc(1.4s + var(--i) * 60ms) infinite; }
-  .js .visivel.fig-convergencia .acento, .js .visivel.fig-conteudo .acento { animation: registro 5s ease-in-out 2.2s infinite; }
 
   /* filtragem: as faixas chegam à parede e só três atravessam */
   .js [data-anima] .faixa { opacity: 0; transform: translateX(-22px); transition: opacity .5s ease, transform .9s cubic-bezier(.2,.8,.2,1); transition-delay: calc(var(--i) * 45ms); }
   .js [data-anima] .saida { opacity: 0; transform: translateX(-30px); transition: opacity .4s ease, transform .9s cubic-bezier(.2,.8,.2,1); transition-delay: calc(.35s + (var(--i) - 10) * 120ms); }
   .js [data-anima].visivel .faixa, .js [data-anima].visivel .saida { opacity: 1; transform: none; }
-  .js [data-anima].visivel .acento.saida { transform: translate(.6px, .6px); animation: selecao 4.2s ease-in-out 2s infinite; }
+  .js [data-anima].visivel .acento.saida { transform: translate(.6px, .6px); }
 
   /* rede: as linhas se desenham e os nós aparecem */
   .js [data-anima] .fio { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1s cubic-bezier(.4,0,.2,1); transition-delay: calc(.2s + var(--i) * 90ms); }
   .js [data-anima] .no { opacity: 0; transform: scale(.2); transition: opacity .3s ease, transform .6s cubic-bezier(.3,1.5,.4,1); transition-delay: calc(var(--i) * 70ms); }
   .js [data-anima].visivel .fio { stroke-dashoffset: 0; }
   .js [data-anima].visivel .no { opacity: 1; transform: none; }
-  .js .visivel.fig-rede .no.base { animation: pulso 4s ease-in-out calc(2s + var(--i) * .4s) infinite; }
-
+}
+/* Laços contínuos: só em telas grandes com mouse, e pausados quando a figura sai da tela. */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) and (min-width: 761px) {
+  .js .em-tela .peca.perto { animation: fluxo 3.6s ease-in-out calc(1.4s + var(--i) * 60ms) infinite; }
+  .js .em-tela.fig-convergencia .acento, .js .em-tela.fig-conteudo .acento { animation: registro 5s ease-in-out 2.2s infinite; }
+  .js .em-tela .acento.saida { animation: selecao 4.2s ease-in-out 2s infinite; }
+  .js .em-tela.fig-rede .no.base { animation: pulso 4s ease-in-out calc(2s + var(--i) * .4s) infinite; }
   .case-destaque:hover .acento { animation-duration: 1.4s; }
+}
+/* Celular: entradas mais curtas, sem papel fixo sobre a tela e sem zoom nas capas. */
+@media (max-width: 760px), (hover: none) {
+  body::before { display: none; }
+  .js [data-revela].visivel { animation-duration: .6s; animation-delay: calc(var(--d, 0) * 70ms); }
+  .js .hero-copy.visivel > * { animation-duration: .6s; }
+  .artigo-capa img, .botao, .case-destaque, .competencia, .artigo-card { transition: none; }
 }
 @keyframes subir { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
 @keyframes fluxo { 0%, 100% { transform: none; } 50% { transform: translateX(2.2px); } }

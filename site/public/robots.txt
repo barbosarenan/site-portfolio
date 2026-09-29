@@ -1,3 +1,8 @@
+# barbosarenan.com.br
+# Todo o conteúdo público pode ser rastreado, inclusive por buscadores e assistentes de IA.
+# As demonstrações do case Compasso usam "noindex" na própria página e ficam fora do sitemap.
+# Índice para assistentes de IA: https://barbosarenan.com.br/llms.txt
+
 User-agent: *
 Allow: /
 
