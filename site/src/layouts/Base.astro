@@ -27,6 +27,7 @@ const imagemAbsoluta = new URL(imagem, site).href;
 const tipoImagem = imagem.endsWith(".svg") ? "image/svg+xml" : imagem.endsWith(".jpg") || imagem.endsWith(".jpeg") ? "image/jpeg" : "image/png";
 
 const rotas = [
+  { href: "/", texto: "Início" },
   { href: "/projetos/", texto: "Projetos" },
   { href: "/lab/", texto: "AI Lab" },
   { href: "/artigos/", texto: "Artigos" },
@@ -34,7 +35,7 @@ const rotas = [
 ];
 
 const aqui = Astro.url.pathname;
-const estaAtiva = (href) => aqui.startsWith(href);
+const estaAtiva = (href) => (href === "/" ? aqui === "/" : aqui.startsWith(href));
 
 // ---------- Trilha de navegação (breadcrumbs) ----------
 const nomes = { projetos: "Projetos", artigos: "Artigos", sobre: "Sobre", lab: "AI Lab", compasso: "Compasso" };
