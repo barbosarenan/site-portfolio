@@ -1,0 +1,44 @@
+<article class="case-destaque">
+  <a class="case-visual" href="/projetos/compasso/" aria-label="Explorar o case Compasso">
+    <span class="visual-marca">compasso.</span>
+    <span class="visual-titulo">Uma página que<br /> explica o produto.</span>
+    <div class="agenda" aria-hidden="true">
+      <div><span>09:00</span><span>Aula particular</span></div>
+      <div><span>10:00</span><span>Horário disponível</span></div>
+      <div><span>11:00</span><span>Aula particular</span></div>
+    </div>
+    <span class="visual-legenda">[ILUSTRATIVO] Prévia da demonstração</span>
+  </a>
+  <div class="case-copy">
+    <span class="rotulo">SEO · conteúdo · web</span>
+    <h3>Compasso</h3>
+    <p class="case-titulo">Da promessa genérica a uma página que explica o produto.</p>
+    <p>SEO, arquitetura de conteúdo e uma página navegável para um software fictício de agendamento.</p>
+    <span class="case-etiqueta">Projeto demonstrativo · empresa fictícia</span>
+    <a class="text-link" href="/projetos/compasso/">Ler o case <span aria-hidden="true">↗</span></a>
+  </div>
+</article>
+
+<style>
+  .case-destaque { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .case-visual { display: flex; flex-direction: column; padding: clamp(24px, 4vw, 40px); background: #e1e9d6; color: #253c30; text-decoration: none; }
+  .case-visual:hover { color: #253c30; }
+  .visual-marca { font-size: 19px; font-weight: 650; letter-spacing: -.045em; }
+  .visual-titulo { font: 400 clamp(28px, 3vw, 38px)/1.16 var(--serif); letter-spacing: -.035em; margin-block: 30px 24px; }
+  .agenda { border-top: 1px solid #9ba990; }
+  .agenda > div { display: grid; grid-template-columns: 65px 1fr; gap: 12px; padding-block: 12px; border-bottom: 1px solid #9ba990; font-size: 12px; }
+  .agenda > div:nth-child(2) { font-style: italic; }
+  .visual-legenda { margin-top: 24px; font-size: 10px; }
+  .case-copy h3 { font-size: 40px; margin-bottom: 18px; }
+  .case-titulo { font: 25px/1.3 var(--serif); letter-spacing: -.025em; margin-bottom: 18px; }
+  .case-copy > p:not(.case-titulo) { color: var(--muted); font-size: 14px; max-width: 45ch; }
+  .case-etiqueta { display: block; font-size: 11px; color: var(--muted); margin-block: 24px 8px; }
+  @media (prefers-color-scheme: dark) {
+    .case-visual, .case-visual:hover { background: #2b3e2e; color: #ecede6; }
+    .agenda, .agenda > div { border-color: #61755a; }
+  }
+  @media (max-width: 600px) {
+    .case-destaque { grid-template-columns: 1fr; gap: 28px; }
+    .case-copy h3 { font-size: 34px; }
+  }
+</style>
