@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { perfil } from "../dados/perfil";
+import Analytics from "@vercel/analytics/astro";
 
 const {
   titulo,
@@ -67,6 +68,7 @@ const estaAtiva = (href) =>
     <link rel="alternate" type="application/rss+xml" title={perfil.nome} href="/rss.xml" />
 
     <slot name="cabeca" />
+    <Analytics />
   </head>
 
   <body>
