@@ -6,17 +6,23 @@
 @font-face { font-family: "Roboto Mono"; src: url("/fonts/roboto-mono-500.woff") format("woff"); font-weight: 500; font-style: normal; font-display: swap; }
 
 :root {
- --bg: #F4F1EA; --surface: #F4F1EA; --surface-2: #F4F1EA;
+ --bg: #F4F1EA; --surface: transparent; --surface-2: transparent;
  --text: #2A6041; --dark: #2A6041; --muted: #2A6041; --faint: #2A6041;
  --line: #2A6041; --line-strong: #2A6041; --accent: #2A6041;
- --accent-soft: #F4F1EA; --on-accent: #F4F1EA; --orange: #D48B60;
+ --accent-soft: transparent; --on-accent: #F4F1EA; --orange: #D48B60;
+ /* Papel e tinta Risograph, iguais às artes do LinkedIn: fibras do papel, retícula e falhas de tinta.
+    A tinta verde é multiplicada sobre o papel, então a textura aparece através dela. */
+ --papel: url("/figuras/papel.jpg") 0 0 / 255px 255px;
+ --tinta-verde: url("/figuras/grao.png") 0 0 / 180px 180px,
+   url("/figuras/papel.jpg") 0 0 / 255px 255px,
+   #2A6041;
  --sans: "Inter", sans-serif; --serif: "Inter", sans-serif;
  --mono: "Roboto Mono", "Inter", monospace; --max: 1200px;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: auto; color-scheme: light; background: var(--bg); }
+html { scroll-behavior: auto; color-scheme: light; background: var(--papel), var(--bg); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-body { margin: 0; background: var(--bg); color: var(--text); font: 18px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: transparent; color: var(--text); font: 18px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
 ::selection { background: var(--accent); color: var(--on-accent); }
 img, svg { max-width: 100%; }
 a { color: inherit; text-underline-offset: 4px; }
@@ -108,7 +114,6 @@ p { margin: 0 0 18px; }
   .chamada { margin-top: 24px; }
 }
 /* Analog editorial identity. Shared rules for the portfolio shell. */
-body::before { content: ""; position: fixed; inset: 0; z-index: 5; pointer-events: none; opacity: .05; background-image: url("/figuras/papel.svg"); }
 h1, h2, h3 { text-shadow: none; }
 a:hover { text-decoration-color: var(--orange); }
 .env { width: min(calc(100% - 80px), var(--max)); }
@@ -123,7 +128,7 @@ a:hover { text-decoration-color: var(--orange); }
 .botao { min-height: 52px; border: 2px solid var(--text); padding: 12px 24px; font-size: 14px; font-weight: 500; box-shadow: 4px 4px 0 var(--orange); border-radius: 0; }
 .botao.vazado { box-shadow: none; }
 .botao:hover { text-decoration: underline; text-decoration-color: var(--orange); }
-.menu-toggle { display: none; width: 44px; height: 44px; padding: 10px; border: 2px solid var(--text); background: var(--bg); color: var(--text); cursor: pointer; }
+.menu-toggle { display: none; width: 44px; height: 44px; padding: 10px; border: 2px solid var(--text); background: transparent; color: var(--text); cursor: pointer; }
 .secao { padding-block: 96px; }
 .section-head { margin-bottom: 48px; }
 .section-head h2, .breve-perfil h2 { display: inline-block; border-top: 4px solid currentColor; padding-top: 8px; }
@@ -152,7 +157,7 @@ a:hover { text-decoration-color: var(--orange); }
 .competencia { padding: 32px; border: 2px solid var(--line); display: flex; flex-direction: column; gap: 18px; min-width: 0; }
 .competencia p { margin: 0; }
 .competencia .text-link { margin-top: auto; }
-.sobre-faixa { background: var(--text); color: var(--bg); }
+.sobre-faixa { background: var(--tinta-verde); background-blend-mode: normal, multiply, normal; color: var(--bg); }
 .breve-perfil { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 80px; }
 .breve-perfil .rotulo, .breve-perfil a, .breve-perfil p { color: inherit; }
 .breve-perfil p { font-size: 20px; }
@@ -220,18 +225,19 @@ a:hover { text-decoration-color: var(--orange); }
 }
 
 /* ---------- Figuras: impressão Risograph (sem moldura e sem legenda) ---------- */
-/* A textura é uma camada estática por cima do SVG: grão de falha de tinta + retícula.
+/* A textura é uma camada estática por cima do SVG: retícula a 45° + falhas de tinta (grao.png).
    Filtros SVG e máscaras recalculados a cada quadro deixavam o movimento travado no celular. */
-.figura { position: relative; isolation: isolate; }
+.figura { position: relative; }
 .figura::after { content: ""; position: absolute; inset: -2px; z-index: 1; pointer-events: none;
-  background: url("/figuras/grao.png") 0 0 / 180px 180px,
-    radial-gradient(circle, transparent 44%, rgb(244 241 234 / .22) 56%) 0 0 / 4px 4px; }
-.figura svg.riso { display: block; width: 100%; height: auto; overflow: visible; }
+  background: url("/figuras/grao.png") 0 0 / 180px 180px; }
+.figura svg.riso { display: block; width: 100%; height: auto; overflow: visible; mix-blend-mode: multiply; }
+/* botões cheios impressos com a mesma tinta */
+.botao:not(.vazado), .botao:not(.vazado):hover { background: var(--tinta-verde); background-blend-mode: normal, multiply, normal; }
 .editorial-hero .figura { width: 100%; max-width: 500px; justify-self: center; }
 .case-visual .figura { width: 100%; max-width: 340px; margin-inline: auto; }
 .riso .tinta { fill: var(--text); }
 .riso .fio { fill: none; stroke: var(--text); stroke-width: 1.5; stroke-linecap: round; }
-.riso .janela { fill: var(--bg); }
+.riso .janela { fill: #fff; } /* branco em multiplicação = papel aparente */
 /* camada laranja com erro de registro e mistura multiplicada */
 .riso .acento { fill: var(--orange); mix-blend-mode: multiply; transform: translate(.6px, .6px); }
 .riso line.acento { fill: none; stroke: var(--orange); stroke-width: 4; stroke-linecap: round; }
@@ -239,7 +245,7 @@ a:hover { text-decoration-color: var(--orange); }
 
 /* ---------- Artigos em cartões com capa ---------- */
 .artigos-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 40px; }
-.artigo-card { position: relative; padding: 0; gap: 0; background: var(--bg); overflow: hidden; }
+.artigo-card { position: relative; padding: 0; gap: 0; background: transparent; overflow: hidden; }
 .artigo-capa { border-bottom: 2px solid var(--line); overflow: hidden; }
 .artigo-capa img { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 630; object-fit: cover; }
 .artigo-corpo { display: flex; flex-direction: column; gap: 14px; padding: 28px 32px 32px; flex: 1; }
@@ -369,9 +375,8 @@ a:hover { text-decoration-color: var(--orange); }
   .js .em-tela.fig-rede .no.base { animation: pulso 4s ease-in-out calc(2s + var(--i) * .4s) infinite; }
   .case-destaque:hover .acento { animation-duration: 1.4s; }
 }
-/* Celular: entradas mais curtas, sem papel fixo sobre a tela e sem zoom nas capas. */
+/* Celular: entradas mais curtas e sem zoom nas capas. */
 @media (max-width: 760px), (hover: none) {
-  body::before { display: none; }
   .js [data-revela].visivel { animation-duration: .6s; animation-delay: calc(var(--d, 0) * 70ms); }
   .js .hero-copy.visivel > * { animation-duration: .6s; }
   .artigo-capa img, .botao, .case-destaque, .competencia, .artigo-card { transition: none; }
