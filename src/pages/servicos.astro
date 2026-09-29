@@ -1,0 +1,58 @@
+---
+import Base from "../layouts/Base.astro";
+import Chamada from "../components/Chamada.astro";
+import { perfil } from "../dados/perfil";
+
+// Serviços prestados fora do vínculo principal, com material do próprio
+// cliente. Nada aqui reaproveita processo, dado ou entrega de empregador.
+const servicos = [
+  {
+    titulo: "Auditoria de SEO",
+    entrega: "documento e reunião de apresentação",
+    texto:
+      "Levantamento técnico, de conteúdo e de intenção de busca, com relação de correções ordenada por impacto e esforço. Indicado para sites já publicados que ainda não passaram por diagnóstico.",
+  },
+  {
+    titulo: "Plano de pauta a partir de dados",
+    entrega: "planilha e método documentado",
+    texto:
+      "Pautas derivadas das consultas já registradas no Search Console do cliente, agrupadas por intenção de busca. A entrega inclui o método, de forma que a equipe possa dar continuidade internamente.",
+  },
+  {
+    titulo: "Edição de vídeo curto",
+    entrega: "por peça ou por pacote mensal",
+    texto:
+      "Edição, legendagem e finalização de vídeo vertical a partir do material bruto do cliente. O fluxo de edição por transcrição reduz o prazo de entrega.",
+  },
+];
+---
+<Base titulo={`Serviços · ${perfil.nome}`} descricao="Auditoria de SEO, plano de pauta e edição de vídeo curto.">
+  <section class="env abertura">
+    <p class="rotulo">03 · serviços</p>
+    <h1 class="linha-um">Atendimento por projeto.</h1>
+    <p class="resumo">
+      Atendo um projeto por vez. Caso o prazo solicitado não seja compatível
+      com a agenda, informo previamente em vez de assumir o compromisso.
+    </p>
+  </section>
+
+  <section class="env secao forte">
+    <div class="trilho">
+      <div class="cabeca">
+        <span class="rotulo">o que eu entrego</span>
+        <p>Escopo fechado e prazo dito na proposta. Trabalho sempre sobre o material e os acessos do próprio cliente.</p>
+      </div>
+      <div class="itens">
+        {servicos.map((s) => (
+          <article class="item">
+            <h3>{s.titulo}</h3>
+            <p class="rotulo" style="margin:4px 0 8px">{s.entrega}</p>
+            <p>{s.texto}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Chamada titulo="Para tratar de um projeto, entre em contato." />
+</Base>
