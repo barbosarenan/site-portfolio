@@ -1,14 +1,73 @@
 ---
+// Figuras da identidade (impressão Risograph): SVG inline para receber a textura de tinta
+// definida em Base.astro (#riso-tinta) e as animações de global.css.
 const { tipo = "convergencia", pequena = false } = Astro.props;
-const figuras = {
- convergencia: ["Fig 01. Convergência e síntese", "Retângulos pequenos convergem para um bloco verde com um detalhe laranja, representando a síntese de informações."],
- rede: ["Fig 02. Rede e hierarquia", "Três círculos de base se conectam a nós menores por linhas, representando relações e hierarquia."],
- conteudo: ["Fig 01. Convergência e síntese", "Pequenos retângulos se organizam em um bloco, representando a construção de conteúdo a partir de informações."],
- filtragem: ["Fig 04. Filtragem", "Faixas horizontais chegam a uma parede com três aberturas. Três faixas atravessam, com a central laranja, representando seleção por critérios."],
+
+const descricoes = {
+  convergencia: "Retângulos pequenos convergem para um bloco verde com um detalhe laranja, representando a síntese de informações.",
+  rede: "Três círculos de base se conectam a nós menores por linhas, representando relações e hierarquia.",
+  conteudo: "Pequenos retângulos se organizam em um bloco, representando a construção de conteúdo a partir de informações.",
+  filtragem: "Faixas horizontais chegam a uma parede com três aberturas. Três faixas atravessam, com a central laranja, representando seleção por critérios.",
 };
-const [legenda, descricao] = figuras[tipo];
+
+const pecas = [
+  ...[10, 25, 40, 55, 70, 85, 100].map((y) => [10, y]),
+  ...[17, 32, 47, 62, 77, 92].map((y) => [20, y]),
+  ...[10, 25, 40, 55, 70, 85, 100].map((y) => [30, y]),
+  ...[15, 38, 58, 80, 98].map((y) => [40, y]),
+  ...[22, 45, 65, 88].map((y) => [50, y]),
+  [58, 30], [60, 52], [59, 75], [68, 42], [70, 56], [69, 68],
+];
+const pecasConteudo = [[10, 20], [10, 52], [10, 84], [26, 34], [26, 68], [42, 44], [44, 64]];
+const faixas = [[16, 26, 30], [10, 34.5, 36], [6, 42.5, 40], [18, 51, 28], [4, 58.5, 42], [14, 67, 32], [8, 74.5, 38], [20, 83, 26], [12, 91.5, 34]];
+const parede = [[16, 24.5], [49.5, 7], [65.5, 7], [81.5, 22.5]];
+const fios = [[30, 95, 20, 40], [30, 95, 45, 35], [60, 95, 45, 35], [60, 95, 75, 30], [90, 95, 75, 30], [90, 95, 100, 45]];
+const nos = [[20, 40], [45, 35], [75, 30], [100, 45]];
 ---
-<figure class:list={["figura", { pequena }]}>
- <div class="figura-quadro"><img src={"/figuras/" + tipo + ".svg"} width="360" height="360" alt={descricao} loading={pequena ? "lazy" : "eager"} /></div>
- {!pequena && <figcaption>{legenda}</figcaption>}
+<figure class:list={["figura", "fig-" + tipo, { pequena }]} data-anima>
+  <svg class="riso" viewBox="0 0 120 120" role="img" aria-label={descricoes[tipo]} focusable="false">
+    {tipo === "convergencia" && (
+      <>
+        <g class="tinta" filter="url(#riso-tinta)">
+          {pecas.map(([x, y], i) => <rect class={x >= 58 ? "peca perto" : "peca"} x={x} y={y} width="5" height="10" style={`--i:${i}`} />)}
+          <rect class="bloco" x="78" y="20" width="35" height="80" rx="4" />
+        </g>
+        <rect class="janela" x="89" y="54" width="10" height="17" />
+        <rect class="acento" x="90" y="55" width="7" height="14" rx="1" filter="url(#riso-tinta)" />
+      </>
+    )}
+    {tipo === "conteudo" && (
+      <>
+        <g class="tinta" filter="url(#riso-tinta)">
+          {pecasConteudo.map(([x, y], i) => <rect class="peca" x={x} y={y} width="8" height="16" style={`--i:${i * 3}`} />)}
+          <rect class="bloco" x="64" y="20" width="46" height="80" rx="4" />
+        </g>
+        <rect class="janela" x="81" y="51" width="12" height="20" />
+        <rect class="acento" x="82" y="52" width="10" height="18" rx="1" filter="url(#riso-tinta)" />
+      </>
+    )}
+    {tipo === "filtragem" && (
+      <>
+        <g class="tinta" filter="url(#riso-tinta)">
+          {faixas.map(([x, y, w], i) => <rect class="faixa" x={x} y={y} width={w} height="5" style={`--i:${i}`} />)}
+          {parede.map(([y, h]) => <rect class="parede" x="52" y={y} width="6" height={h} />)}
+          <rect class="saida" x="64" y="42.5" width="44" height="5" style="--i:10" />
+          <rect class="saida" x="64" y="74.5" width="44" height="5" style="--i:11" />
+        </g>
+        <rect class="acento saida" x="64" y="58.5" width="44" height="5" style="--i:12" filter="url(#riso-tinta)" />
+      </>
+    )}
+    {tipo === "rede" && (
+      <>
+        <g class="tinta" filter="url(#riso-tinta)">
+          {fios.map(([x1, y1, x2, y2], i) => <line class="fio" x1={x1} y1={y1} x2={x2} y2={y2} pathLength="1" style={`--i:${i}`} />)}
+        </g>
+        <line class="acento fio" x1="60" y1="95" x2="100" y2="45" pathLength="1" style="--i:7" filter="url(#riso-tinta)" />
+        <g class="tinta" filter="url(#riso-tinta)">
+          {[30, 60, 90].map((cx, i) => <circle class="no base" cx={cx} cy="95" r="14" style={`--i:${i}`} />)}
+          {nos.map(([cx, cy], i) => <circle class="no" cx={cx} cy={cy} r="6" style={`--i:${i + 4}`} />)}
+        </g>
+      </>
+    )}
+  </svg>
 </figure>

@@ -32,6 +32,7 @@ const estaAtiva = (href) =>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#F4F1EA" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
     <link rel="preload" href="/fonts/inter-400.woff" as="font" type="font/woff" crossorigin />
     <link rel="preload" href="/fonts/inter-700.woff" as="font" type="font/woff" crossorigin />
     <link rel="preload" href="/fonts/roboto-mono-400.woff" as="font" type="font/woff" crossorigin />
@@ -50,7 +51,7 @@ const estaAtiva = (href) =>
     <meta property="og:image:type" content={tipoImagem} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Renan Barbosa · Marketing, SEO e IA aplicada" />
+    <meta property="og:image:alt" content={titulo} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={titulo} />
@@ -69,6 +70,18 @@ const estaAtiva = (href) =>
   </head>
 
   <body>
+    <svg class="riso-defs" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <!-- Tinta Risograph: falhas de impressão (grão) e borda levemente irregular -->
+        <filter id="riso-tinta" filterUnits="userSpaceOnUse" x="-10" y="-10" width="140" height="140" color-interpolation-filters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="2.2" numOctaves="1" seed="3" result="ruido" />
+          <feColorMatrix in="ruido" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -12 8.9" result="falhas" />
+          <feComposite in="SourceGraphic" in2="falhas" operator="in" result="grao" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="onda" />
+          <feDisplacementMap in="grao" in2="onda" scale="0.35" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+    </svg>
     <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
 
     <header class="cabecalho">
@@ -108,6 +121,22 @@ const estaAtiva = (href) =>
         nav.addEventListener("click", (event) => { if ((event.target as HTMLElement).closest("a")) close(); });
         document.addEventListener("keydown", (event) => { if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") { close(); toggle.focus(); } });
         matchMedia("(min-width: 761px)").addEventListener("change", close);
+      }
+
+      // Revela seções e dispara as animações das figuras quando entram na tela.
+      const animados = document.querySelectorAll("[data-revela], [data-anima]");
+      if (!("IntersectionObserver" in window)) {
+        animados.forEach((el) => el.classList.add("visivel"));
+      } else {
+        const observador = new IntersectionObserver((entradas) => {
+          for (const entrada of entradas) {
+            if (entrada.isIntersecting) {
+              entrada.target.classList.add("visivel");
+              observador.unobserve(entrada.target);
+            }
+          }
+        }, { rootMargin: "0px 0px -8% 0px", threshold: 0.15 });
+        animados.forEach((el) => observador.observe(el));
       }
     </script>
   </body>

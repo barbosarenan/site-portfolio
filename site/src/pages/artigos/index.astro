@@ -2,22 +2,35 @@
 import Base from "../../layouts/Base.astro";
 import { perfil } from "../../dados/perfil";
 import { getCollection } from "astro:content";
+import ArtigoCard from "../../components/ArtigoCard.astro";
 
 const artigos = (await getCollection("artigos", ({ data }) => !data.rascunho))
   .sort((a, b) => b.data.data - a.data.data);
 
-const fmt = (d) =>
-  d.toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  });
+const site = Astro.site;
+const listaEstruturada = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "Artigos · " + perfil.nome,
+  description: "Métodos e notas sobre SEO, conteúdo e IA aplicada ao marketing.",
+  url: new URL("/artigos/", site).href,
+  inLanguage: "pt-BR",
+  author: { "@type": "Person", name: perfil.nome, url: site?.href },
+  blogPost: artigos.map((a) => ({
+    "@type": "BlogPosting",
+    headline: a.data.titulo,
+    description: a.data.resumo,
+    datePublished: a.data.data.toISOString(),
+    url: new URL("/artigos/" + a.id + "/", site).href,
+    image: new URL(a.data.capa ?? "/og.png", site).href,
+  })),
+};
 ---
 <Base
-  titulo={"Artigos · " + perfil.nome}
-  descricao="Notas sobre SEO, conteúdo, IA aplicada e experimentos de marketing."
+  titulo={"Artigos sobre SEO, conteúdo e IA aplicada · " + perfil.nome}
+  descricao="Métodos e notas sobre SEO, planejamento de conteúdo e uso de IA na revisão editorial, com exemplos aplicáveis ao dia a dia do marketing."
 >
+  <script type="application/ld+json" slot="cabeca" set:html={JSON.stringify(listaEstruturada)} />
   <section class="env abertura">
     <span class="rotulo">Artigos</span>
     <h1 class="linha-um">Conhecimento construído a partir da prática.</h1>
@@ -26,22 +39,8 @@ const fmt = (d) =>
   </section>
 
   <section class="env secao">
-    <div class="lista-artigos">
-      {artigos.map((a) => (
-        <article class="artigo-linha">
-          <time datetime={a.data.data.toISOString()}>{fmt(a.data.data)}</time>
-          <a href={"/artigos/" + a.id + "/"}>
-            <h2>{a.data.titulo}</h2>
-            <p>{a.data.resumo}</p>
-            {a.data.tags.length > 0 && (
-              <div class="tags">
-                {a.data.tags.slice(0, 3).map((t) => <span class="tag">{t}</span>)}
-              </div>
-            )}
-          </a>
-          <a class="artigo-arrow" href={"/artigos/" + a.id + "/"} aria-label={"Ler " + a.data.titulo}>↗</a>
-        </article>
-      ))}
+    <div class="artigos-grade">
+      {artigos.map((a, i) => <ArtigoCard artigo={a} nivel="h2" ordem={i} prioridade={i < 2} />)}
     </div>
   </section>
 </Base>

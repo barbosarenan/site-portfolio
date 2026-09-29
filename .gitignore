@@ -4,3 +4,5 @@ dist/
 .vercel/
 .env*
 !.env.example
+# cópia antiga da pasta do site, não versionar
+portfolio-live/

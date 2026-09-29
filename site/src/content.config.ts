@@ -9,6 +9,8 @@ const artigos = defineCollection({
     data: z.coerce.date(),
     tags: z.array(z.string()).default([]),
     rascunho: z.boolean().default(false),
+    capa: z.string().optional(),       // imagem de capa 1200x630 em /public
+    atualizado: z.coerce.date().optional(), // data de revisão substancial
   }),
 });
 

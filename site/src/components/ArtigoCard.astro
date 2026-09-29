@@ -1,0 +1,23 @@
+---
+// Cartão de artigo com capa. O título é o link principal e cobre o cartão inteiro.
+const { artigo, nivel = "h3", ordem = 0, prioridade = false } = Astro.props;
+const { titulo, resumo, data, tags } = artigo.data;
+const href = "/artigos/" + artigo.id + "/";
+const capa = artigo.data.capa ?? "/og.png";
+const Titulo = nivel;
+const dataCurta = data.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" });
+---
+<article class="artigo-card" data-revela style={`--d:${ordem}`}>
+  <div class="artigo-capa">
+    <img src={capa} width="1200" height="630" alt="" loading={prioridade ? "eager" : "lazy"} decoding="async" />
+  </div>
+  <div class="artigo-corpo">
+    <p class="artigo-meta">
+      <time datetime={data.toISOString()}>{dataCurta}</time>
+      {tags.length > 0 && <span> · {tags.slice(0, 2).join(" · ")}</span>}
+    </p>
+    <Titulo class="artigo-titulo"><a class="artigo-link" href={href}>{titulo}</a></Titulo>
+    <p class="artigo-resumo">{resumo}</p>
+    <span class="text-link artigo-ler" aria-hidden="true">Ler artigo <span>↗</span></span>
+  </div>
+</article>
