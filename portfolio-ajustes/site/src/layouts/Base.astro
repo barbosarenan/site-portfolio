@@ -1,0 +1,274 @@
+---
+import "../styles/global.css";
+import { perfil, idPessoa, idSite } from "../dados/perfil";
+import { getCollection } from "astro:content";
+
+const {
+  titulo,
+  descricao,
+  tipo = "website",
+  imagem = "/og.png",
+  dataPublicacao,
+  dataModificacao,
+  // Schema da página: WebPage, CollectionPage, ProfilePage...
+  tipoPagina = "WebPage",
+  // Nós extras de schema.org que a página quer somar ao grafo (BlogPosting, CreativeWork...).
+  schema = [],
+  // Trilha: por padrão é montada a partir da URL. "tituloCurto" nomeia o último item.
+  tituloCurto,
+  migalhas,
+  semMigalhas = false,
+} = Astro.props;
+
+const site = Astro.site ?? new URL(perfil.site);
+const canonica = new URL(Astro.url.pathname, site);
+const desc = descricao ?? perfil.descricaoSite;
+const imagemAbsoluta = new URL(imagem, site).href;
+const tipoImagem = imagem.endsWith(".svg") ? "image/svg+xml" : imagem.endsWith(".jpg") || imagem.endsWith(".jpeg") ? "image/jpeg" : "image/png";
+
+const rotas = [
+  { href: "/projetos/", texto: "Projetos" },
+  { href: "/lab/", texto: "AI Lab" },
+  { href: "/artigos/", texto: "Artigos" },
+  { href: "/sobre/", texto: "Sobre" },
+];
+
+const aqui = Astro.url.pathname;
+const estaAtiva = (href) => aqui.startsWith(href);
+
+// ---------- Trilha de navegação (breadcrumbs) ----------
+const nomes = { projetos: "Projetos", artigos: "Artigos", sobre: "Sobre", lab: "AI Lab", compasso: "Compasso" };
+const pais = {};
+function montarTrilha() {
+  const partes = aqui.split("/").filter(Boolean);
+  if (partes.length === 0) return [];
+  const itens = [{ nome: "Início", href: "/" }, ...(pais[aqui] ?? [])];
+  let caminho = "/";
+  partes.forEach((parte, i) => {
+    caminho += parte + "/";
+    const ultimo = i === partes.length - 1;
+    itens.push({ nome: ultimo ? (tituloCurto ?? titulo.split(" · ")[0]) : (nomes[parte] ?? parte), href: caminho });
+  });
+  return itens;
+}
+const trilha = semMigalhas ? [] : (migalhas ?? montarTrilha());
+
+// ---------- Dados estruturados: um único grafo por página ----------
+const pessoa = {
+  "@type": "Person",
+  "@id": idPessoa,
+  name: perfil.nome,
+  url: site.href,
+  jobTitle: perfil.cargo,
+  email: "mailto:" + perfil.email,
+  address: { "@type": "PostalAddress", addressLocality: "Campinas", addressRegion: "SP", addressCountry: "BR" },
+  knowsAbout: perfil.conhecimentos,
+  sameAs: [perfil.linkedin, perfil.github, perfil.instagram],
+};
+const website = {
+  "@type": "WebSite",
+  "@id": idSite,
+  url: site.href,
+  name: perfil.nome,
+  description: perfil.descricaoSite,
+  inLanguage: "pt-BR",
+  author: { "@id": idPessoa },
+  publisher: { "@id": idPessoa },
+};
+const idTrilha = canonica.href + "#trilha";
+const pagina = {
+  "@type": tipoPagina,
+  "@id": canonica.href + "#pagina",
+  url: canonica.href,
+  name: titulo,
+  description: desc,
+  inLanguage: "pt-BR",
+  isPartOf: { "@id": idSite },
+  primaryImageOfPage: { "@type": "ImageObject", url: imagemAbsoluta, width: 1200, height: 630 },
+  ...(tipoPagina === "ProfilePage" ? { mainEntity: { "@id": idPessoa } } : { about: { "@id": idPessoa } }),
+  ...(trilha.length > 1 ? { breadcrumb: { "@id": idTrilha } } : {}),
+  ...(dataPublicacao ? { datePublished: dataPublicacao } : {}),
+  ...(dataModificacao ? { dateModified: dataModificacao } : {}),
+};
+const noTrilha = trilha.length > 1 ? [{
+  "@type": "BreadcrumbList",
+  "@id": idTrilha,
+  itemListElement: trilha.map((m, i) => ({ "@type": "ListItem", position: i + 1, name: m.nome, item: new URL(m.href, site).href })),
+}] : [];
+const grafo = { "@context": "https://schema.org", "@graph": [pessoa, website, pagina, ...noTrilha, ...schema] };
+
+// ---------- Rodapé ----------
+const recentes = (await getCollection("artigos", ({ data }) => !data.rascunho))
+  .sort((a, b) => b.data.data - a.data.data)
+  .slice(0, 3);
+const ano = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#F4F1EA" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+    <link rel="preload" href="/fonts/inter-400.woff" as="font" type="font/woff" crossorigin />
+    <link rel="preload" href="/fonts/inter-700.woff" as="font" type="font/woff" crossorigin />
+    <link rel="preload" href="/fonts/roboto-mono-400.woff" as="font" type="font/woff" crossorigin />
+
+    <title>{titulo}</title>
+    <meta name="description" content={desc} />
+    <meta name="author" content={perfil.nome} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <link rel="canonical" href={canonica} />
+
+    <meta property="og:site_name" content={perfil.nome} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content={tipo} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:image" content={imagemAbsoluta} />
+    <meta property="og:image:type" content={tipoImagem} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={titulo} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={desc} />
+    <meta name="twitter:image" content={imagemAbsoluta} />
+
+    {tipo === "article" && dataPublicacao && (
+      <meta property="article:published_time" content={dataPublicacao} />
+    )}
+    {tipo === "article" && dataModificacao && (
+      <meta property="article:modified_time" content={dataModificacao} />
+    )}
+    {tipo === "article" && <meta property="article:author" content={new URL("/sobre/", site).href} />}
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={perfil.nome + " · artigos"} href="/rss.xml" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(grafo)} />
+    <slot name="cabeca" />
+  </head>
+
+  <body>
+    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="cabecalho" id="topo">
+      <div class="env">
+        <a class="marca" href="/" aria-label={perfil.nome + ", início"}>
+          {perfil.nome}
+        </a>
+
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-principal" hidden><svg width="20" height="18" viewBox="0 0 20 18" aria-hidden="true"><path d="M0 1H20M0 9H20M0 17H20" fill="none" stroke="currentColor" stroke-width="2" /></svg></button>
+        <nav id="menu-principal" aria-label="Principal">
+          {rotas.map((r) => (
+            <a
+              href={r.href}
+              aria-current={estaAtiva(r.href) ? "page" : undefined}
+            >
+              {r.texto}
+            </a>
+          ))}
+          <a class="nav-cta" href="/#contato">Contato</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      {trilha.length > 1 && (
+        <nav class="env migalhas" aria-label="Trilha de navegação">
+          <ol>
+            {trilha.map((m, i) => (
+              <li>
+                {i < trilha.length - 1
+                  ? <a href={m.href}>{m.nome}</a>
+                  : <span aria-current="page">{m.nome}</span>}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
+      <slot />
+    </main>
+
+    <footer class="rodape">
+      <div class="env rodape-grade">
+        <div class="rodape-marca">
+          <span class="assinatura"><i aria-hidden="true"></i> RENAN BARBOSA</span>
+          <p>Marketing, SEO, estratégia de conteúdo e IA aplicada. {perfil.local}.</p>
+        </div>
+
+        <nav class="rodape-coluna" aria-label="Páginas do site">
+          <p class="rodape-titulo">Navegação</p>
+          <ul>
+            <li><a href="/">Início</a></li>
+            <li><a href="/projetos/">Projetos</a></li>
+            <li><a href="/projetos/compasso/">Case Compasso</a></li>
+            <li><a href="/lab/">AI Lab</a></li>
+            <li><a href="/artigos/">Artigos</a></li>
+            <li><a href="/sobre/">Sobre</a></li>
+          </ul>
+        </nav>
+
+        <div class="rodape-coluna">
+          <p class="rodape-titulo">Artigos recentes</p>
+          <ul>
+            {recentes.map((a) => <li><a href={"/artigos/" + a.id + "/"}>{a.data.titulo}</a></li>)}
+          </ul>
+        </div>
+
+        <div class="rodape-coluna">
+          <p class="rodape-titulo">Contato</p>
+          <ul>
+            <li><a href={"mailto:" + perfil.email}>{perfil.email}</a></li>
+            <li><a href={perfil.linkedin} rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a></li>
+            <li><a href={perfil.github} rel="me noopener">GitHub <span aria-hidden="true">↗</span></a></li>
+            <li><a href="/rss.xml">RSS dos artigos</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="env rodape-base">
+        <span>© {ano} {perfil.nome}</span>
+        <span>Marketing · Conteúdo · IA</span>
+        <a href="#topo">Voltar ao topo <span aria-hidden="true">↑</span></a>
+      </div>
+    </footer>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+      const nav = document.querySelector<HTMLElement>("#menu-principal");
+      if (toggle && nav) {
+        toggle.hidden = false;
+        nav.classList.add("menu-ready");
+        const close = () => { toggle.setAttribute("aria-expanded", "false"); toggle.setAttribute("aria-label", "Abrir menu"); nav.classList.remove("aberto"); };
+        toggle.addEventListener("click", () => { const open = toggle.getAttribute("aria-expanded") !== "true"; toggle.setAttribute("aria-expanded", String(open)); toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu"); nav.classList.toggle("aberto", open); });
+        nav.addEventListener("click", (event) => { if ((event.target as HTMLElement).closest("a")) close(); });
+        document.addEventListener("keydown", (event) => { if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") { close(); toggle.focus(); } });
+        matchMedia("(min-width: 761px)").addEventListener("change", close);
+      }
+
+      // Revela seções e dispara as animações das figuras quando entram na tela.
+      // As figuras continuam observadas: a classe "em-tela" pausa os laços quando saem da tela.
+      const animados = document.querySelectorAll("[data-revela], [data-anima]");
+      if (!("IntersectionObserver" in window)) {
+        animados.forEach((el) => el.classList.add("visivel"));
+      } else {
+        const observador = new IntersectionObserver((entradas) => {
+          for (const entrada of entradas) {
+            const alvo = entrada.target;
+            if (alvo.hasAttribute("data-anima")) alvo.classList.toggle("em-tela", entrada.isIntersecting);
+            if (entrada.isIntersecting) {
+              alvo.classList.add("visivel");
+              if (!alvo.hasAttribute("data-anima")) observador.unobserve(alvo);
+            }
+          }
+        }, { rootMargin: "0px 0px -8% 0px", threshold: 0.15 });
+        animados.forEach((el) => observador.observe(el));
+      }
+    </script>
+  </body>
+</html>
