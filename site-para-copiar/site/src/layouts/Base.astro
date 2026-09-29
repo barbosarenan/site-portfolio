@@ -1,0 +1,114 @@
+---
+import "../styles/global.css";
+import { perfil } from "../dados/perfil";
+
+const {
+  titulo,
+  descricao,
+  tipo = "website",
+  imagem = "/og.png",
+  dataPublicacao,
+} = Astro.props;
+
+const canonica = new URL(Astro.url.pathname, Astro.site);
+const desc = descricao ?? perfil.descricaoSite;
+const imagemAbsoluta = new URL(imagem, Astro.site).href;
+const tipoImagem = imagem.endsWith(".svg") ? "image/svg+xml" : imagem.endsWith(".jpg") || imagem.endsWith(".jpeg") ? "image/jpeg" : "image/png";
+
+const rotas = [
+  { href: "/projetos/", texto: "Projetos" },
+  { href: "/artigos/", texto: "Artigos" },
+  { href: "/sobre/", texto: "Sobre" },
+];
+
+const aqui = Astro.url.pathname;
+const estaAtiva = (href) =>
+  aqui.startsWith(href) || (href === "/projetos/" && aqui.startsWith("/lab/"));
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#F4F1EA" />
+    <link rel="preload" href="/fonts/inter-400.woff" as="font" type="font/woff" crossorigin />
+    <link rel="preload" href="/fonts/inter-700.woff" as="font" type="font/woff" crossorigin />
+    <link rel="preload" href="/fonts/roboto-mono-400.woff" as="font" type="font/woff" crossorigin />
+
+    <title>{titulo}</title>
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={canonica} />
+
+    <meta property="og:site_name" content={perfil.nome} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content={tipo} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:image" content={imagemAbsoluta} />
+    <meta property="og:image:type" content={tipoImagem} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Renan Barbosa · Marketing, SEO e IA aplicada" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={desc} />
+    <meta name="twitter:image" content={imagemAbsoluta} />
+
+    {tipo === "article" && dataPublicacao && (
+      <meta property="article:published_time" content={dataPublicacao} />
+    )}
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={perfil.nome} href="/rss.xml" />
+
+    <slot name="cabeca" />
+  </head>
+
+  <body>
+    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="cabecalho">
+      <div class="env">
+        <a class="marca" href="/" aria-label={perfil.nome + ", início"}>
+          {perfil.nome}
+        </a>
+
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-principal" hidden><svg width="20" height="18" viewBox="0 0 20 18" aria-hidden="true"><path d="M0 1H20M0 9H20M0 17H20" fill="none" stroke="currentColor" stroke-width="2" /></svg></button>
+        <nav id="menu-principal" aria-label="Principal">
+          {rotas.map((r) => (
+            <a
+              href={r.href}
+              aria-current={estaAtiva(r.href) ? "page" : undefined}
+            >
+              {r.texto}
+            </a>
+          ))}
+          <a class="nav-cta" href="/#contato">Contato</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <slot />
+    </main>
+
+    <footer class="rodape"><div class="env"><span class="assinatura"><i aria-hidden="true"></i> RENAN BARBOSA</span><span>MARKETING · CONTEÚDO · IA</span></div></footer>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+      const nav = document.querySelector<HTMLElement>("#menu-principal");
+      if (toggle && nav) {
+        toggle.hidden = false;
+        nav.classList.add("menu-ready");
+        const close = () => { toggle.setAttribute("aria-expanded", "false"); toggle.setAttribute("aria-label", "Abrir menu"); nav.classList.remove("aberto"); };
+        toggle.addEventListener("click", () => { const open = toggle.getAttribute("aria-expanded") !== "true"; toggle.setAttribute("aria-expanded", String(open)); toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu"); nav.classList.toggle("aberto", open); });
+        nav.addEventListener("click", (event) => { if ((event.target as HTMLElement).closest("a")) close(); });
+        document.addEventListener("keydown", (event) => { if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") { close(); toggle.focus(); } });
+        matchMedia("(min-width: 761px)").addEventListener("change", close);
+      }
+    </script>
+  </body>
+</html>

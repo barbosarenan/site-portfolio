@@ -1,0 +1,14 @@
+---
+const { tipo = "convergencia", pequena = false } = Astro.props;
+const figuras = {
+ convergencia: ["Fig 01. Convergência e síntese", "Retângulos pequenos convergem para um bloco verde com um detalhe laranja, representando a síntese de informações."],
+ rede: ["Fig 02. Rede e hierarquia", "Três círculos de base se conectam a nós menores por linhas, representando relações e hierarquia."],
+ conteudo: ["Fig 01. Convergência e síntese", "Pequenos retângulos se organizam em um bloco, representando a construção de conteúdo a partir de informações."],
+ filtragem: ["Fig 04. Filtragem", "Faixas horizontais chegam a uma parede com três aberturas. Três faixas atravessam, com a central laranja, representando seleção por critérios."],
+};
+const [legenda, descricao] = figuras[tipo];
+---
+<figure class:list={["figura", { pequena }]}>
+ <div class="figura-quadro"><img src={"/figuras/" + tipo + ".svg"} width="360" height="360" alt={descricao} loading={pequena ? "lazy" : "eager"} /></div>
+ {!pequena && <figcaption>{legenda}</figcaption>}
+</figure>

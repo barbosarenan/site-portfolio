@@ -1,0 +1,34 @@
+---
+import Base from "../layouts/Base.astro";
+import Chamada from "../components/Chamada.astro";
+import { perfil, servicos } from "../dados/perfil";
+---
+<Base
+  titulo={"Competências · " + perfil.nome}
+  descricao="Minha atuação em SEO, conteúdo e aplicações de IA."
+>
+  <section class="env abertura">
+    <span class="rotulo">Competências</span>
+    <h1 class="linha-um">Minha atuação em SEO, conteúdo e IA.</h1>
+    <p class="resumo">Trabalho com diagnóstico, planejamento editorial e experimentação técnica, considerando as necessidades de cada contexto.</p>
+  </section>
+
+  <section class="env secao">
+    <div class="cards-grid three">
+      {servicos.map((s, i) => (
+        <article class="project-card">
+          <div class="project-top">
+            <span class="project-number">{String(i + 1).padStart(2, "0")}</span>
+            <span class="project-tag">{s.entrega}</span>
+          </div>
+          <h3>{s.titulo}</h3>
+          <p>{s.texto}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+
+
+  <Chamada />
+</Base>

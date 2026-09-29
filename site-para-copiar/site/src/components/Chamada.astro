@@ -1,0 +1,26 @@
+---
+import { perfil } from "../dados/perfil";
+
+const {
+  titulo = "Para conversar sobre SEO, conteúdo e IA aplicada.",
+} = Astro.props;
+---
+<div class="env">
+  <section class="chamada" id="contato">
+    <div>
+      <p class="rotulo">Contato</p>
+      <h2>{titulo}</h2>
+    </div>
+
+    <div class="acoes">
+      <a class="botao" href={"mailto:" + perfil.email}>Enviar e-mail</a>
+      <a
+        class="botao vazado"
+        href={perfil.linkedin}
+        rel="noopener noreferrer"
+      >
+        linkedin
+      </a>
+    </div>
+  </section>
+</div>

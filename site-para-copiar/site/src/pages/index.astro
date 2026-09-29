@@ -1,0 +1,79 @@
+---
+import Figura from "../components/Figura.astro";
+import Base from "../layouts/Base.astro";
+import Chamada from "../components/Chamada.astro";
+import CaseDestaque from "../components/CaseDestaque.astro";
+import { perfil } from "../dados/perfil";
+import { getCollection } from "astro:content";
+
+const artigos = (await getCollection("artigos", ({ data }) => !data.rascunho))
+  .sort((a, b) => b.data.data - a.data.data).slice(0, 2);
+const fmt = (d) => d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" });
+const competencias = [
+  { titulo: "SEO e web", texto: "Diagnóstico, arquitetura de conteúdo e implementação de páginas que explicam a oferta.", href: "/projetos/compasso/", link: "Ver aplicação no case Compasso" },
+  { titulo: "Conteúdo", texto: "Planejamento editorial a partir de consultas de busca, intenção e contexto de negócio.", href: "/artigos/pauta-search-console/", link: "Ler sobre o método de planejamento" },
+  { titulo: "IA aplicada", texto: "Uso de IA na análise e revisão de conteúdo, com critérios para orientar a decisão humana.", href: "/artigos/auditoria-antes-de-publicar/", link: "Ler sobre a auditoria editorial" },
+];
+---
+<Base titulo={perfil.nome + " · Marketing, SEO e IA aplicada"} descricao="Conheça meu trabalho com SEO, conteúdo e IA aplicada: projetos demonstrativos, decisões de implementação e métodos de análise editorial.">
+  <section class="env editorial-hero">
+<div class="hero-copy">
+    <span class="rotulo">Marketing · SEO · IA aplicada</span>
+    <h1>Estratégia, conteúdo e execução digital.</h1>
+    <p>Sou Renan Barbosa. Trabalho com SEO, conteúdo e aplicações de IA para organizar processos e construir experiências digitais.</p>
+    <a class="botao" href="#trabalhos">Conheça meu trabalho <span aria-hidden="true">↓</span></a>
+</div><Figura />
+  </section>
+
+  <section class="env secao" id="trabalhos">
+    <div class="section-head">
+      <div><span class="rotulo">01 · projetos</span><h2>Trabalho selecionado.</h2></div>
+      <a class="text-link" href="/projetos/">Projetos e experimentos <span aria-hidden="true">↗</span></a>
+    </div>
+    <CaseDestaque />
+  </section>
+
+  <section class="env secao">
+    <div class="section-head">
+      <div><span class="rotulo">02 · competências</span><h2>Da análise à entrega.</h2></div>
+
+    </div>
+    <div class="competencias">
+      {competencias.map((item, i) => (
+        <article class="competencia">
+          <Figura tipo={["rede", "conteudo", "filtragem"][i]} pequena />
+          <h3>{item.titulo}</h3>
+          <p>{item.texto}</p>
+          <a class="text-link" href={item.href}>{item.link} <span aria-hidden="true">↗</span></a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="sobre-faixa" id="sobre"><div class="env secao breve-perfil">
+    <div><span class="rotulo">03 · sobre</span><h2>Marketing com<br /> repertório técnico.</h2></div>
+    <div>
+      <p>Minha formação é em marketing. A experiência com SEO, conteúdo e administração de sites ampliou esse repertório para desenvolvimento web, automação e inteligência artificial.</p>
+      <p>Atuo na conexão entre estratégia e execução, buscando compreender o problema antes de escolher ferramentas.</p>
+      <a class="text-link" href="/sobre/">Conheça minha trajetória <span aria-hidden="true">↗</span></a>
+    </div>
+  </div></section>
+
+  <section class="env secao" id="artigos">
+    <div class="section-head">
+      <div><span class="rotulo">04 · artigos</span><h2>Notas e métodos.</h2></div>
+      <a class="text-link" href="/artigos/">Todos os artigos <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="artigos-home">
+      {artigos.map((a) => (
+        <article class="artigo-card">
+          <time datetime={a.data.data.toISOString()}>{fmt(a.data.data)}</time><span class="meta">{a.data.tags.join(" · ")}</span>
+          <a href={"/artigos/" + a.id + "/"}><h3>{a.data.titulo}</h3><p>{a.data.resumo}</p></a>
+          <a class="artigo-arrow" href={"/artigos/" + a.id + "/"} aria-label={"Ler " + a.data.titulo}>↗</a>
+        </article>
+      ))}
+    </div>
+  </section>
+  <Chamada />
+</Base>
+
