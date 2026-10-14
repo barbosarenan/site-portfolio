@@ -2,6 +2,7 @@
 titulo: "Como indicar a natureza de cada projeto em um portfólio"
 resumo: "Experiência profissional, projeto demonstrativo, projeto pessoal e experimento pedem apresentações diferentes. O que aprendi ao organizar o meu portfólio e como pretendo testar se a distinção funciona."
 data: 2026-09-29
+ordem: 6
 tags: ["portfólio", "ux", "conteúdo"]
 capa: "/artigos/natureza-dos-projetos-no-portfolio.jpg"
 ---

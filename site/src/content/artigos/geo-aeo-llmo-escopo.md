@@ -2,6 +2,7 @@
 titulo: "GEO, AEO e LLMO: antes da sigla, o escopo"
 resumo: "Novos nomes para otimização em IA ajudam a organizar a conversa quando vêm com escopo. Três perguntas para avaliar qualquer recomendação: qual sistema, qual informação e qual sinal acompanhar."
 data: 2026-09-29
+ordem: 5
 tags: ["seo", "geo", "ia"]
 capa: "/artigos/geo-aeo-llmo-escopo.jpg"
 ---

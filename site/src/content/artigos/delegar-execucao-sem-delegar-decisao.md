@@ -2,6 +2,7 @@
 titulo: "Como delegar execução à IA sem delegar a decisão"
 resumo: "A IA pode pesquisar, organizar e propor versões. O que precisa ficar claro antes do pedido é quem decide o que vale fazer e com qual critério a entrega será avaliada."
 data: 2026-09-29
+ordem: 1
 tags: ["ia", "marketing", "processo"]
 capa: "/artigos/delegar-execucao-sem-delegar-decisao.jpg"
 ---

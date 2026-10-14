@@ -2,6 +2,7 @@
 titulo: "Pare de pedir para a IA melhorar seu texto"
 resumo: "Pedir melhoria e pedir auditoria são tarefas diferentes. O fluxo que eu uso para encontrar problemas sem terceirizar a decisão editorial."
 data: 2026-09-09
+ordem: 11
 tags: ["seo", "conteúdo", "ia"]
 capa: "/artigos/auditoria-antes-de-publicar.jpg"
 ---

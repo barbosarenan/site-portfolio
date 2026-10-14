@@ -2,6 +2,7 @@
 titulo: "Do teste ao uso recorrente: o que muda quando a IA entra na rotina"
 resumo: "Um bom resultado em uma conversa mostra uma possibilidade. Para incorporar a IA a um processo de marketing, é preciso definir entrada, conferência da saída e caminho para corrigir falhas."
 data: 2026-09-29
+ordem: 3
 tags: ["ia", "processo", "revisão"]
 capa: "/artigos/do-teste-ao-uso-recorrente.jpg"
 ---

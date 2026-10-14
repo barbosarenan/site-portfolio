@@ -2,6 +2,7 @@
 titulo: "Quando a promessa chega antes da explicação"
 resumo: "Muitos sites abrem com uma promessa abstrata e deixam para depois o que a empresa faz. Um estudo com uma proposta fictícia mostra o que muda quando o título e o botão passam a informar."
 data: 2026-09-29
+ordem: 8
 tags: ["conteúdo", "ux", "copywriting"]
 capa: "/artigos/promessa-antes-da-explicacao.jpg"
 ---

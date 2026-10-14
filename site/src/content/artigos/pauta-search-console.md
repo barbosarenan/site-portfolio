@@ -2,6 +2,7 @@
 titulo: "Impressão alta e clique baixo: onde a pauta pode estar escondida"
 resumo: "Um filtro simples do Search Console para encontrar buscas que já trazem visibilidade, mas ainda não transformam essa visibilidade em clique."
 data: 2026-09-16
+ordem: 10
 tags: ["seo", "search console", "conteúdo"]
 capa: "/artigos/pauta-search-console.jpg"
 ---

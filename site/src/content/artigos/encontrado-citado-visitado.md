@@ -2,6 +2,7 @@
 titulo: "Encontrado, citado, visitado: como separar os resultados da busca com IA"
 resumo: "SEO continua sendo a base, mas uma página agora pode aparecer como fonte de uma resposta gerada. Quatro perguntas para acompanhar essa segunda disputa sem confundir menção com resultado."
 data: 2026-09-29
+ordem: 2
 tags: ["seo", "geo", "mensuração"]
 capa: "/artigos/encontrado-citado-visitado.jpg"
 ---
