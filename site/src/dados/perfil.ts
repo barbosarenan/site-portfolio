@@ -9,7 +9,11 @@ export const perfil = {
   instagram: "https://instagram.com/testeiaqui.py",
   github: "https://github.com/barbosarenan",
   descricaoSite:
-    "Renan Barbosa atua na interseção entre marketing, tecnologia, SEO e IA aplicada.",
+    "Renan Barbosa é analista de marketing em Campinas, SP, e trabalha com SEO técnico, conteúdo B2B e IA aplicada ao marketing.",
+  // Foto de perfil usada no Sobre e no schema Person.
+  foto: "/sobre/renan-barbosa.jpg",
+  // Instituições de formação (schema alumniOf).
+  formacao: ["ETEC", "Universidade Paulista (UNIP)", "PUC-Campinas", "PUCPR"],
   site: "https://barbosarenan.com.br",
   // Temas usados no schema (knowsAbout) e no llms.txt.
   conhecimentos: ["SEO", "Estratégia de conteúdo", "Marketing digital", "IA aplicada ao marketing", "Arquitetura de informação", "Desenvolvimento web"],
@@ -117,6 +121,15 @@ export const casos = [
     papel: "design · conteúdo · SEO · desenvolvimento",
     texto: "Projeto desenvolvido como ambiente contínuo de experimentação em desenvolvimento web, SEO técnico, segurança, performance e experiência do usuário.",
   },
+];
+
+// Repositórios públicos em github.com/barbosarenan exibidos no AI Lab.
+export const repositorios = [
+  { nome: "personal-bot-web", titulo: "Personal Bot · painel", texto: "Painel web do protótipo de automação que integra API, WhatsApp e banco de dados.", linguagem: "TypeScript", cor: "#3178C6", estagio: "Protótipo" },
+  { nome: "personal-bot-api", titulo: "Personal Bot · API", texto: "API do mesmo protótipo, separada do painel.", linguagem: "TypeScript", cor: "#3178C6", estagio: "Protótipo" },
+  { nome: "site-portfolio", titulo: "Este portfólio", texto: "Código aberto deste site: Astro, conteúdo em Markdown, SEO técnico e deploy na Vercel.", linguagem: "Astro", cor: "#E0582F", estagio: "No ar" },
+  { nome: "vireo-digital", titulo: "Vireo Digital", texto: "Site do projeto paralelo de estratégia e produto digital.", linguagem: "HTML", cor: "#E34C26", estagio: "Projeto" },
+  { nome: "nlw-spacetime", titulo: "Cápsula do tempo", texto: "Aplicação web responsiva feita em evento de programação.", linguagem: "HTML", cor: "#E34C26", estagio: "Estudo" },
 ];
 
 export const lab = [
