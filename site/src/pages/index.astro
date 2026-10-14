@@ -9,7 +9,7 @@ import { getCollection } from "astro:content";
 
 const porOrdem = (a, b) => (a.data.ordem ?? 999) - (b.data.ordem ?? 999) || b.data.data - a.data.data;
 const artigos = (await getCollection("artigos", ({ data }) => !data.rascunho))
-  .sort(porOrdem).slice(0, 2);
+  .sort(porOrdem).slice(0, 3);
 const competencias = [
   { titulo: "SEO e web", texto: "Diagnóstico, arquitetura de conteúdo e implementação de páginas que explicam a oferta.", href: "/projetos/site-institucional/", link: "Ver o case de redesign" },
   { titulo: "Conteúdo", texto: "Planejamento editorial a partir de consultas de busca, intenção e contexto de negócio.", href: "/artigos/pauta-search-console/", link: "Ler sobre o método de planejamento" },

@@ -8,6 +8,8 @@ export async function GET({ site }) {
   const base = (site ?? new URL(perfil.site)).href.replace(/\/$/, "");
   const artigos = (await getCollection("artigos", ({ data }) => !data.rascunho))
     .sort((a, b) => b.data.data - a.data.data);
+  const articles = (await getCollection("articles", ({ data }) => !data.rascunho))
+    .sort((a, b) => (a.data.ordem ?? 999) - (b.data.ordem ?? 999));
   const outros = casos.filter((c) => c.categoria !== "Experiência profissional" && c.categoria !== "Case profissional");
 
   const texto = `# ${perfil.nome}
@@ -40,6 +42,18 @@ ${outros.map((c) => `- ${c.titulo} (${c.categoria}): ${c.texto}`).join("\n")}
 
 - [Estudo Compasso em Markdown](${base}/materiais/compasso-estudo.md): documento completo do case demonstrativo.
 - [Textos completos dos artigos](${base}/llms-full.txt): todos os artigos em um único arquivo de texto.
+
+## English version
+
+The site is also available in English. Articles are translations of the Portuguese originals.
+
+- [Home (English)](${base}/en/)
+- [About](${base}/en/about/)
+- [Projects](${base}/en/projects/)
+- [B2B institutional website case](${base}/en/projects/institutional-website/)
+- [AI Lab](${base}/en/lab/)
+- [Articles](${base}/en/articles/)
+${articles.map((a) => `- [${a.data.titulo}](${base}/en/articles/${a.id}/): ${a.data.resumo}`).join("\n")}
 
 ## Contato
 
