@@ -1,11 +1,13 @@
 ---
 // Cartão de artigo com capa. O título é o link principal e cobre o cartão inteiro.
-const { artigo, nivel = "h3", ordem = 0, prioridade = false } = Astro.props;
+import { textos } from "../i18n";
+const { artigo, nivel = "h3", ordem = 0, prioridade = false, idioma = "pt" } = Astro.props;
+const t = textos[idioma];
 const { titulo, resumo, data, tags } = artigo.data;
-const href = "/artigos/" + artigo.id + "/";
+const href = t.artigosBase + artigo.id + "/";
 const capa = artigo.data.capa ?? "/og.png";
 const Titulo = nivel;
-const dataCurta = data.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" });
+const dataCurta = data.toLocaleDateString(t.locale, { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" });
 ---
 <article class="artigo-card" data-revela style={`--d:${ordem}`}>
   <div class="artigo-capa">
@@ -18,6 +20,6 @@ const dataCurta = data.toLocaleDateString("pt-BR", { day: "2-digit", month: "sho
     </p>
     <Titulo class="artigo-titulo"><a class="artigo-link" href={href}>{titulo}</a></Titulo>
     <p class="artigo-resumo">{resumo}</p>
-    <span class="text-link artigo-ler" aria-hidden="true">Ler artigo <span>↗</span></span>
+    <span class="text-link artigo-ler" aria-hidden="true">{t.lerArtigo} <span>↗</span></span>
   </div>
 </article>

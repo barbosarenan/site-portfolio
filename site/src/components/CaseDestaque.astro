@@ -1,24 +1,47 @@
 ---
 // Case em destaque: texto à esquerda e, à direita, um esboço da ordem de leitura da home redesenhada.
+const { idioma = "pt" } = Astro.props;
+const c = {
+  pt: {
+    etiqueta: "Case profissional · empresa não identificada",
+    titulo: "Site institucional B2B",
+    texto: "Redesign em WordPress para uma empresa de tecnologia e análise de dados, organizado em torno de um novo posicionamento.",
+    frentes: "Frentes do projeto",
+    tags: ["Estrutura de conteúdo", "Tema próprio", "SEO técnico", "Performance"],
+    botao: "Ler o case",
+    href: "/projetos/site-institucional/",
+    blocos: ["Decisão", "Processo", "Resultado", "Tecnologia"],
+  },
+  en: {
+    etiqueta: "Professional case · company not disclosed",
+    titulo: "B2B institutional website",
+    texto: "WordPress redesign for a technology and data analytics company, organized around a new positioning.",
+    frentes: "Project scope",
+    tags: ["Content structure", "Custom theme", "Technical SEO", "Performance"],
+    botao: "Read the case",
+    href: "/en/projects/institutional-website/",
+    blocos: ["Decision", "Process", "Result", "Technology"],
+  },
+}[idioma];
 ---
 <article class="case-destaque">
  <div class="case-copy">
-  <span class="case-etiqueta"><i aria-hidden="true"></i>Case profissional · empresa não identificada</span>
-  <h3>Site institucional B2B</h3>
-  <p>Redesign em WordPress para uma empresa de tecnologia e análise de dados, organizado em torno de um novo posicionamento.</p>
-  <ul class="case-tags" aria-label="Frentes do projeto">
-   <li>Estrutura de conteúdo</li><li>Tema próprio</li><li>SEO técnico</li><li>Performance</li>
+  <span class="case-etiqueta"><i aria-hidden="true"></i>{c.etiqueta}</span>
+  <h3>{c.titulo}</h3>
+  <p>{c.texto}</p>
+  <ul class="case-tags" aria-label={c.frentes}>
+   {c.tags.map((tag) => <li>{tag}</li>)}
   </ul>
-  <a class="botao" href="/projetos/site-institucional/">Ler o case</a>
+  <a class="botao" href={c.href}>{c.botao}</a>
  </div>
  <div class="case-visual" aria-hidden="true">
   <div class="navegador">
    <div class="navegador-barra"><i></i><i></i><i></i></div>
    <div class="navegador-tela">
-    <div class="bloco-tela b1">Decisão<span>01</span></div>
-    <div class="bloco-tela">Processo<span>02</span></div>
-    <div class="bloco-tela">Resultado<span>03</span></div>
-    <div class="bloco-tela b4">Tecnologia<span>04</span></div>
+    <div class="bloco-tela b1">{c.blocos[0]}<span>01</span></div>
+    <div class="bloco-tela">{c.blocos[1]}<span>02</span></div>
+    <div class="bloco-tela">{c.blocos[2]}<span>03</span></div>
+    <div class="bloco-tela b4">{c.blocos[3]}<span>04</span></div>
    </div>
   </div>
  </div>
