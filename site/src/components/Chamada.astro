@@ -1,27 +1,4 @@
 ---
-import { perfil } from "../dados/perfil";
-
-const {
-  titulo = "Para conversar sobre SEO, conteúdo e IA aplicada.",
-} = Astro.props;
+// O convite para contato agora fica no rodapé (Base.astro, #contato), presente em todas as páginas.
+// Este componente continua importado pelas páginas, mas não renderiza nada, para não repetir o bloco.
 ---
-<div class="env">
-  <section class="chamada" id="contato">
-    <div>
-      <p class="rotulo">Contato</p>
-      <h2>{titulo}</h2>
-      <p class="chamada-freela">Também aceito projetos freelance de SEO técnico e conteúdo.</p>
-    </div>
-
-    <div class="acoes">
-      <a class="botao" href={"mailto:" + perfil.email}>Enviar e-mail</a>
-      <a
-        class="botao vazado"
-        href={perfil.linkedin}
-        rel="noopener noreferrer"
-      >
-        linkedin
-      </a>
-    </div>
-  </section>
-</div>
