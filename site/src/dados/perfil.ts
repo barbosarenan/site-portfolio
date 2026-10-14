@@ -34,6 +34,19 @@ export const compassoSchema = {
   encoding: { "@type": "MediaObject", contentUrl: perfil.site + "/materiais/compasso-estudo.md", encodingFormat: "text/markdown" },
 };
 
+// Case profissional do redesign institucional: sem nome de empresa, dados internos ou métricas.
+export const siteInstitucionalSchema = {
+  "@type": "CreativeWork",
+  "@id": perfil.site + "/projetos/site-institucional/#case",
+  name: "Redesign de site institucional B2B",
+  description: "Redesign do site WordPress de uma empresa B2B de tecnologia e análise de dados: estrutura de conteúdo, tema próprio, SEO técnico e performance.",
+  url: perfil.site + "/projetos/site-institucional/",
+  genre: "Case profissional",
+  inLanguage: "pt-BR",
+  author: { "@id": idPessoa },
+  about: ["Redesign de site", "WordPress", "SEO técnico", "Arquitetura de conteúdo"],
+};
+
 export const pilares = [
   {
     titulo: "Entender antes de executar",
@@ -73,6 +86,13 @@ export const areas = [
 ];
 
 export const casos = [
+  {
+    titulo: "Redesign de site institucional B2B",
+    categoria: "Case profissional",
+    papel: "web · SEO · conteúdo",
+    texto: "Redesign do site WordPress de uma empresa B2B de tecnologia e análise de dados, com estrutura de conteúdo, tema próprio, SEO técnico e performance.",
+    href: "/projetos/site-institucional/",
+  },
   {
     titulo: "Marketing em empresa de tecnologia",
     categoria: "Experiência profissional",
