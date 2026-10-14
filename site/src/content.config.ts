@@ -11,6 +11,7 @@ const artigos = defineCollection({
     rascunho: z.boolean().default(false),
     capa: z.string().optional(),       // imagem de capa 1200x630 em /public
     atualizado: z.coerce.date().optional(), // data de revisão substancial
+    ordem: z.number().optional(),      // posição fixa na listagem; segue a ordem dos posts do LinkedIn
   }),
 });
 
