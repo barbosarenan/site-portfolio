@@ -2,29 +2,39 @@
 import Base from "../../layouts/Base.astro";
 import Chamada from "../../components/Chamada.astro";
 import CaseDestaque from "../../components/CaseDestaque.astro";
-import { perfil, casos, idPessoa, compassoSchema } from "../../dados/perfil";
-const projetos = casos.filter((item) => item.categoria !== "Experiência profissional");
+import { perfil, casos, idPessoa, compassoSchema, siteInstitucionalSchema } from "../../dados/perfil";
+// O case profissional fica no destaque. O Compasso continua aqui, marcado como demonstrativo.
+const compasso = {
+  titulo: "Compasso",
+  categoria: "Projeto demonstrativo · empresa fictícia",
+  papel: "SEO · conteúdo · web",
+  texto: "Diagnóstico, arquitetura de conteúdo e uma página navegável para um software fictício de agendamento.",
+  href: "/projetos/compasso/",
+};
+const outros = casos.filter((item) => item.categoria !== "Experiência profissional" && item.categoria !== "Case profissional");
+const projetos = [compasso, ...outros];
 const lista = {
   "@type": "ItemList",
   name: "Projetos de " + perfil.nome,
   itemListElement: [
-    { "@type": "ListItem", position: 1, item: { "@id": compassoSchema["@id"] } },
-    ...projetos.map((p, i) => ({
+    { "@type": "ListItem", position: 1, item: { "@id": siteInstitucionalSchema["@id"] } },
+    { "@type": "ListItem", position: 2, item: { "@id": compassoSchema["@id"] } },
+    ...outros.map((p, i) => ({
       "@type": "ListItem",
-      position: i + 2,
+      position: i + 3,
       item: { "@type": "CreativeWork", name: p.titulo, description: p.texto, genre: p.categoria, author: { "@id": idPessoa } },
     })),
   ],
 };
 ---
-<Base titulo={"Projetos · " + perfil.nome} descricao="Cases demonstrativos, projetos pessoais e experimentos de Renan Barbosa em marketing, SEO, conteúdo e IA." tipoPagina="CollectionPage" schema={[compassoSchema, lista]}>
+<Base titulo={"Projetos · " + perfil.nome} descricao="Case profissional, projeto demonstrativo, projetos pessoais e experimentos de Renan Barbosa em marketing, SEO, conteúdo e IA." tipoPagina="CollectionPage" schema={[siteInstitucionalSchema, compassoSchema, lista]}>
   <section class="env abertura">
     <span class="rotulo">Projetos</span>
     <h1>Ideias, decisões<br /> e entregas.</h1>
     <p class="resumo">Uma seleção de trabalhos para mostrar como conecto marketing, conteúdo e tecnologia. Cada projeto apresenta sua natureza e seu escopo.</p>
   </section>
   <section class="env secao">
-    <div class="section-head"><div><span class="rotulo">Em destaque</span><h2>Case demonstrativo.</h2></div></div>
+    <div class="section-head"><div><span class="rotulo">Em destaque</span><h2>Case profissional.</h2></div></div>
     <CaseDestaque />
   </section>
   <section class="env secao">
@@ -39,6 +49,7 @@ const lista = {
           <h3>{item.titulo}</h3>
           <p>{item.texto}</p>
           <div class="stack">{item.papel}</div>
+          {item.href && <a class="text-link" href={item.href}>Ler o case <span aria-hidden="true">↗</span></a>}
         </article>
       ))}
     </div>
