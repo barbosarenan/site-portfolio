@@ -5,7 +5,8 @@ const artigos = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/artigos" }),
   schema: z.object({
     titulo: z.string(),
-    resumo: z.string(),          // vira a meta description
+    resumo: z.string(),          // resumo visível no topo do artigo
+    descricao: z.string().optional(), // meta description (até ~155 caracteres); sem ela, usa o resumo
     data: z.coerce.date(),
     tags: z.array(z.string()).default([]),
     rascunho: z.boolean().default(false),
