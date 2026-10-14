@@ -1,6 +1,7 @@
 ---
 titulo: "Quando produzir fica fácil, a decisão editorial pesa mais"
 resumo: "Com IA, uma pauta pode estar escrita antes de alguém decidir se ela merece existir. Critérios para separar intenção de busca de variação de palavra e para lembrar que cada publicação exige manutenção."
+descricao: "Com IA, uma pauta pode ficar pronta antes de alguém decidir se ela merece existir. Critérios para separar intenção de busca de variação de palavra."
 data: 2026-09-29
 ordem: 7
 tags: ["conteúdo", "seo", "planejamento"]
