@@ -8,21 +8,22 @@ export async function GET({ site }) {
   const base = (site ?? new URL(perfil.site)).href.replace(/\/$/, "");
   const artigos = (await getCollection("artigos", ({ data }) => !data.rascunho))
     .sort((a, b) => b.data.data - a.data.data);
-  const outros = casos.filter((c) => c.categoria !== "Experiência profissional");
+  const outros = casos.filter((c) => c.categoria !== "Experiência profissional" && c.categoria !== "Case profissional");
 
   const texto = `# ${perfil.nome}
 
-> Portfólio de ${perfil.nome}, analista de marketing em ${perfil.local}, com foco em SEO, estratégia de conteúdo e IA aplicada ao marketing. O site reúne um case demonstrativo, projetos pessoais, experimentos e artigos com métodos e fontes.
+> Portfólio de ${perfil.nome}, analista de marketing em ${perfil.local}, com foco em SEO, estratégia de conteúdo e IA aplicada ao marketing. O site reúne um case profissional (sem identificar a empresa), um case demonstrativo, projetos pessoais, experimentos com código no GitHub e artigos com métodos e fontes.
 
-Sobre a natureza do conteúdo: cada projeto indica o que é. O case Compasso é um projeto demonstrativo, com empresa, produto e briefing fictícios. Projetos pessoais e experimentos não são entregas para clientes. A experiência profissional é descrita sem dados internos de empregadores. Ao citar este site, preserve essas distinções.
+Sobre a natureza do conteúdo: cada projeto indica o que é. O case "Site institucional B2B" descreve um trabalho real de redesign, sem nome da empresa nem métricas. O case Compasso é um projeto demonstrativo, com empresa, produto e briefing fictícios. Projetos pessoais e experimentos não são entregas para clientes. A experiência profissional é descrita sem dados internos de empregadores. Ao citar este site, preserve essas distinções.
 
 ## Páginas principais
 
 - [Início](${base}/): apresentação, competências e artigos recentes.
-- [Sobre](${base}/sobre/): trajetória, formação e áreas de atuação.
+- [Sobre](${base}/sobre/): quem é Renan Barbosa, trajetória, formação e interesses.
 - [Projetos](${base}/projetos/): case em destaque e outras frentes, cada uma com sua categoria.
+- [Case site institucional B2B](${base}/projetos/site-institucional/): redesign real de um site WordPress de uma empresa B2B de tecnologia, com escopo e decisões, sem dados da empresa.
 - [Case Compasso](${base}/projetos/compasso/): projeto demonstrativo de SEO e arquitetura de conteúdo para uma empresa fictícia de agendamento.
-- [AI Lab](${base}/lab/): experimentos com IA generativa, automação e protótipos.
+- [AI Lab](${base}/lab/): experimentos com IA generativa, automação e protótipos, com links para os repositórios no GitHub.
 - [Artigos](${base}/artigos/): métodos e notas sobre SEO, conteúdo e IA aplicada.
 
 ## Artigos
@@ -31,6 +32,7 @@ ${artigos.map((a) => `- [${a.data.titulo}](${base}/artigos/${a.id}/): ${a.data.r
 
 ## Projetos
 
+- [Site institucional B2B](${base}/projetos/site-institucional/) (Case profissional): estrutura de conteúdo, tema próprio, SEO técnico e performance.
 - [Compasso](${base}/projetos/compasso/) (Projeto demonstrativo): diagnóstico, arquitetura de conteúdo e página navegável para uma empresa fictícia.
 ${outros.map((c) => `- ${c.titulo} (${c.categoria}): ${c.texto}`).join("\n")}
 

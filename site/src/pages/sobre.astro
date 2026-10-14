@@ -1,74 +1,68 @@
 ---
 import Base from "../layouts/Base.astro";
-import Chamada from "../components/Chamada.astro";
-import { perfil, casos } from "../dados/perfil";
-const experiencia = casos.find((item) => item.categoria === "Experiência profissional");
+import { perfil } from "../dados/perfil";
+
+const trajetoria = [
+  { quando: "2024 · hoje", titulo: "Analista de Marketing", texto: "SEO técnico, conteúdo B2B, WordPress, GEO e rotinas com IA em uma empresa de tecnologia. Em 2024, também atuei em prospecção ativa como SDR.", atual: true },
+  { quando: "2023", titulo: "Estágio em marketing digital", texto: "Entrada no marketing de uma empresa de tecnologia." },
+  { quando: "2021 · 2022", titulo: "Inside sales e estágio em marketing", texto: "Rotina comercial e, em 2022, liderança dos OKRs do time de marketing." },
+  { quando: "Formação", titulo: "Técnico em Informática · Propaganda e Marketing · pós em Marketing", texto: "ETEC, UNIP e pós em Estratégias, Negócios Digitais e Experiência do Cliente (PUC-Campinas e PUCPR)." },
+];
+
+const foraDoTrabalho = [
+  { titulo: "Leituras", texto: "Gosto de ficção psicológica e de clássicos. Alguns autores favoritos: Dostoiévski, Kafka, Clarice Lispector e Machado de Assis." },
+  { titulo: "Conectar ideias", texto: "Gosto de ligar assuntos que parecem distantes, como filosofia, neurociência, sistemas de conhecimento e marketing. Penso mais em rede do que em lista." },
+  { titulo: "Agora", texto: "Estudando Python para construir com mais autonomia as ferramentas de IA que uso no trabalho." },
+];
 ---
 <Base
-  titulo={"Sobre · " + perfil.nome}
-  descricao="Trajetória, formação e como Renan Barbosa conecta marketing, tecnologia e IA."
+  titulo={"Sobre " + perfil.nome + " · Analista de marketing, SEO e IA"}
+  descricao="Renan Barbosa é analista de marketing em Campinas e trabalha com SEO técnico, conteúdo B2B e IA aplicada. Trajetória, formação e interesses."
   tipoPagina="ProfilePage"
+  tituloCurto="Sobre"
 >
-  <section class="env abertura">
-    <span class="rotulo">Sobre</span>
-    <h1 class="linha-um">Marketing como base. Tecnologia como extensão.</h1>
-    <p class="resumo">Sou analista de marketing em Campinas. Trabalho com SEO, conteúdo e sites, e uso IA e automação no processo.</p>
-    <p class="resumo">Minha formação é em Propaganda e Marketing, com pós-graduação em Marketing. O repertório técnico veio do trabalho com SEO e sites, e hoje inclui análise de dados, desenvolvimento web e IA generativa.</p>
+  <section class="env sobre-hero">
+    <figure class="foto-perfil">
+      <picture>
+        <source srcset="/sobre/renan-barbosa.webp" type="image/webp" />
+        <img src={perfil.foto} width="640" height="640" alt="Foto de Renan Barbosa" fetchpriority="high" decoding="async" />
+      </picture>
+      <figcaption>{perfil.local}</figcaption>
+    </figure>
+    <div class="sobre-texto">
+      <span class="rotulo status">Sobre</span>
+      <h1>Marketing como base. Tecnologia como extensão.</h1>
+      <p class="sobre-lead">Sou Renan, analista de marketing em Campinas. Comecei pelo técnico em Informática e segui para Propaganda e Marketing. O SEO foi onde as duas coisas se encontraram: entender como as pessoas buscam e, ao mesmo tempo, mexer no código que faz uma página ser encontrada.</p>
+      <p>Hoje trabalho com SEO técnico, conteúdo B2B e sites em WordPress. Quando um processo manual deixa de dar conta, crio rotinas com IA para auditoria, análise de links internos e apoio à produção de conteúdo. A IA acelera a análise, mas a decisão sobre o que publicar continua sendo minha.</p>
+      <div class="acoes">
+        <a class="botao" href={perfil.linkedin} rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+        <a class="botao vazado" href={perfil.github} rel="me noopener">GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="env secao sobre-dois">
+    <div><span class="rotulo">Trajetória</span><h2>Do técnico em Informática ao SEO técnico</h2></div>
+    <ol class="linha-tempo">
+      {trajetoria.map((t) => (
+        <li class:list={{ atual: t.atual }}>
+          <span class="rotulo">{t.quando}</span>
+          <h3>{t.titulo}</h3>
+          <p>{t.texto}</p>
+        </li>
+      ))}
+    </ol>
   </section>
 
   <section class="env secao">
-    <div class="section-head">
-      <div>
-        <span class="rotulo">trajetória</span>
-        <h2 class="section-title">Experiência + repertório técnico.</h2>
-      </div>
-    </div>
-
-    {experiencia && <article class="item">
-      <h3>{experiencia.titulo}</h3>
-      <p>{experiencia.texto}</p>
-    </article>}
-    <div class="cards-grid three">
-      <article class="principle-card">
-        <div class="card-top"><span class="card-index">01</span></div>
-        <h3>Marketing</h3>
-        <p>SEO, conteúdo, WordPress, Search Console, Analytics e estratégia digital.</p>
-      </article>
-      <article class="principle-card">
-        <div class="card-top"><span class="card-index">02</span></div>
-        <h3>IA</h3>
-        <p>LLMs, prompting, automação, agentes e experimentação com IA generativa.</p>
-      </article>
-      <article class="principle-card">
-        <div class="card-top"><span class="card-index">03</span></div>
-        <h3>Web</h3>
-        <p>HTML, CSS, JavaScript, React, Astro, Next.js, GitHub, Vercel e Supabase.</p>
-      </article>
+    <div class="section-head"><div><span class="rotulo">Fora do trabalho</span><h2>Um pouco mais de mim</h2></div></div>
+    <div class="fora-grade">
+      {foraDoTrabalho.map((f) => (
+        <article class="fora-card">
+          <p class="rotulo">{f.titulo}</p>
+          <p>{f.texto}</p>
+        </article>
+      ))}
     </div>
   </section>
-
-  <section class="env secao">
-    <div class="trilho">
-      <div class="cabeca">
-        <span class="rotulo">formação</span>
-        <p>Base de negócio + repertório digital.</p>
-      </div>
-      <div class="itens">
-        <article class="item">
-          <h3>Propaganda e Marketing</h3>
-          <p>Formação em comunicação, marketing e estratégia.</p>
-        </article>
-        <article class="item">
-          <h3>Pós-graduação em Marketing</h3>
-          <p>Estratégias, Negócios Digitais e Experiência do Cliente · PUC Campinas + PUCPR.</p>
-        </article>
-        <article class="item">
-          <h3>Aprendizado pela prática</h3>
-          <p>A parte técnica cresceu junto dos problemas reais: sites, automações, protótipos e experimentos.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <Chamada />
 </Base>
