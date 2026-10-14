@@ -4,8 +4,9 @@ import { perfil, idPessoa } from "../../dados/perfil";
 import { getCollection } from "astro:content";
 import ArtigoCard from "../../components/ArtigoCard.astro";
 
+const porOrdem = (a, b) => (a.data.ordem ?? 999) - (b.data.ordem ?? 999) || b.data.data - a.data.data;
 const artigos = (await getCollection("artigos", ({ data }) => !data.rascunho))
-  .sort((a, b) => b.data.data - a.data.data);
+  .sort(porOrdem);
 
 const site = Astro.site;
 const listaEstruturada = {
