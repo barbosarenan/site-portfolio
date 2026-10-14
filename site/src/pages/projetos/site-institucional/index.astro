@@ -1,0 +1,58 @@
+---
+import Base from "../../../layouts/Base.astro";
+import Chamada from "../../../components/Chamada.astro";
+import { siteInstitucionalSchema } from "../../../dados/perfil";
+---
+<Base titulo="Redesign de site institucional B2B · Renan Barbosa" descricao="Case profissional de redesign de um site institucional em WordPress: estrutura de conteúdo, tema próprio, SEO técnico e performance, sem dados da empresa." tituloCurto="Site institucional B2B" schema={[siteInstitucionalSchema]}>
+  <article class="case-institucional">
+    <header class="env case-abertura">
+      <p class="etiqueta">Case profissional · empresa não identificada</p>
+      <h1>Um site reorganizado em torno de um novo posicionamento.</h1>
+      <p class="introducao">Redesign do site WordPress de uma empresa B2B de tecnologia e análise de dados. Conduzi o projeto sozinho, da estrutura do conteúdo ao código do tema.</p>
+      <dl class="ficha"><div><dt>Frentes</dt><dd>Web · SEO · conteúdo</dd></div><div><dt>Papel</dt><dd>Condução individual, do conteúdo ao código</dd></div><div><dt>Prazo</dt><dd>Um mês, em quatro fases semanais</dd></div></dl>
+    </header>
+
+    <section class="env case-secao" id="contexto">
+      <div class="secao-titulo"><span class="rotulo">01 · contexto</span><h2>O posicionamento mudou e o site precisava acompanhar.</h2></div>
+      <div class="texto"><p>A empresa adotou um novo posicionamento institucional. O trabalho foi reconstruir a home e a página institucional em torno dele e, no mesmo projeto, revisar a base técnica do tema.</p><div class="nota"><strong>Escopo</strong><p>Estrutura de conteúdo da home e da página institucional, tema WordPress próprio, organização dos campos editáveis, SEO técnico e performance de imagens. O nome da empresa, dados internos e números ficam fora deste case.</p></div></div>
+    </section>
+
+    <section class="env case-secao" id="estrutura">
+      <div class="secao-titulo"><span class="rotulo">02 · estrutura</span><h2>Uma ordem de leitura para a home.</h2></div>
+      <div class="texto"><p>A home foi organizada em quatro blocos, nesta sequência:</p><div class="sequencia" aria-label="Sequência de conteúdo da home"><span>Decisão</span><span aria-hidden="true">→</span><span>Processo</span><span aria-hidden="true">→</span><span>Resultado</span><span aria-hidden="true">→</span><span>Tecnologia</span></div><p>A tecnologia aparece no fim, como explicação de como o trabalho acontece, e não como abertura da página.</p></div>
+    </section>
+
+    <section class="env case-secao" id="implementacao">
+      <div class="secao-titulo"><span class="rotulo">03 · implementação</span><h2>Um tema próprio, com regras para continuar fácil de manter.</h2></div>
+      <div class="texto"><ul class="lista"><li><strong>Campos editáveis com critério:</strong> só o conteúdo que muda com frequência virou campo no painel.</li><li><strong>CSS escopado por página:</strong> estilos isolados e sem <code>!important</code>.</li><li><strong>Menos dependências:</strong> o carrossel de biblioteca externa foi substituído por rolagem nativa com scroll-snap.</li><li><strong>Imagens em WebP:</strong> servidas por substituição de URL, depois de verificar que a reescrita do HTML quebrava seletores CSS.</li><li><strong>SEO técnico no escopo:</strong> metadados, dados estruturados, redirecionamentos para páginas removidas, cache e CDN.</li></ul></div>
+    </section>
+
+    <section class="env case-secao" id="metodo">
+      <div class="secao-titulo"><span class="rotulo">04 · método</span><h2>Um mês, quatro fases e um ambiente de homologação.</h2></div>
+      <div class="texto"><p>O cronograma foi dividido em quatro fases semanais. As mudanças passavam por um ambiente de homologação antes de chegar ao site publicado.</p><div class="nota"><strong>Sem resultados atribuídos</strong><p>Este case descreve escopo, decisões e responsabilidade. Números de tráfego e dados internos da empresa ficam fora, por regra deste portfólio.</p></div></div>
+    </section>
+  </article>
+  <Chamada />
+</Base>
+
+<style>
+  .case-abertura { padding-block: 36px 40px; }
+  .etiqueta { font: 11px/1.6 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  h1 { max-width: 21ch; font-size: clamp(38px, 6vw, 72px); line-height: 1.05; }
+  .introducao { margin: 24px 0; max-width: 62ch; font-size: clamp(17px, 2vw, 20px); color: var(--muted); }
+  .ficha { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; margin: 40px 0 0; }
+  dt { font: 11px var(--mono); text-transform: uppercase; color: var(--muted); }
+  dd { margin: 8px 0 0; font-size: 14px; }
+  .case-secao { display: grid; grid-template-columns: 1fr 1.65fr; gap: 64px; padding-block: 64px; border-bottom: 1px solid var(--line); scroll-margin-top: 130px; }
+  .secao-titulo h2 { font-size: clamp(26px, 3vw, 32px); line-height: 1.15; }
+  .texto > p { color: var(--muted); }
+  .nota { margin: 24px 0; padding: 22px; border-left: 3px solid var(--line-strong); }
+  .nota p { margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+  .sequencia { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 24px 0; font: 12px var(--mono); }
+  .sequencia span:not([aria-hidden]) { border: 1px solid var(--line); padding: 10px 12px; }
+  .lista { padding-left: 20px; margin: 0; }
+  .lista li { margin-bottom: 14px; color: var(--muted); }
+  .lista strong { color: var(--text); }
+  .lista code { font: 13px var(--mono); }
+  @media (max-width: 760px) { .case-secao { grid-template-columns: 1fr; gap: 24px; padding-block: 40px; } .ficha { grid-template-columns: 1fr; gap: 20px; } }
+</style>
