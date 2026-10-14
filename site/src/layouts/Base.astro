@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import { perfil, idPessoa, idSite } from "../dados/perfil";
 import { getCollection } from "astro:content";
+import { textos, paresDePaginas } from "../i18n";
 
 const {
   titulo,
@@ -20,7 +21,13 @@ const {
   semMigalhas = false,
   // Páginas que não devem aparecer nos buscadores (404, páginas sem links).
   semIndexar = false,
+  // Idioma da página ("pt" ou "en") e endereço da mesma página no outro idioma, quando existe.
+  idioma = "pt",
+  alternativa,
 } = Astro.props;
+
+const t = textos[idioma];
+const outroIdioma = idioma === "pt" ? "en" : "pt";
 
 const site = Astro.site ?? new URL(perfil.site);
 const canonica = new URL(Astro.url.pathname, site);
@@ -28,25 +35,29 @@ const desc = descricao ?? perfil.descricaoSite;
 const imagemAbsoluta = new URL(imagem, site).href;
 const tipoImagem = imagem.endsWith(".svg") ? "image/svg+xml" : imagem.endsWith(".jpg") || imagem.endsWith(".jpeg") ? "image/jpeg" : "image/png";
 
-const rotas = [
-  { href: "/", texto: "Início" },
-  { href: "/projetos/", texto: "Projetos" },
-  { href: "/lab/", texto: "AI Lab" },
-  { href: "/artigos/", texto: "Artigos" },
-  { href: "/sobre/", texto: "Sobre" },
-];
+const rotas = t.rotas;
 
 const aqui = Astro.url.pathname;
-const estaAtiva = (href) => (href === "/" ? aqui === "/" : aqui.startsWith(href));
+const estaAtiva = (href) => (href === t.inicio ? aqui === t.inicio : aqui.startsWith(href));
+
+// ---------- Versões em outro idioma (seletor e hreflang) ----------
+const invertidos = Object.fromEntries(Object.entries(paresDePaginas).map(([pt, en]) => [en, pt]));
+const aquiComBarra = aqui.endsWith("/") ? aqui : aqui + "/";
+const parAutomatico = idioma === "pt" ? paresDePaginas[aquiComBarra] : invertidos[aquiComBarra];
+const urlAlternativa = alternativa ?? parAutomatico;
+const hrefPt = idioma === "pt" ? aquiComBarra : urlAlternativa;
+const hrefEn = idioma === "en" ? aquiComBarra : urlAlternativa;
+// Sem par, o seletor leva para a página inicial do outro idioma, mas sem hreflang.
+const destinoSeletor = urlAlternativa ?? textos[outroIdioma].inicio;
 
 // ---------- Trilha de navegação (breadcrumbs) ----------
-const nomes = { projetos: "Projetos", artigos: "Artigos", sobre: "Sobre", lab: "AI Lab", compasso: "Compasso", "site-institucional": "Site institucional B2B" };
-const pais = {};
+const nomes = t.nomesTrilha;
 function montarTrilha() {
-  const partes = aqui.split("/").filter(Boolean);
+  let partes = aqui.split("/").filter(Boolean);
+  if (idioma === "en") partes = partes.slice(1);
   if (partes.length === 0) return [];
-  const itens = [{ nome: "Início", href: "/" }, ...(pais[aqui] ?? [])];
-  let caminho = "/";
+  const itens = [{ nome: t.nomeInicio, href: t.inicio }];
+  let caminho = t.inicio;
   partes.forEach((parte, i) => {
     caminho += parte + "/";
     const ultimo = i === partes.length - 1;
@@ -62,8 +73,8 @@ const pessoa = {
   "@id": idPessoa,
   name: perfil.nome,
   url: site.href,
-  jobTitle: perfil.cargo,
-  description: perfil.descricaoSite,
+  jobTitle: t.cargo,
+  description: t.descricaoSite,
   image: { "@type": "ImageObject", url: new URL(perfil.foto, site).href, width: 640, height: 640 },
   email: "mailto:" + perfil.email,
   alumniOf: perfil.formacao.map((f) => ({ "@type": "EducationalOrganization", name: f })),
@@ -76,8 +87,8 @@ const website = {
   "@id": idSite,
   url: site.href,
   name: perfil.nome,
-  description: perfil.descricaoSite,
-  inLanguage: "pt-BR",
+  description: textos.pt.descricaoSite,
+  inLanguage: ["pt-BR", "en"],
   author: { "@id": idPessoa },
   publisher: { "@id": idPessoa },
 };
@@ -88,7 +99,7 @@ const pagina = {
   url: canonica.href,
   name: titulo,
   description: desc,
-  inLanguage: "pt-BR",
+  inLanguage: t.lang,
   isPartOf: { "@id": idSite },
   primaryImageOfPage: { "@type": "ImageObject", url: imagemAbsoluta, width: 1200, height: 630 },
   ...(tipoPagina === "ProfilePage" ? { mainEntity: { "@id": idPessoa } } : { about: { "@id": idPessoa } }),
@@ -104,13 +115,13 @@ const noTrilha = trilha.length > 1 ? [{
 const grafo = { "@context": "https://schema.org", "@graph": [pessoa, website, pagina, ...noTrilha, ...schema] };
 
 // ---------- Rodapé ----------
-const recentes = (await getCollection("artigos", ({ data }) => !data.rascunho))
+const recentes = (await getCollection(idioma === "en" ? "articles" : "artigos", ({ data }) => !data.rascunho))
   .sort((a, b) => b.data.data - a.data.data)
   .slice(0, 3);
 const ano = new Date().getFullYear();
 ---
 <!doctype html>
-<html lang="pt-BR">
+<html lang={t.lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -132,7 +143,11 @@ const ano = new Date().getFullYear();
     <meta property="og:description" content={desc} />
     <meta property="og:type" content={tipo} />
     <meta property="og:url" content={canonica} />
-    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:locale" content={t.ogLocale} />
+    {urlAlternativa && <meta property="og:locale:alternate" content={textos[outroIdioma].ogLocale} />}
+    {hrefPt && hrefEn && <link rel="alternate" hreflang="pt-BR" href={new URL(hrefPt, site).href} />}
+    {hrefPt && hrefEn && <link rel="alternate" hreflang="en" href={new URL(hrefEn, site).href} />}
+    {hrefPt && hrefEn && <link rel="alternate" hreflang="x-default" href={new URL(hrefPt, site).href} />}
     <meta property="og:image" content={imagemAbsoluta} />
     <meta property="og:image:type" content={tipoImagem} />
     <meta property="og:image:width" content="1200" />
@@ -150,7 +165,7 @@ const ano = new Date().getFullYear();
     {tipo === "article" && dataModificacao && (
       <meta property="article:modified_time" content={dataModificacao} />
     )}
-    {tipo === "article" && <meta property="article:author" content={new URL("/sobre/", site).href} />}
+    {tipo === "article" && <meta property="article:author" content={new URL(idioma === "en" ? "/en/about/" : "/sobre/", site).href} />}
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -161,17 +176,17 @@ const ano = new Date().getFullYear();
   </head>
 
   <body>
-    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+    <a class="pular-conteudo" href="#conteudo">{t.pularConteudo}</a>
 
     <header class="cabecalho" id="topo">
       <div class="env">
-        <a class="marca" href="/" aria-label={perfil.nome + ", início"}>
+        <a class="marca" href={t.inicio} aria-label={perfil.nome + ", " + t.nomeInicio.toLowerCase()}>
           <span class="selo" aria-hidden="true">RB</span>
-          <span class="marca-texto"><b>{perfil.nome}</b><small>SEO · Conteúdo · IA aplicada</small></span>
+          <span class="marca-texto"><b>{perfil.nome}</b><small>{t.subtitulo}</small></span>
         </a>
 
-        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-principal" hidden><svg width="18" height="16" viewBox="0 0 20 18" aria-hidden="true"><path d="M0 1H20M0 9H20M0 17H20" fill="none" stroke="currentColor" stroke-width="2" /></svg></button>
-        <nav id="menu-principal" aria-label="Principal">
+        <button class="menu-toggle" type="button" aria-label={t.abrirMenu} data-abrir={t.abrirMenu} data-fechar={t.fecharMenu} aria-expanded="false" aria-controls="menu-principal" hidden><svg width="18" height="16" viewBox="0 0 20 18" aria-hidden="true"><path d="M0 1H20M0 9H20M0 17H20" fill="none" stroke="currentColor" stroke-width="2" /></svg></button>
+        <nav id="menu-principal" aria-label={t.menuPrincipal}>
           {rotas.map((r) => (
             <a
               href={r.href}
@@ -180,14 +195,17 @@ const ano = new Date().getFullYear();
               {r.texto}
             </a>
           ))}
-          <a class="nav-cta" href="#contato">Fale comigo</a>
+          <a class="seletor-idioma" href={destinoSeletor} hreflang={textos[outroIdioma].lang} lang={textos[outroIdioma].lang} aria-label={t.idioma + ": " + (outroIdioma === "en" ? "English" : "Português")}>
+            <span class:list={{ ativo: idioma === "pt" }}>PT</span><span class:list={{ ativo: idioma === "en" }}>EN</span>
+          </a>
+          <a class="nav-cta" href="#contato">{t.faleComigo}</a>
         </nav>
       </div>
     </header>
 
     <main id="conteudo">
       {trilha.length > 1 && (
-        <nav class="env migalhas" aria-label="Trilha de navegação">
+        <nav class="env migalhas" aria-label={t.trilha}>
           <ol>
             {trilha.map((m, i) => (
               <li>
@@ -206,8 +224,8 @@ const ano = new Date().getFullYear();
       <div class="env">
         <div class="convite" id="contato">
           <div>
-            <h2>Tem um projeto de SEO ou conteúdo? <em>Vamos conversar.</em></h2>
-            <p>Também aceito projetos freelance de SEO técnico e conteúdo.</p>
+            <h2>{t.convite} <em>{t.conviteDestaque}</em></h2>
+            <p>{t.freela}</p>
           </div>
           <a class="convite-email" href={"mailto:" + perfil.email}>{perfil.email}</a>
         </div>
@@ -215,41 +233,37 @@ const ano = new Date().getFullYear();
         <div class="rodape-grade">
           <div class="rodape-marca">
             <span class="assinatura"><span class="selo" aria-hidden="true">RB</span> {perfil.nome}</span>
-            <p>Marketing, SEO e IA aplicada. {perfil.local}.</p>
+            <p>{t.rodapeDescricao} {idioma === "en" ? "Campinas, Brazil" : perfil.local}.</p>
           </div>
 
-          <nav class="rodape-coluna" aria-label="Páginas do site">
-            <p class="rodape-titulo">Navegação</p>
+          <nav class="rodape-coluna" aria-label={t.paginasSite}>
+            <p class="rodape-titulo">{t.navegacao}</p>
             <ul>
-              <li><a href="/projetos/">Projetos</a></li>
-              <li><a href="/projetos/site-institucional/">Case site institucional</a></li>
-              <li><a href="/lab/">AI Lab</a></li>
-              <li><a href="/artigos/">Artigos</a></li>
-              <li><a href="/sobre/">Sobre</a></li>
+              {t.linksRodape.map((l) => <li><a href={l.href}>{l.texto}</a></li>)}
             </ul>
           </nav>
 
           <div class="rodape-coluna">
-            <p class="rodape-titulo">Artigos recentes</p>
+            <p class="rodape-titulo">{t.artigosRecentes}</p>
             <ul>
-              {recentes.map((a) => <li><a href={"/artigos/" + a.id + "/"}>{a.data.titulo}</a></li>)}
+              {recentes.map((a) => <li><a href={t.artigosBase + a.id + "/"}>{a.data.titulo}</a></li>)}
             </ul>
           </div>
 
           <div class="rodape-coluna">
-            <p class="rodape-titulo">Contato</p>
+            <p class="rodape-titulo">{t.contato}</p>
             <ul>
-              <li><a href={"mailto:" + perfil.email}>E-mail</a></li>
+              <li><a href={"mailto:" + perfil.email}>{t.email}</a></li>
               <li><a href={perfil.linkedin} rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a></li>
               <li><a href={perfil.github} rel="me noopener">GitHub <span aria-hidden="true">↗</span></a></li>
-              <li><a href="/rss.xml">RSS dos artigos</a></li>
+              {idioma === "pt" && <li><a href="/rss.xml">{t.rss}</a></li>}
             </ul>
           </div>
         </div>
 
         <div class="rodape-base">
           <span>© {ano} {perfil.nome}</span>
-          <a href="#topo">Voltar ao topo <span aria-hidden="true">↑</span></a>
+          <a href="#topo">{t.voltarTopo} <span aria-hidden="true">↑</span></a>
         </div>
       </div>
     </footer>
@@ -259,8 +273,8 @@ const ano = new Date().getFullYear();
       if (toggle && nav) {
         toggle.hidden = false;
         nav.classList.add("menu-ready");
-        const close = () => { toggle.setAttribute("aria-expanded", "false"); toggle.setAttribute("aria-label", "Abrir menu"); nav.classList.remove("aberto"); };
-        toggle.addEventListener("click", () => { const open = toggle.getAttribute("aria-expanded") !== "true"; toggle.setAttribute("aria-expanded", String(open)); toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu"); nav.classList.toggle("aberto", open); });
+        const close = () => { toggle.setAttribute("aria-expanded", "false"); toggle.setAttribute("aria-label", toggle.dataset.abrir); nav.classList.remove("aberto"); };
+        toggle.addEventListener("click", () => { const open = toggle.getAttribute("aria-expanded") !== "true"; toggle.setAttribute("aria-expanded", String(open)); toggle.setAttribute("aria-label", open ? toggle.dataset.fechar : toggle.dataset.abrir); nav.classList.toggle("aberto", open); });
         nav.addEventListener("click", (event) => { if ((event.target as HTMLElement).closest("a")) close(); });
         document.addEventListener("keydown", (event) => { if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") { close(); toggle.focus(); } });
         matchMedia("(min-width: 761px)").addEventListener("change", close);
