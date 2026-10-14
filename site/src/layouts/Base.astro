@@ -18,6 +18,8 @@ const {
   tituloCurto,
   migalhas,
   semMigalhas = false,
+  // Páginas que não devem aparecer nos buscadores (404, páginas sem links).
+  semIndexar = false,
 } = Astro.props;
 
 const site = Astro.site ?? new URL(perfil.site);
@@ -61,7 +63,10 @@ const pessoa = {
   name: perfil.nome,
   url: site.href,
   jobTitle: perfil.cargo,
+  description: perfil.descricaoSite,
+  image: { "@type": "ImageObject", url: new URL(perfil.foto, site).href, width: 640, height: 640 },
   email: "mailto:" + perfil.email,
+  alumniOf: perfil.formacao.map((f) => ({ "@type": "EducationalOrganization", name: f })),
   address: { "@type": "PostalAddress", addressLocality: "Campinas", addressRegion: "SP", addressCountry: "BR" },
   knowsAbout: perfil.conhecimentos,
   sameAs: [perfil.linkedin, perfil.github, perfil.instagram],
@@ -119,7 +124,7 @@ const ano = new Date().getFullYear();
     <title>{titulo}</title>
     <meta name="description" content={desc} />
     <meta name="author" content={perfil.nome} />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="robots" content={semIndexar ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1"} />
     <link rel="canonical" href={canonica} />
 
     <meta property="og:site_name" content={perfil.nome} />
@@ -161,10 +166,11 @@ const ano = new Date().getFullYear();
     <header class="cabecalho" id="topo">
       <div class="env">
         <a class="marca" href="/" aria-label={perfil.nome + ", início"}>
-          {perfil.nome}
+          <span class="selo" aria-hidden="true">RB</span>
+          <span class="marca-texto"><b>{perfil.nome}</b><small>SEO · Conteúdo · IA aplicada</small></span>
         </a>
 
-        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-principal" hidden><svg width="20" height="18" viewBox="0 0 20 18" aria-hidden="true"><path d="M0 1H20M0 9H20M0 17H20" fill="none" stroke="currentColor" stroke-width="2" /></svg></button>
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-principal" hidden><svg width="18" height="16" viewBox="0 0 20 18" aria-hidden="true"><path d="M0 1H20M0 9H20M0 17H20" fill="none" stroke="currentColor" stroke-width="2" /></svg></button>
         <nav id="menu-principal" aria-label="Principal">
           {rotas.map((r) => (
             <a
@@ -174,7 +180,7 @@ const ano = new Date().getFullYear();
               {r.texto}
             </a>
           ))}
-          <a class="nav-cta" href="/#contato">Contato</a>
+          <a class="nav-cta" href="#contato">Fale comigo</a>
         </nav>
       </div>
     </header>
@@ -197,46 +203,54 @@ const ano = new Date().getFullYear();
     </main>
 
     <footer class="rodape">
-      <div class="env rodape-grade">
-        <div class="rodape-marca">
-          <span class="assinatura"><i aria-hidden="true"></i> RENAN BARBOSA</span>
-          <p>Marketing, SEO, estratégia de conteúdo e IA aplicada. {perfil.local}.</p>
+      <div class="env">
+        <div class="convite" id="contato">
+          <div>
+            <h2>Tem um projeto de SEO ou conteúdo? <em>Vamos conversar.</em></h2>
+            <p>Também aceito projetos freelance de SEO técnico e conteúdo.</p>
+          </div>
+          <a class="convite-email" href={"mailto:" + perfil.email}>{perfil.email}</a>
         </div>
 
-        <nav class="rodape-coluna" aria-label="Páginas do site">
-          <p class="rodape-titulo">Navegação</p>
-          <ul>
-            <li><a href="/">Início</a></li>
-            <li><a href="/projetos/">Projetos</a></li>
-            <li><a href="/projetos/site-institucional/">Case site institucional</a></li>
-            <li><a href="/lab/">AI Lab</a></li>
-            <li><a href="/artigos/">Artigos</a></li>
-            <li><a href="/sobre/">Sobre</a></li>
-          </ul>
-        </nav>
+        <div class="rodape-grade">
+          <div class="rodape-marca">
+            <span class="assinatura"><span class="selo" aria-hidden="true">RB</span> {perfil.nome}</span>
+            <p>Marketing, SEO e IA aplicada. {perfil.local}.</p>
+          </div>
 
-        <div class="rodape-coluna">
-          <p class="rodape-titulo">Artigos recentes</p>
-          <ul>
-            {recentes.map((a) => <li><a href={"/artigos/" + a.id + "/"}>{a.data.titulo}</a></li>)}
-          </ul>
+          <nav class="rodape-coluna" aria-label="Páginas do site">
+            <p class="rodape-titulo">Navegação</p>
+            <ul>
+              <li><a href="/projetos/">Projetos</a></li>
+              <li><a href="/projetos/site-institucional/">Case site institucional</a></li>
+              <li><a href="/lab/">AI Lab</a></li>
+              <li><a href="/artigos/">Artigos</a></li>
+              <li><a href="/sobre/">Sobre</a></li>
+            </ul>
+          </nav>
+
+          <div class="rodape-coluna">
+            <p class="rodape-titulo">Artigos recentes</p>
+            <ul>
+              {recentes.map((a) => <li><a href={"/artigos/" + a.id + "/"}>{a.data.titulo}</a></li>)}
+            </ul>
+          </div>
+
+          <div class="rodape-coluna">
+            <p class="rodape-titulo">Contato</p>
+            <ul>
+              <li><a href={"mailto:" + perfil.email}>E-mail</a></li>
+              <li><a href={perfil.linkedin} rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a></li>
+              <li><a href={perfil.github} rel="me noopener">GitHub <span aria-hidden="true">↗</span></a></li>
+              <li><a href="/rss.xml">RSS dos artigos</a></li>
+            </ul>
+          </div>
         </div>
 
-        <div class="rodape-coluna">
-          <p class="rodape-titulo">Contato</p>
-          <ul>
-            <li><a href={"mailto:" + perfil.email}>{perfil.email}</a></li>
-            <li><a href={perfil.linkedin} rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a></li>
-            <li><a href={perfil.github} rel="me noopener">GitHub <span aria-hidden="true">↗</span></a></li>
-            <li><a href="/rss.xml">RSS dos artigos</a></li>
-          </ul>
+        <div class="rodape-base">
+          <span>© {ano} {perfil.nome}</span>
+          <a href="#topo">Voltar ao topo <span aria-hidden="true">↑</span></a>
         </div>
-      </div>
-
-      <div class="env rodape-base">
-        <span>© {ano} {perfil.nome}</span>
-        <span>Marketing · Conteúdo · IA</span>
-        <a href="#topo">Voltar ao topo <span aria-hidden="true">↑</span></a>
       </div>
     </footer>
     <script>
