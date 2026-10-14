@@ -568,3 +568,13 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -.03em; }
   .sobre-texto .sobre-lead { font-size: 18px; }
   .fora-grade, .repos-grade { grid-template-columns: 1fr; }
 }
+
+/* Seletor de idioma no header (PT | EN) */
+.seletor-idioma { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border: 1.5px solid var(--line); border-radius: 999px; font: 400 11px/1 var(--mono); letter-spacing: .06em; text-decoration: none; }
+.cabecalho nav a.seletor-idioma { min-height: 0; background: none; }
+.seletor-idioma span { padding: 6px 9px; border-radius: 999px; }
+.seletor-idioma span.ativo { background: var(--text); color: var(--bg); }
+.seletor-idioma:hover span:not(.ativo) { color: var(--orange); }
+@media (max-width: 760px) {
+  .cabecalho nav.menu-ready.aberto a.seletor-idioma { width: auto; margin-top: 12px; border-top: 1.5px solid var(--line); }
+}
