@@ -38,7 +38,7 @@ const aqui = Astro.url.pathname;
 const estaAtiva = (href) => (href === "/" ? aqui === "/" : aqui.startsWith(href));
 
 // ---------- Trilha de navegação (breadcrumbs) ----------
-const nomes = { projetos: "Projetos", artigos: "Artigos", sobre: "Sobre", lab: "AI Lab", compasso: "Compasso" };
+const nomes = { projetos: "Projetos", artigos: "Artigos", sobre: "Sobre", lab: "AI Lab", compasso: "Compasso", "site-institucional": "Site institucional B2B" };
 const pais = {};
 function montarTrilha() {
   const partes = aqui.split("/").filter(Boolean);
@@ -208,7 +208,7 @@ const ano = new Date().getFullYear();
           <ul>
             <li><a href="/">Início</a></li>
             <li><a href="/projetos/">Projetos</a></li>
-            <li><a href="/projetos/compasso/">Case Compasso</a></li>
+            <li><a href="/projetos/site-institucional/">Case site institucional</a></li>
             <li><a href="/lab/">AI Lab</a></li>
             <li><a href="/artigos/">Artigos</a></li>
             <li><a href="/sobre/">Sobre</a></li>
