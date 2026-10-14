@@ -2,7 +2,7 @@
 titulo: "Antes de escolher uma ferramenta de IA, encontre o gargalo"
 resumo: "Gerar a primeira versão mais rápido não resolve um problema de alinhamento. Como observar onde o trabalho de marketing fica parado antes de comparar ferramentas."
 descricao: "Gerar a primeira versão mais rápido não resolve alinhamento. Como achar onde o trabalho de marketing fica parado antes de comparar ferramentas de IA."
-data: 2026-09-29
+data: 2026-10-06
 ordem: 4
 tags: ["ia", "processo", "automação"]
 capa: "/artigos/gargalo-antes-da-ferramenta.jpg"

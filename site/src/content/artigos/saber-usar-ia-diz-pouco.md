@@ -2,7 +2,7 @@
 titulo: "Por que “saber usar IA” diz pouco sobre um trabalho"
 resumo: "A expressão cabe em atividades muito diferentes e, sozinha, não explica o que alguém entrega. Como mostrar a tarefa, a participação e os limites de um projeto feito com assistência de IA."
 descricao: "“Saber usar IA” cabe em atividades muito diferentes. Como mostrar a tarefa, a participação e os limites de um projeto feito com assistência de IA."
-data: 2026-09-29
+data: 2026-09-19
 ordem: 9
 tags: ["ia", "carreira", "portfólio"]
 capa: "/artigos/saber-usar-ia-diz-pouco.jpg"
