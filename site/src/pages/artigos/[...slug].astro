@@ -61,7 +61,7 @@ const artigoSchema = {
 ---
 <Base
   titulo={a.data.titulo + " · " + perfil.nome}
-  descricao={a.data.resumo}
+  descricao={a.data.descricao ?? a.data.resumo}
   tipo="article"
   imagem={capa}
   dataPublicacao={publicado}
