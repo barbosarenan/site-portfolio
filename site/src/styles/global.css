@@ -644,11 +644,107 @@ a.rotulo.status:hover { text-decoration: underline; text-decoration-color: var(-
 @media (max-width: 760px) { .passos { grid-template-columns: 1fr; } }
 .convite-servicos { text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 3px; white-space: nowrap; }
 
-/* Home: entre "Trabalhos selecionados" e "Competências" o padding das duas seções somava 176 px sem nada no meio.
-   Reduz para 96 px e marca a divisão com a mesma linha fina usada acima dos trabalhos. */
-#trabalhos { padding-bottom: 48px; }
-#trabalhos + .secao { padding-top: 48px; border-top: 1px solid var(--linha-suave); }
+/* ==========================================================================
+   Revisão de UI (16/10/2026): ritmo vertical, alinhamentos e detalhes de leitura.
+   Fica no fim do arquivo de propósito: substitui regras antigas sem mexer nelas.
+   ========================================================================== */
+
+/* 1. Ritmo vertical único. Cada seção tem o mesmo respiro; quando duas seções do mesmo
+      fundo vêm seguidas, uma linha fina marca a troca em vez de somar dois paddings grandes. */
+:root { --ritmo: clamp(48px, 5.5vw, 64px); }
+.secao { padding-block: var(--ritmo); }
+#trabalhos { padding-bottom: var(--ritmo); }
+#trabalhos + .secao { padding-top: var(--ritmo); }
+.secao + .secao { border-top: 1px solid var(--linha-suave); }
+.abertura { padding-bottom: 24px; }
+.abertura + .secao, .lab-hero + .secao { padding-top: 32px; border-top: 0; }
+.sobre-hero { padding-bottom: var(--ritmo); }
+.sobre-dois { padding-top: var(--ritmo); }
+
+/* 2. Links de texto: a seta acompanha a última palavra quando o texto quebra linha. */
+.text-link { display: inline-block; min-height: 0; padding-block: 12px; line-height: 1.45; }
+.text-link span[aria-hidden] { margin-left: 2px; }
+/* A seta precisa ser inline (não inline-block) para não quebrar sozinha; o movimento no hover usa left/top. */
+.text-link span[aria-hidden], .artigo-ler span { display: inline; position: relative; left: 0; top: 0; transform: none; transition: left .25s cubic-bezier(.2,.8,.2,1), top .25s cubic-bezier(.2,.8,.2,1); }
+.text-link:hover span[aria-hidden], .artigo-card:hover .artigo-ler span { transform: none; left: 3px; top: -3px; }
+.links-secao, .links-prova, .autor-links { align-items: center; }
+a.rotulo.status { display: inline-block; line-height: 1.6; text-decoration: none; }
+a.rotulo.status::before { display: inline-block; margin-right: 10px; vertical-align: 1px; }
+
+/* 3. Cards: o link ou selo final fica sempre no rodapé do card, alinhado entre vizinhos. */
+.competencia, .project-card { display: flex; flex-direction: column; }
+.competencia .text-link, .project-card .text-link { margin-top: auto; align-self: flex-start; }
+.project-card .stack { margin-bottom: 4px; }
+.servicos-grupo .project-card p { margin-bottom: 20px; }
+.servico-entrega { margin-top: auto; align-self: flex-start; }
+
+/* 4. Metadados do card de artigo: data e temas no mesmo corpo de letra. */
+.artigo-card .artigo-meta, .artigo-card .artigo-meta * { font-size: 12px; line-height: 1.5; }
+
+/* 5. Rótulos em mono: mínimo de 12 px para leitura confortável. */
+.resumo-faixa .rotulo, .rodape-titulo, .estagio, .servico-entrega, .foto-perfil figcaption, .linha-tempo .rotulo,
+.case-abertura .etiqueta, .case-abertura .ficha dt { font-size: 12px; }
+
+/* 6. Os dois cases profissionais com a mesma grade: as divisórias verticais se alinham. */
+.case-compacto { grid-template-columns: 1fr 1.15fr; }
+.case-compacto .case-copy { padding: 48px; }
 @media (max-width: 760px) {
-  #trabalhos { padding-bottom: 36px; }
-  #trabalhos + .secao { padding-top: 36px; }
+  .case-compacto { grid-template-columns: 1fr; }
+  .case-compacto .case-copy { padding: 28px 24px; }
+  .planilha { order: 0; border-bottom: 0; border-top: 1.5px solid var(--line); }
+}
+
+/* 7. Artigo: título, capa e texto na mesma coluna centralizada. */
+.artigo-abertura, .secao.forte { width: min(calc(100% - 80px), 760px); max-width: none; }
+.artigo-abertura + .secao { padding-top: 40px; border-top: 0; }
+.artigo-capa-topo { max-width: 100%; border-width: 1.5px; border-radius: var(--raio); }
+.prosa, .autor { max-width: none; }
+@media (max-width: 760px) {
+  .artigo-abertura, .secao.forte { width: calc(100% - 40px); }
+}
+
+/* 8. Serviços: rótulo antes dos exemplos e nota com o mesmo respiro dos cards. */
+.links-prova { gap: 4px 28px; margin-top: 28px; }
+.links-prova .rotulo { margin: 0 4px 0 0; }
+.servicos-grupo > .resumo { margin: 28px 0 0; font-size: 16px; }
+
+/* 9. Cards em grade com o mesmo espaçamento em todas as páginas no celular. */
+@media (max-width: 760px) {
+  .cards-grid, .competencias, .artigos-grade, .repos-grade, .fora-grade, .passos { gap: 16px; }
+}
+
+/* 10. Trilha de navegação no celular: uma linha só, com o item atual cortado em reticências. */
+@media (max-width: 760px) {
+  .migalhas ol { flex-wrap: nowrap; }
+  .migalhas li { flex: none; }
+  .migalhas li:last-child { flex: 1 1 auto; min-width: 0; }
+  .migalhas [aria-current] { display: block; max-width: 100%; }
+}
+
+/* 11. Páginas de case: títulos menores no celular e seções com o mesmo respiro do resto do site. */
+article .case-secao.env { padding-block: 56px; }
+@media (max-width: 760px) {
+  article .case-secao.env { padding-block: 40px; }
+  article .case-abertura h1 { font-size: clamp(32px, 8.6vw, 38px); }
+}
+
+/* 12. Tablet (761 a 1000 px): menu em uma linha (o contato segue no rodapé) e resumo da home em 2 × 2. */
+@media (min-width: 761px) and (max-width: 1000px) {
+  .cabecalho nav { flex-wrap: nowrap; gap: 16px; }
+  .cabecalho nav a.nav-cta { display: none; }
+  .marca-texto small { display: none; }
+  .resumo-faixa { flex-wrap: wrap; }
+  .resumo-faixa > div, .resumo-faixa > div + div, .resumo-faixa > div:first-child, .resumo-faixa > div:last-child { flex: 1 1 calc(50% - 7px); }
+}
+
+/* 13. Rodapé no celular: links com área de toque maior. */
+@media (max-width: 760px) {
+  .rodape-coluna a { min-height: 40px; }
+}
+
+/* 14. Linha de dados do artigo no celular: data e tempo de leitura em uma linha só
+       (a autoria continua no quadro "Sobre o autor" e nos dados estruturados). */
+@media (max-width: 760px) {
+  .artigo-linha-meta > span:first-child { display: none; }
+  .artigo-linha-meta > span:nth-child(2)::before { content: none; }
 }
