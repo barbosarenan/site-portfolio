@@ -21,10 +21,10 @@ export default defineConfig({
   site: "https://barbosarenan.com.br",
   trailingSlash: "always",
   integrations: [sitemap({
-    // Fora do sitemap: demonstrações (noindex), a página de serviços (noindex) e arquivos que não são HTML.
+    // Fora do sitemap: demonstrações (noindex) e arquivos que não são HTML.
     filter: (page) => {
       const caminho = new URL(page).pathname;
-      return !caminho.startsWith("/demonstracoes/") && caminho !== "/servicos/" && !/\.(txt|xml|md)$/.test(caminho);
+      return !caminho.startsWith("/demonstracoes/") && !/\.(txt|xml|md)$/.test(caminho);
     },
     serialize: (item) => {
       const caminho = new URL(item.url).pathname;
