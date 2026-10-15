@@ -1,35 +1,117 @@
 ---
 import Base from "../layouts/Base.astro";
-import Chamada from "../components/Chamada.astro";
-import { perfil, servicos } from "../dados/perfil";
+import { perfil, idPessoa } from "../dados/perfil";
+
+const grupos = [
+  {
+    "rotulo": "Sites e busca",
+    "titulo": "Sites e SEO, GEO e AEO",
+    "itens": [
+      {
+        "titulo": "Criação de site",
+        "texto": "Site institucional ou landing page, do conteúdo ao código, com SEO técnico desde o início.",
+        "entrega": "estrutura + site no ar"
+      },
+      {
+        "titulo": "Auditoria e otimização de SEO",
+        "texto": "Diagnóstico técnico e de conteúdo do seu site, com prioridades definidas e as correções aplicadas.",
+        "entrega": "diagnóstico + correções"
+      },
+      {
+        "titulo": "Presença nas respostas de IA",
+        "texto": "Ajustes para o conteúdo ser encontrado e citado por ferramentas de IA: respostas diretas, dados estruturados e links internos.",
+        "entrega": "GEO + AEO"
+      }
+    ],
+    "provas": [
+      {
+        "href": "/projetos/site-institucional/",
+        "texto": "Case de redesign de site"
+      },
+      {
+        "href": "/projetos/artigos-seo-geo/",
+        "texto": "Case dos artigos no Google e na IA"
+      },
+      {
+        "href": "/projetos/compasso/",
+        "texto": "Projeto demonstrativo Compasso"
+      }
+    ]
+  },
+  {
+    "rotulo": "Vídeo",
+    "titulo": "Edição de vídeo",
+    "itens": [
+      {
+        "titulo": "Cortes e vídeos verticais",
+        "texto": "Shorts, Reels e TikTok, a partir de vídeos longos ou de material bruto.",
+        "entrega": "vertical 9:16"
+      },
+      {
+        "titulo": "Vídeos para YouTube",
+        "texto": "Edição de vídeos longos: cortes, ritmo, trilha e legendas.",
+        "entrega": "vídeo longo"
+      },
+      {
+        "titulo": "Institucional e produto",
+        "texto": "Apresentação de empresa, demonstração de produto e unboxing.",
+        "entrega": "vídeo de marca"
+      }
+    ],
+    "nota": "No meu trabalho de marketing, também edito vídeos e shorts para um canal corporativo no YouTube."
+  }
+];
+const servicos = grupos.flatMap((g) => g.itens);
+const catalogo = {
+  "@type": "OfferCatalog",
+  "@id": perfil.site + "/servicos/#servicos",
+  name: "Serviços freelance de Renan Barbosa",
+  itemListElement: servicos.map((s) => ({
+    "@type": "Offer",
+    itemOffered: { "@type": "Service", name: s.titulo, description: s.texto, provider: { "@id": idPessoa }, areaServed: "BR", inLanguage: "pt-BR" },
+  })),
+};
+const assunto = "Projeto freelance";
 ---
-<Base
-  titulo={"Competências · " + perfil.nome}
-  descricao="Minha atuação em SEO, conteúdo e aplicações de IA."
-  semIndexar
->
+<Base titulo="Serviços freelance: sites, SEO e edição de vídeo · Renan Barbosa" descricao="Freelance de criação de sites, SEO, GEO e AEO e edição de vídeo: cortes verticais, YouTube e vídeos institucionais. Orçamento por e-mail." tituloCurto="Serviços" schema={[catalogo]}>
   <section class="env abertura">
-    <span class="rotulo">Competências</span>
-    <h1 class="linha-um">Minha atuação em SEO, conteúdo e IA.</h1>
-    <p class="resumo">Trabalho com diagnóstico, planejamento editorial e experimentação técnica, considerando as necessidades de cada contexto.</p>
+    <span class="rotulo status">Aceitando projetos freelance</span>
+    <h1>Sites, SEO e edição de vídeo, como freelancer.</h1>
+    <p class="resumo">Atendo projetos pontuais e contínuos. Você me conta o que precisa, o prazo e onde o material vai ser publicado, e eu respondo com escopo e orçamento.</p>
   </section>
+
+  {grupos.map((g, n) => (
+    <section class="env secao servicos-grupo">
+      <div class="section-head">
+        <div><span class="rotulo">{"0" + (n + 1) + " · " + g.rotulo}</span><h2>{g.titulo}</h2></div>
+      </div>
+      <div class="cards-grid three">
+        {g.itens.map((s) => (
+          <article class="project-card">
+            <h3>{s.titulo}</h3>
+            <p>{s.texto}</p>
+            <span class="servico-entrega">{s.entrega}</span>
+          </article>
+        ))}
+      </div>
+      {g.nota && <p class="resumo">{g.nota}</p>}
+      {g.provas && (
+        <div class="links-prova">
+          {g.provas.map((p) => <a class="text-link" href={p.href}>{p.texto} <span aria-hidden="true">↗</span></a>)}
+        </div>
+      )}
+    </section>
+  ))}
 
   <section class="env secao">
-    <div class="cards-grid three">
-      {servicos.map((s, i) => (
-        <article class="project-card">
-          <div class="project-top">
-            <span class="project-number">{String(i + 1).padStart(2, "0")}</span>
-            <span class="project-tag">{s.entrega}</span>
-          </div>
-          <h3>{s.titulo}</h3>
-          <p>{s.texto}</p>
-        </article>
-      ))}
+    <div class="section-head">
+      <div><span class="rotulo">03 · Como funciona</span><h2>Do primeiro e-mail ao início do trabalho</h2></div>
     </div>
+    <ol class="passos">
+      <li><strong>Você me conta o projeto</strong>Por e-mail: o que precisa, o prazo e exemplos de referência.</li>
+      <li><strong>Eu respondo com uma proposta</strong>Escopo, prazo e orçamento.</li>
+      <li><strong>Começamos</strong>Com tudo combinado, o trabalho começa.</li>
+    </ol>
+    <a class="botao" href={"mailto:" + perfil.email + "?subject=" + encodeURIComponent(assunto)}>Pedir orçamento por e-mail</a>
   </section>
-
-
-
-  <Chamada />
 </Base>

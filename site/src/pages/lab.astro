@@ -33,7 +33,7 @@ const listaRepos = {
     <div>
       <span class="rotulo status">AI Lab</span>
       <h1>Experimentos com IA e automação, <em>com código aberto.</em></h1>
-      <p class="resumo">Protótipos e testes. Cada card diz o que foi feito, em que estágio está e onde ver o código.</p>
+      <p class="resumo">Protótipos com código aberto no GitHub e ideias que ainda estão em teste.</p>
     </div>
     <aside class="github-card" aria-label="Perfil no GitHub">
       <svg class="github-marca" viewBox="0 0 16 16" aria-hidden="true"><path d={githubIcone} /></svg>
@@ -51,25 +51,7 @@ const listaRepos = {
 
   <section class="env secao">
     <div class="section-head">
-      <div><span class="rotulo">01 · Experimentos</span><h2>O que estou testando</h2></div>
-    </div>
-    <div class="cards-grid">
-      {lab.map((item, i) => (
-        <article class="project-card">
-          <div class="project-top">
-            <span class="project-number">{String(i + 1).padStart(2, "0")}</span>
-            <span class="project-tag">{item.stack}</span>
-          </div>
-          <h3>{item.titulo}</h3>
-          <p>{item.texto}</p>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section class="env secao">
-    <div class="section-head">
-      <div><span class="rotulo">02 · GitHub</span><h2>Repositórios</h2></div>
+      <div><span class="rotulo">01 · GitHub</span><h2>Repositórios</h2></div>
       <a class="text-link" href={perfil.github} rel="me noopener">github.com/{usuarioGithub} <span aria-hidden="true">↗</span></a>
     </div>
     <div class="repos-grade">
@@ -94,6 +76,24 @@ const listaRepos = {
         <p>Código, commits e experimentos em andamento.</p>
         <span class="botao">Abrir perfil ↗</span>
       </a>
+    </div>
+  </section>
+
+  <section class="env secao">
+    <div class="section-head">
+      <div><span class="rotulo">02 · Em teste</span><h2>Ainda sem código público</h2></div>
+    </div>
+    <div class="cards-grid">
+      {lab.map((item, i) => (
+        <article class="project-card">
+          <div class="project-top">
+            <span class="project-number">{String(i + 1).padStart(2, "0")}</span>
+            <span class="project-tag">{item.stack}</span>
+          </div>
+          <h3>{item.titulo}</h3>
+          <p>{item.texto}</p>
+        </article>
+      ))}
     </div>
   </section>
 </Base>
