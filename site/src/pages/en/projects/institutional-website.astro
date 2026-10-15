@@ -1,0 +1,69 @@
+---
+import Base from "../../../layouts/Base.astro";
+import { perfil, idPessoa } from "../../../dados/perfil";
+
+const caseSchema = {
+  "@type": "CreativeWork",
+  "@id": perfil.site + "/en/projects/institutional-website/#case",
+  name: "B2B institutional website redesign",
+  description: "WordPress redesign of a B2B technology and data analytics company website: content structure, custom theme, technical SEO and performance.",
+  url: perfil.site + "/en/projects/institutional-website/",
+  genre: "Professional case",
+  inLanguage: "en",
+  author: { "@id": idPessoa },
+  translationOfWork: { "@id": perfil.site + "/projetos/site-institucional/#case" },
+  about: ["Website redesign", "WordPress", "Technical SEO", "Content architecture"],
+};
+---
+<Base idioma="en" titulo="B2B institutional website redesign · Renan Barbosa" descricao="Professional case: WordPress redesign of an institutional website, covering content structure, custom theme, technical SEO and performance." tituloCurto="B2B institutional website" schema={[caseSchema]}>
+  <article class="case-institucional">
+    <header class="env case-abertura">
+      <p class="etiqueta">Professional case · company not disclosed</p>
+      <h1>A website reorganized around a new positioning.</h1>
+      <p class="introducao">Redesign of the WordPress website of a B2B technology and data analytics company. I led the project on my own, from content structure to theme code.</p>
+      <dl class="ficha"><div><dt>Scope</dt><dd>Web · SEO · content</dd></div><div><dt>Role</dt><dd>Sole lead, from content to code</dd></div><div><dt>Timeline</dt><dd>One month, in four weekly phases</dd></div></dl>
+    </header>
+
+    <section class="env case-secao" id="contexto">
+      <div class="secao-titulo"><span class="rotulo">01 · context</span><h2>The positioning changed and the website had to follow.</h2></div>
+      <div class="texto"><p>The company adopted a new institutional positioning. The work was to rebuild the homepage and the company page around it and, in the same project, review the technical foundation of the theme.</p><div class="nota"><strong>Scope</strong><p>Content structure for the homepage and the company page, a custom WordPress theme, organization of editable fields, technical SEO and image performance. The company name, internal data and numbers are left out of this case.</p></div></div>
+    </section>
+
+    <section class="env case-secao" id="estrutura">
+      <div class="secao-titulo"><span class="rotulo">02 · structure</span><h2>A reading order for the homepage.</h2></div>
+      <div class="texto"><p>The homepage was organized into four blocks, in this order:</p><div class="sequencia" aria-label="Homepage content sequence"><span>Decision</span><span aria-hidden="true">→</span><span>Process</span><span aria-hidden="true">→</span><span>Result</span><span aria-hidden="true">→</span><span>Technology</span></div><p>Technology comes last, as an explanation of how the work gets done, rather than as the opening of the page.</p></div>
+    </section>
+
+    <section class="env case-secao" id="implementacao">
+      <div class="secao-titulo"><span class="rotulo">03 · implementation</span><h2>A custom theme, with rules to keep it easy to maintain.</h2></div>
+      <div class="texto"><ul class="lista"><li><strong>Editable fields with criteria:</strong> only content that changes often became a field in the admin panel.</li><li><strong>Page-scoped CSS:</strong> isolated styles and no <code>!important</code>.</li><li><strong>Fewer dependencies:</strong> the third-party carousel library was replaced with native scrolling using scroll-snap.</li><li><strong>WebP images:</strong> served through URL replacement, after confirming that rewriting the HTML broke CSS selectors.</li><li><strong>Technical SEO in scope:</strong> metadata, structured data, redirects for removed pages, caching and CDN.</li></ul></div>
+    </section>
+
+    <section class="env case-secao" id="metodo">
+      <div class="secao-titulo"><span class="rotulo">04 · method</span><h2>One month, four phases and a staging environment.</h2></div>
+      <div class="texto"><p>The schedule was split into four weekly phases. Changes went through a staging environment before reaching the live website.</p><div class="nota"><strong>No results claimed</strong><p>This case describes scope, decisions and responsibility. Traffic numbers and internal company data are left out, as a rule of this portfolio.</p></div></div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .case-abertura { padding-block: 36px 40px; }
+  .etiqueta { font: 11px/1.6 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  h1 { max-width: 21ch; font-size: clamp(38px, 6vw, 72px); line-height: 1.05; }
+  .introducao { margin: 24px 0; max-width: 62ch; font-size: clamp(17px, 2vw, 20px); color: var(--muted); }
+  .ficha { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; margin: 40px 0 0; }
+  dt { font: 11px var(--mono); text-transform: uppercase; color: var(--muted); }
+  dd { margin: 8px 0 0; font-size: 14px; }
+  .case-secao { display: grid; grid-template-columns: 1fr 1.65fr; gap: 64px; padding-block: 64px; border-bottom: 1px solid var(--line); scroll-margin-top: 130px; }
+  .secao-titulo h2 { font-size: clamp(26px, 3vw, 32px); line-height: 1.15; }
+  .texto > p { color: var(--muted); }
+  .nota { margin: 24px 0; padding: 22px; border-left: 3px solid var(--line-strong); }
+  .nota p { margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+  .sequencia { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 24px 0; font: 12px var(--mono); }
+  .sequencia span:not([aria-hidden]) { border: 1px solid var(--line); padding: 10px 12px; }
+  .lista { padding-left: 20px; margin: 0; }
+  .lista li { margin-bottom: 14px; color: var(--muted); }
+  .lista strong { color: var(--text); }
+  .lista code { font: 13px var(--mono); }
+  @media (max-width: 760px) { .case-secao { grid-template-columns: 1fr; gap: 24px; padding-block: 40px; } .ficha { grid-template-columns: 1fr; gap: 20px; } }
+</style>
