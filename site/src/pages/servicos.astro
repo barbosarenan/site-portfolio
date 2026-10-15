@@ -97,7 +97,8 @@ const assunto = "Projeto freelance";
       {g.nota && <p class="resumo">{g.nota}</p>}
       {g.provas && (
         <div class="links-prova">
-          {g.provas.map((p) => <a class="text-link" href={p.href}>{p.texto} <span aria-hidden="true">↗</span></a>)}
+          <span class="rotulo">Exemplos</span>
+          {g.provas.map((p) => <a class="text-link" href={p.href}>{p.texto}&nbsp;<span aria-hidden="true">↗</span></a>)}
         </div>
       )}
     </section>

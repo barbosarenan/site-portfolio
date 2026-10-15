@@ -20,7 +20,7 @@ const competencias = [
 <Base titulo={perfil.nome + " · SEO, conteúdo e IA aplicada"} descricao="Renan Barbosa, analista de marketing em Campinas. SEO técnico, conteúdo B2B e IA aplicada: case profissional, experimentos e artigos com método.">
   <section class="env editorial-hero">
 <div class="hero-copy" data-revela>
-    <a class="rotulo status" href="/servicos/">Aceitando projetos freelance: sites, SEO e vídeo <span aria-hidden="true">↗</span></a>
+    <a class="rotulo status" href="/servicos/">Aceitando projetos freelance: sites, SEO e vídeo&nbsp;<span aria-hidden="true">↗</span></a>
     <h1>SEO e conteúdo, com IA <em>no processo.</em></h1>
     <p>Sou analista de marketing em Campinas. Planejo e executo SEO, conteúdo e sites, e uso IA para analisar e revisar o trabalho.</p>
     <div class="acoes"><a class="botao" href="#trabalhos">Ver trabalhos</a><a class="botao vazado" href="/artigos/">Ler artigos</a></div>
@@ -37,8 +37,8 @@ const competencias = [
     <div class="section-head" data-revela>
       <div><span class="rotulo">01 · Projetos</span><h2>Trabalhos selecionados</h2></div>
       <div class="links-secao">
-        <a class="text-link" href="/projetos/">Todos os projetos <span aria-hidden="true">↗</span></a>
-        <a class="text-link" href="/lab/">Experimentos no AI Lab <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href="/projetos/">Todos os projetos&nbsp;<span aria-hidden="true">↗</span></a>
+        <a class="text-link" href="/lab/">Experimentos no AI Lab&nbsp;<span aria-hidden="true">↗</span></a>
       </div>
     </div>
     <div data-revela><CaseDestaque /></div>
@@ -55,7 +55,7 @@ const competencias = [
         <article class="competencia" data-revela style={`--d:${i}`}>
           <h3>{item.titulo}</h3>
           <p>{item.texto}</p>
-          <a class="text-link" href={item.href}>{item.link} <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href={item.href}>{item.link}&nbsp;<span aria-hidden="true">↗</span></a>
         </article>
       ))}
     </div>
@@ -65,14 +65,14 @@ const competencias = [
     <div><span class="rotulo">03 · Sobre</span><h2>Marketing com<br /> repertório técnico</h2></div>
     <div>
       <p>Minha formação é em marketing. A experiência com SEO, conteúdo e administração de sites ampliou esse repertório para desenvolvimento web, automação e inteligência artificial.</p>
-      <a class="text-link" href="/sobre/">Conheça minha trajetória <span aria-hidden="true">↗</span></a>
+      <a class="text-link" href="/sobre/">Conheça minha trajetória&nbsp;<span aria-hidden="true">↗</span></a>
     </div>
   </div></section>
 
   <section class="env secao" id="artigos">
     <div class="section-head" data-revela>
       <div><span class="rotulo">04 · Artigos</span><h2>Notas e métodos</h2></div>
-      <a class="text-link" href="/artigos/">Todos os artigos <span aria-hidden="true">↗</span></a>
+      <a class="text-link" href="/artigos/">Todos os artigos&nbsp;<span aria-hidden="true">↗</span></a>
     </div>
     <div class="artigos-grade">
       {artigos.map((a, i) => <ArtigoCard artigo={a} ordem={i} />)}
