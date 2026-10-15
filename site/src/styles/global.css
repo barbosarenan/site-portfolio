@@ -748,3 +748,9 @@ article .case-secao.env { padding-block: 56px; }
   .artigo-linha-meta > span:first-child { display: none; }
   .artigo-linha-meta > span:nth-child(2)::before { content: none; }
 }
+
+/* 15. Tablet: grades de 3 cards viram 2 colunas (o texto não fica espremido) e os selos não quebram linha. */
+@media (min-width: 761px) and (max-width: 1000px) {
+  .cards-grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.servico-entrega { white-space: nowrap; }
