@@ -2,6 +2,7 @@
 import Figura from "../../components/Figura.astro";
 import Base from "../../layouts/Base.astro";
 import CaseDestaque from "../../components/CaseDestaque.astro";
+import CaseArtigos from "../../components/CaseArtigos.astro";
 import ArtigoCard from "../../components/ArtigoCard.astro";
 import { perfil } from "../../dados/perfil";
 import { getCollection } from "astro:content";
@@ -18,7 +19,7 @@ const skills = [
 <Base idioma="en" titulo={perfil.nome + " · SEO, content and applied AI"} descricao="Renan Barbosa, marketing analyst in Campinas, Brazil. Technical SEO, B2B content and applied AI: a professional case, experiments and articles.">
   <section class="env editorial-hero">
 <div class="hero-copy" data-revela>
-    <span class="rotulo status">Open to freelance projects</span>
+    <a class="rotulo status" href="/en/services/">Open to freelance projects: websites, SEO and video <span aria-hidden="true">↗</span></a>
     <h1>SEO and content, with AI <em>in the process.</em></h1>
     <p>I am a marketing analyst based in Campinas, Brazil. I plan and execute SEO, content and websites, and I use AI to analyze and review the work.</p>
     <div class="acoes"><a class="botao" href="#trabalhos">See my work</a><a class="botao vazado" href="/en/articles/">Read articles</a></div>
@@ -40,6 +41,7 @@ const skills = [
       </div>
     </div>
     <div data-revela><CaseDestaque idioma="en" /></div>
+    <div data-revela><CaseArtigos idioma="en" /></div>
   </section>
 
   <section class="env secao">

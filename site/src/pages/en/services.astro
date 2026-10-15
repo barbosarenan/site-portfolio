@@ -1,0 +1,113 @@
+---
+import Base from "../../layouts/Base.astro";
+import { perfil, idPessoa } from "../../dados/perfil";
+
+const grupos = [
+  {
+    "rotulo": "Websites and search",
+    "titulo": "Websites and SEO, GEO and AEO",
+    "itens": [
+      {
+        "titulo": "Website development",
+        "texto": "An institutional website or landing page, from content to code, with technical SEO from the start.",
+        "entrega": "structure + live site"
+      },
+      {
+        "titulo": "SEO audit and optimization",
+        "texto": "Technical and content diagnosis of your website, with clear priorities and the fixes applied.",
+        "entrega": "diagnosis + fixes"
+      },
+      {
+        "titulo": "Presence in AI answers",
+        "texto": "Changes that help AI tools find and cite your content: direct answers, structured data and internal links.",
+        "entrega": "GEO + AEO"
+      }
+    ],
+    "provas": [
+      {
+        "href": "/en/projects/institutional-website/",
+        "texto": "Website redesign case"
+      },
+      {
+        "href": "/en/projects/seo-geo-articles/",
+        "texto": "Articles in search and AI case"
+      }
+    ]
+  },
+  {
+    "rotulo": "Video",
+    "titulo": "Video editing",
+    "itens": [
+      {
+        "titulo": "Short-form and vertical video",
+        "texto": "Shorts, Reels and TikTok, cut from long videos or raw footage.",
+        "entrega": "vertical 9:16"
+      },
+      {
+        "titulo": "YouTube videos",
+        "texto": "Long-form editing: cuts, pacing, music and captions.",
+        "entrega": "long-form"
+      },
+      {
+        "titulo": "Company and product videos",
+        "texto": "Company presentations, product demos and unboxing videos.",
+        "entrega": "brand video"
+      }
+    ],
+    "nota": "In my marketing job, I also edit videos and shorts for a corporate YouTube channel."
+  }
+];
+const servicos = grupos.flatMap((g) => g.itens);
+const catalogo = {
+  "@type": "OfferCatalog",
+  "@id": perfil.site + "/en/services/#servicos",
+  name: "Freelance services by Renan Barbosa",
+  itemListElement: servicos.map((s) => ({
+    "@type": "Offer",
+    itemOffered: { "@type": "Service", name: s.titulo, description: s.texto, provider: { "@id": idPessoa }, areaServed: "Worldwide", inLanguage: "en" },
+  })),
+};
+const assunto = "Freelance project";
+---
+<Base idioma="en" titulo="Freelance services: websites, SEO and video editing · Renan Barbosa" descricao="Freelance website development, SEO, GEO and AEO, and video editing: vertical shorts, YouTube and company videos. Quotes by email." tituloCurto="Services" schema={[catalogo]}>
+  <section class="env abertura">
+    <span class="rotulo status">Open to freelance projects</span>
+    <h1>Websites, SEO and video editing, as a freelancer.</h1>
+    <p class="resumo">I take one-off and ongoing projects. Tell me what you need, the deadline and where the material will be published, and I will reply with a scope and a quote.</p>
+  </section>
+
+  {grupos.map((g, n) => (
+    <section class="env secao servicos-grupo">
+      <div class="section-head">
+        <div><span class="rotulo">{"0" + (n + 1) + " · " + g.rotulo}</span><h2>{g.titulo}</h2></div>
+      </div>
+      <div class="cards-grid three">
+        {g.itens.map((s) => (
+          <article class="project-card">
+            <h3>{s.titulo}</h3>
+            <p>{s.texto}</p>
+            <span class="servico-entrega">{s.entrega}</span>
+          </article>
+        ))}
+      </div>
+      {g.nota && <p class="resumo">{g.nota}</p>}
+      {g.provas && (
+        <div class="links-prova">
+          {g.provas.map((p) => <a class="text-link" href={p.href}>{p.texto} <span aria-hidden="true">↗</span></a>)}
+        </div>
+      )}
+    </section>
+  ))}
+
+  <section class="env secao">
+    <div class="section-head">
+      <div><span class="rotulo">03 · How it works</span><h2>From the first email to getting started</h2></div>
+    </div>
+    <ol class="passos">
+      <li><strong>You describe the project</strong>By email: what you need, the deadline and reference examples.</li>
+      <li><strong>I reply with a proposal</strong>Scope, deadline and quote.</li>
+      <li><strong>We get started</strong>Once everything is agreed, the work begins.</li>
+    </ol>
+    <a class="botao" href={"mailto:" + perfil.email + "?subject=" + encodeURIComponent(assunto)}>Ask for a quote by email</a>
+  </section>
+</Base>
