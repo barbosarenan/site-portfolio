@@ -578,3 +578,25 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -.03em; }
 @media (max-width: 760px) {
   .cabecalho nav.menu-ready.aberto a.seletor-idioma { width: auto; margin-top: 12px; border-top: 1.5px solid var(--line); }
 }
+
+/* Faixa de resumo da home em cards com ícone (versão B).
+   Cada card cresce a partir do tamanho do próprio texto: cards curtos ficam estreitos,
+   sem sobra de espaço, e todos mantêm a mesma altura, borda, raio e espaçamento interno. */
+.resumo-faixa { display: flex; flex-wrap: nowrap; gap: 14px; margin-top: 4px; border: 0; }
+.resumo-faixa > div, .resumo-faixa > div + div { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 12px; padding: 14px 20px 14px 14px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--card); }
+.resumo-faixa > div:first-child { box-shadow: 4px 4px 0 var(--orange); }
+/* Cargo e cidade são curtos: não encolhem. Foco e formação absorvem a falta de espaço e quebram linha. */
+.resumo-faixa > div:first-child, .resumo-faixa > div:last-child { flex-shrink: 0; }
+.resumo-ico { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 11px; background: rgba(42, 96, 65, .1); }
+.resumo-ico svg { width: 20px; height: 20px; fill: none; stroke: var(--text); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.resumo-faixa p { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.35; }
+.resumo-faixa .rotulo { display: block; margin: 0 0 3px; font-size: 11px; font-weight: 400; }
+@media (max-width: 760px) {
+  .resumo-faixa { flex-wrap: wrap; gap: 10px; }
+  .resumo-faixa > div, .resumo-faixa > div + div, .resumo-faixa > div:first-child, .resumo-faixa > div:last-child { flex: 1 1 calc(50% - 5px); min-width: 0; padding: 12px; gap: 10px; }
+  .resumo-ico { width: 34px; height: 34px; }
+  .resumo-faixa p { font-size: 14px; }
+}
+@media (max-width: 420px) {
+  .resumo-faixa > div, .resumo-faixa > div + div, .resumo-faixa > div:first-child, .resumo-faixa > div:last-child { flex-basis: 100%; }
+}
