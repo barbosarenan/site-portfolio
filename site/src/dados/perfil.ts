@@ -51,6 +51,19 @@ export const siteInstitucionalSchema = {
   about: ["Redesign de site", "WordPress", "SEO técnico", "Arquitetura de conteúdo"],
 };
 
+// Case profissional dos artigos acompanhados em SEO, GEO e AEO: sem empresa, palavras-chave ou métricas.
+export const artigosSeoSchema = {
+  "@type": "CreativeWork",
+  "@id": perfil.site + "/projetos/artigos-seo-geo/#case",
+  name: "Artigos B2B otimizados para Google e IA",
+  description: "Acompanhamento mensal e otimização de cerca de 20 artigos de um blog B2B em SEO, GEO e AEO, sem dados da empresa nem métricas.",
+  url: perfil.site + "/projetos/artigos-seo-geo/",
+  genre: "Case profissional",
+  inLanguage: "pt-BR",
+  author: { "@id": idPessoa },
+  about: ["SEO", "GEO", "AEO", "Otimização de conteúdo", "Links internos"],
+};
+
 export const pilares = [
   {
     titulo: "Entender antes de executar",
@@ -91,6 +104,13 @@ export const areas = [
 
 export const casos = [
   {
+    titulo: "Artigos no Google e na IA",
+    categoria: "Case profissional",
+    papel: "SEO · GEO · AEO · conteúdo",
+    texto: "Acompanhamento mensal e otimização de cerca de 20 artigos de um blog B2B, no Google e nas respostas de IA.",
+    href: "/projetos/artigos-seo-geo/",
+  },
+  {
     titulo: "Redesign de site institucional B2B",
     categoria: "Case profissional",
     papel: "web · SEO · conteúdo",
@@ -108,18 +128,6 @@ export const casos = [
     categoria: "Projeto paralelo",
     papel: "estratégia · marketing · produto",
     texto: "Projeto voltado à aplicação de estratégia, posicionamento, design, performance e tecnologia na construção de soluções digitais.",
-  },
-  {
-    titulo: "Personal Bot",
-    categoria: "Experimento de produto",
-    papel: "automação · arquitetura · prototipação",
-    texto: "Protótipo desenvolvido para explorar a automação de processos por meio da integração entre painel web, API, WhatsApp e banco de dados.",
-  },
-  {
-    titulo: "Este portfólio",
-    categoria: "Projeto pessoal",
-    papel: "design · conteúdo · SEO · desenvolvimento",
-    texto: "Projeto desenvolvido como ambiente contínuo de experimentação em desenvolvimento web, SEO técnico, segurança, performance e experiência do usuário.",
   },
 ];
 
@@ -143,32 +151,5 @@ export const lab = [
     stack: "agentes · automação · estratégia",
     texto: "Conceito de agente de IA desenvolvido para explorar aplicações em estratégia e operação de marketing.",
   },
-  {
-    titulo: "Personal Bot",
-    stack: "web · API · WhatsApp · PostgreSQL",
-    texto: "Protótipo de automação que integra interface web, API, WhatsApp e banco de dados.",
-  },
-  {
-    titulo: "Site-portfolio",
-    stack: "Astro · Vercel · GitHub",
-    texto: "Ambiente de experimentação em desenvolvimento web, SEO, segurança, performance e experiência do usuário.",
-  },
 ];
 
-export const servicos = [
-  {
-    titulo: "Auditoria de SEO",
-    entrega: "diagnóstico + prioridades",
-    texto: "Levantamento técnico e de conteúdo organizado por impacto, esforço e dependência.",
-  },
-  {
-    titulo: "Estratégia de conteúdo baseada em dados",
-    entrega: "pauta + método",
-    texto: "Transformação de sinais do Search Console e da intenção de busca em oportunidades editoriais.",
-  },
-  {
-    titulo: "Experimentação com IA",
-    entrega: "diagnóstico + protótipo",
-    texto: "Mapeamento de tarefas e desenho de fluxos simples para testar onde IA realmente ajuda.",
-  },
-];

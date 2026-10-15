@@ -15,18 +15,6 @@ export const projectsEn = [
     papel: "strategy · marketing · product",
     texto: "A project focused on applying strategy, positioning, design, performance and technology to build digital solutions.",
   },
-  {
-    titulo: "Personal Bot",
-    categoria: "Product experiment",
-    papel: "automation · architecture · prototyping",
-    texto: "A prototype built to explore process automation by integrating a web dashboard, an API, WhatsApp and a database.",
-  },
-  {
-    titulo: "This portfolio",
-    categoria: "Personal project",
-    papel: "design · content · SEO · development",
-    texto: "An ongoing space to experiment with web development, technical SEO, security, performance and user experience.",
-  },
 ];
 
 export const labEn = [
@@ -39,16 +27,6 @@ export const labEn = [
     titulo: "Vireo Strategos",
     stack: "agents · automation · strategy",
     texto: "An AI agent concept built to explore uses in marketing strategy and operations.",
-  },
-  {
-    titulo: "Personal Bot",
-    stack: "web · API · WhatsApp · PostgreSQL",
-    texto: "An automation prototype that connects a web interface, an API, WhatsApp and a database.",
-  },
-  {
-    titulo: "Site-portfolio",
-    stack: "Astro · Vercel · GitHub",
-    texto: "A space to experiment with web development, SEO, security, performance and user experience.",
   },
 ];
 
