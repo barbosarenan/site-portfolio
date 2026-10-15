@@ -8,7 +8,7 @@ const {
   titulo,
   descricao,
   tipo = "website",
-  imagem = "/og.png",
+  imagem: imagemInformada,
   dataPublicacao,
   dataModificacao,
   // Schema da página: WebPage, CollectionPage, ProfilePage...
@@ -27,6 +27,8 @@ const {
 } = Astro.props;
 
 const t = textos[idioma];
+// Imagem de compartilhamento padrão no idioma da página (JPEG leve; o og.png antigo fica só para links já em cache).
+const imagem = imagemInformada ?? (idioma === "en" ? "/og-en.jpg" : "/og.jpg");
 const outroIdioma = idioma === "pt" ? "en" : "pt";
 
 const site = Astro.site ?? new URL(perfil.site);
@@ -172,6 +174,9 @@ const ano = new Date().getFullYear();
     <link rel="alternate" type="application/rss+xml" title={perfil.nome + " · artigos"} href="/rss.xml" />
 
     <script type="application/ld+json" set:html={JSON.stringify(grafo)} />
+    <!-- Vercel Web Analytics: sem cookies; o script é servido pela própria Vercel depois que a análise é ativada no projeto. -->
+    <script is:inline>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script is:inline defer src="/_vercel/insights/script.js"></script>
     <slot name="cabeca" />
   </head>
 
@@ -225,7 +230,7 @@ const ano = new Date().getFullYear();
         <div class="convite" id="contato">
           <div>
             <h2>{t.convite} <em>{t.conviteDestaque}</em></h2>
-            <p>{t.freela}</p>
+            <p>{t.freela} <a class="convite-servicos" href={t.servicosHref}>{t.verServicos} <span aria-hidden="true">↗</span></a></p>
           </div>
           <a class="convite-email" href={"mailto:" + perfil.email}>{perfil.email}</a>
         </div>
