@@ -230,7 +230,7 @@ const ano = new Date().getFullYear();
         <div class="convite" id="contato">
           <div>
             <h2>{t.convite} <em>{t.conviteDestaque}</em></h2>
-            <p>{t.freela} <a class="convite-servicos" href={t.servicosHref}>{t.verServicos} <span aria-hidden="true">↗</span></a></p>
+            <p>{t.freela}{aqui !== t.servicosHref && <>{" "}<a class="convite-servicos" href={t.servicosHref}>{t.verServicos}&nbsp;<span aria-hidden="true">↗</span></a></>}</p>
           </div>
           <a class="convite-email" href={"mailto:" + perfil.email}>{perfil.email}</a>
         </div>
@@ -259,8 +259,8 @@ const ano = new Date().getFullYear();
             <p class="rodape-titulo">{t.contato}</p>
             <ul>
               <li><a href={"mailto:" + perfil.email}>{t.email}</a></li>
-              <li><a href={perfil.linkedin} rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a></li>
-              <li><a href={perfil.github} rel="me noopener">GitHub <span aria-hidden="true">↗</span></a></li>
+              <li><a href={perfil.linkedin} rel="me noopener">LinkedIn&nbsp;<span aria-hidden="true">↗</span></a></li>
+              <li><a href={perfil.github} rel="me noopener">GitHub&nbsp;<span aria-hidden="true">↗</span></a></li>
               {idioma === "pt" && <li><a href="/rss.xml">{t.rss}</a></li>}
             </ul>
           </div>
@@ -268,7 +268,7 @@ const ano = new Date().getFullYear();
 
         <div class="rodape-base">
           <span>© {ano} {perfil.nome}</span>
-          <a href="#topo">{t.voltarTopo} <span aria-hidden="true">↑</span></a>
+          <a href="#topo">{t.voltarTopo}&nbsp;<span aria-hidden="true">↑</span></a>
         </div>
       </div>
     </footer>
