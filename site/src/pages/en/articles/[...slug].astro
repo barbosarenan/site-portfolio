@@ -24,7 +24,7 @@ const fmt = (d) =>
     timeZone: "UTC",
   });
 
-const capa = a.data.capa ?? "/og.png";
+const capa = a.data.capa ?? "/og-en.jpg";
 const url = new URL(Astro.url.pathname, Astro.site).href;
 const publicado = a.data.data.toISOString();
 const modificado = (a.data.atualizado ?? a.data.data).toISOString();

@@ -26,7 +26,7 @@ const listaEstruturada = {
     datePublished: a.data.data.toISOString(),
     url: new URL("/en/articles/" + a.id + "/", site).href,
     author: { "@id": idPessoa },
-    image: new URL(a.data.capa ?? "/og.png", site).href,
+    image: new URL(a.data.capa ?? "/og-en.jpg", site).href,
   })),
 };
 ---
