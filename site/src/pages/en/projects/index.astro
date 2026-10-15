@@ -1,6 +1,7 @@
 ---
 import Base from "../../../layouts/Base.astro";
 import CaseDestaque from "../../../components/CaseDestaque.astro";
+import CaseArtigos from "../../../components/CaseArtigos.astro";
 import { perfil, idPessoa } from "../../../dados/perfil";
 import { projectsEn } from "../../../dados/en";
 
@@ -9,30 +10,32 @@ const list = {
   name: "Projects by " + perfil.nome,
   itemListElement: [
     { "@type": "ListItem", position: 1, item: { "@id": perfil.site + "/en/projects/institutional-website/#case" } },
+    { "@type": "ListItem", position: 2, item: { "@id": perfil.site + "/en/projects/seo-geo-articles/#case" } },
     ...projectsEn.map((p, i) => ({
       "@type": "ListItem",
-      position: i + 2,
+      position: i + 3,
       item: { "@type": "CreativeWork", name: p.titulo, description: p.texto, genre: p.categoria, author: { "@id": idPessoa } },
     })),
   ],
 };
 ---
-<Base idioma="en" titulo={"SEO, content and web projects · " + perfil.nome} descricao="A professional case, a demo project, personal projects and experiments by Renan Barbosa in marketing, SEO, content and AI." tipoPagina="CollectionPage" tituloCurto="Projects" schema={[list]}>
+<Base idioma="en" titulo={"SEO, content and web projects · " + perfil.nome} descricao="Professional cases, a demo project and personal projects by Renan Barbosa in SEO, GEO, content and web." tipoPagina="CollectionPage" tituloCurto="Projects" schema={[list]}>
   <section class="env abertura">
     <span class="rotulo">Projects</span>
     <h1>Ideas, decisions<br /> and deliverables.</h1>
     <p class="resumo">A selection of work that shows how I connect marketing, content and technology. Each project states what kind of work it is and its scope.</p>
   </section>
   <section class="env secao">
-    <div class="section-head"><div><span class="rotulo">Featured</span><h2>Professional case</h2></div></div>
+    <div class="section-head"><div><span class="rotulo">Featured</span><h2>Professional cases</h2></div></div>
     <CaseDestaque idioma="en" />
+    <CaseArtigos idioma="en" />
   </section>
   <section class="env secao">
     <div class="section-head">
       <div><span class="rotulo">Other work</span><h2>Projects and experiments</h2></div>
-      <a class="text-link" href="/en/lab/">Explore the lab <span aria-hidden="true">↗</span></a>
+      <a class="text-link" href="/en/lab/">Prototypes and code in the AI Lab <span aria-hidden="true">↗</span></a>
     </div>
-    <div class="cards-grid three">
+    <div class="cards-grid">
       {projectsEn.map((item) => (
         <article class="project-card">
           <div class="project-top"><span>{item.categoria}</span></div>

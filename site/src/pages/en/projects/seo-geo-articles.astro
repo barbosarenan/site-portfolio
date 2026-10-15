@@ -1,0 +1,71 @@
+---
+import Base from "../../../layouts/Base.astro";
+import { perfil, idPessoa } from "../../../dados/perfil";
+
+const caseSchema = {
+  "@type": "CreativeWork",
+  "@id": perfil.site + "/en/projects/seo-geo-articles/#case",
+  name: "B2B articles optimized for search and AI",
+  description: "Monthly tracking and optimization of about 20 B2B blog articles across SEO, GEO and AEO, without company data or metrics.",
+  url: perfil.site + "/en/projects/seo-geo-articles/",
+  genre: "Professional case",
+  inLanguage: "en",
+  author: { "@id": idPessoa },
+  about: ["SEO", "GEO", "AEO", "Content optimization", "Internal linking"],
+};
+---
+<Base idioma="en" titulo="Articles optimized for Google and AI · Renan Barbosa" descricao="Professional case: monthly tracking and optimization of about 20 B2B articles across SEO, GEO and AEO, without company data or metrics." tituloCurto="Articles in search and AI" schema={[caseSchema]}>
+  <article class="case-artigos">
+    <header class="env case-abertura">
+      <p class="etiqueta">Professional case · company not disclosed</p>
+      <h1>About 20 articles tracked every month, on Google and in AI answers.</h1>
+      <p class="introducao">Ongoing tracking and optimization of the blog articles of a B2B company. Each article is responsible for one priority keyword, and the work covers SEO, GEO and AEO.</p>
+      <dl class="ficha"><div><dt>Scope</dt><dd>SEO · GEO · AEO · content</dd></div><div><dt>Role</dt><dd>Tracking, diagnosis and optimization</dd></div><div><dt>Cadence</dt><dd>Monthly cycle, reported to the marketing team</dd></div></dl>
+    </header>
+
+    <section class="env case-secao" id="context">
+      <div class="secao-titulo"><span class="rotulo">01 · context</span><h2>Publishing the article is only the start.</h2></div>
+      <div class="texto"><p>An article loses ground when competitors update their content, when search intent shifts or when AI answers start citing other sources. So about 20 articles tied to priority keywords went into a fixed tracking routine. The goal is to improve their position on Google and their presence in answers from AI tools.</p><div class="nota"><strong>Scope</strong><p>Monthly tracking, diagnosis per article and optimization of content that is already published. The company name, the keywords and the numbers are left out of this case.</p></div></div>
+    </section>
+
+    <section class="env case-secao" id="tracking">
+      <div class="secao-titulo"><span class="rotulo">02 · tracking</span><h2>A spreadsheet that shows where each article stands and what to do next.</h2></div>
+      <div class="texto"><p>Each article takes one row, with the same fields every month:</p><ul class="campos" aria-label="Fields tracked per article"><li>Cluster</li><li>Keyword</li><li>Google position</li><li>Change</li><li>Difficulty</li><li>Search volume</li><li class="destaque">AI visibility</li><li class="destaque">Next action</li></ul><p>The change column shows the starting and ending position, not just the difference, so it is clear where the article came from and where it landed. Every month, the spreadsheet becomes a presentation for the marketing team.</p></div>
+    </section>
+
+    <section class="env case-secao" id="optimizations">
+      <div class="secao-titulo"><span class="rotulo">03 · optimizations</span><h2>Four kinds of adjustment, chosen by the diagnosis.</h2></div>
+      <div class="texto"><ul class="lista"><li><strong>On-page adjustments:</strong> title, meta description and headings reviewed against the search intent of the keyword.</li><li><strong>Internal links and clusters:</strong> articles grouped by topic, with links between them to strengthen the subject as a whole.</li><li><strong>Structure for AI (GEO and AEO):</strong> direct answers, frequently asked questions, structured data and passages that are easy to cite.</li><li><strong>Content updates:</strong> outdated or thin passages rewritten, so the article stays a good answer.</li></ul></div>
+    </section>
+
+    <section class="env case-secao" id="method">
+      <div class="secao-titulo"><span class="rotulo">04 · method</span><h2>Measure, adjust, measure again.</h2></div>
+      <div class="texto"><p>The cycle repeats every month: measure positions and AI visibility, compare with the previous month, decide which articles get adjusted and record the next action in the spreadsheet. That way, every change has a before and an after to compare.</p><div class="nota"><strong>No numbers attributed</strong><p>Progress is measured every month, but positions, volumes and internal company data are left out of this case, as a rule of this portfolio.</p></div></div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .case-abertura { padding-block: 36px 40px; }
+  .etiqueta { font: 11px/1.6 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  h1 { max-width: 21ch; font-size: clamp(38px, 6vw, 72px); line-height: 1.05; }
+  .introducao { margin: 24px 0; max-width: 62ch; font-size: clamp(17px, 2vw, 20px); color: var(--muted); }
+  .ficha { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; margin: 40px 0 0; }
+  dt { font: 11px var(--mono); text-transform: uppercase; color: var(--muted); }
+  dd { margin: 8px 0 0; font-size: 14px; }
+  .case-secao { display: grid; grid-template-columns: 1fr 1.65fr; gap: 64px; padding-block: 64px; border-bottom: 1px solid var(--line); scroll-margin-top: 130px; }
+  .secao-titulo h2 { font-size: clamp(26px, 3vw, 32px); line-height: 1.15; }
+  .texto > p { color: var(--muted); }
+  .nota { margin: 24px 0; padding: 22px; border-left: 3px solid var(--line-strong); }
+  .nota p { margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+  .sequencia { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 24px 0; font: 12px var(--mono); }
+  .sequencia span:not([aria-hidden]) { border: 1px solid var(--line); padding: 10px 12px; }
+  .lista { padding-left: 20px; margin: 0; }
+  .lista li { margin-bottom: 14px; color: var(--muted); }
+  .lista strong { color: var(--text); }
+  .lista code { font: 13px var(--mono); }
+  @media (max-width: 760px) { .case-secao { grid-template-columns: 1fr; gap: 24px; padding-block: 40px; } .ficha { grid-template-columns: 1fr; gap: 20px; } }
+  .campos { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; padding: 0; list-style: none; }
+  .campos li { border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font: 12px var(--mono); letter-spacing: .04em; }
+  .campos li.destaque { border-color: var(--orange); color: #9A5A34; }
+</style>
