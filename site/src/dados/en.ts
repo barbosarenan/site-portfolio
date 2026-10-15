@@ -42,7 +42,7 @@ export const trajetoriaEn = [
   { quando: "2024 · today", titulo: "Marketing Analyst", texto: "Technical SEO, B2B content, WordPress, GEO and AI-assisted routines at a technology company. In 2024, I also worked in outbound prospecting as an SDR.", atual: true },
   { quando: "2023", titulo: "Digital marketing intern", texto: "My start in marketing at a technology company." },
   { quando: "2021 · 2022", titulo: "Inside sales and marketing internship", texto: "Sales routine and, in 2022, leading the marketing team’s OKRs." },
-  { quando: "Education", titulo: "IT technical course · Advertising and Marketing · postgraduate degree in Marketing", texto: "ETEC, UNIP and a postgraduate program in Strategy, Digital Business and Customer Experience (PUC-Campinas and PUCPR)." },
+  { quando: "Education", titulo: "IT technical course\u00a0· Advertising and Marketing\u00a0· postgraduate degree in Marketing", texto: "ETEC, UNIP and a postgraduate program in Strategy, Digital Business and Customer Experience (PUC-Campinas and PUCPR)." },
 ];
 
 export const foraEn = [
