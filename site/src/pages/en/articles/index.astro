@@ -1,0 +1,52 @@
+---
+import Base from "../../../layouts/Base.astro";
+import { perfil, idPessoa } from "../../../dados/perfil";
+import { getCollection } from "astro:content";
+import ArtigoCard from "../../../components/ArtigoCard.astro";
+
+const porOrdem = (a, b) => (a.data.ordem ?? 999) - (b.data.ordem ?? 999) || b.data.data - a.data.data;
+const artigos = (await getCollection("articles", ({ data }) => !data.rascunho))
+  .sort(porOrdem);
+
+const site = Astro.site;
+const listaEstruturada = {
+  "@type": "Blog",
+  "@id": new URL("/en/articles/", site).href + "#blog",
+  name: "Articles · " + perfil.nome,
+  description: "Methods and notes on SEO, content and AI applied to marketing.",
+  inLanguage: "en",
+  url: new URL("/en/articles/", site).href,
+  author: { "@id": idPessoa },
+  publisher: { "@id": idPessoa },
+  blogPost: artigos.map((a) => ({
+    "@type": "BlogPosting",
+    "@id": new URL("/en/articles/" + a.id + "/", site).href + "#artigo",
+    headline: a.data.titulo,
+    description: a.data.resumo,
+    datePublished: a.data.data.toISOString(),
+    url: new URL("/en/articles/" + a.id + "/", site).href,
+    author: { "@id": idPessoa },
+    image: new URL(a.data.capa ?? "/og.png", site).href,
+  })),
+};
+---
+<Base
+  idioma="en"
+  titulo={"Articles on SEO, content and applied AI · " + perfil.nome}
+  descricao="Methods and notes on SEO, content planning and using AI in editorial review, with examples that apply to day-to-day marketing work."
+  tipoPagina="CollectionPage"
+  tituloCurto="Articles"
+  schema={[listaEstruturada]}
+>
+  <section class="env abertura">
+    <span class="rotulo">Articles</span>
+    <h1 class="linha-um">Articles on SEO, content and applied AI</h1>
+    <p class="resumo">Methods and notes on SEO, content planning and AI in marketing, written from practice, with sources listed at the end of each article.</p>
+  </section>
+
+  <section class="env secao">
+    <div class="artigos-grade">
+      {artigos.map((a, i) => <ArtigoCard artigo={a} nivel="h2" ordem={i} prioridade={i < 2} idioma="en" />)}
+    </div>
+  </section>
+</Base>
