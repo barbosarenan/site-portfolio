@@ -7,14 +7,18 @@ import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
   const artigos = await getCollection("artigos", ({ data }) => !data.rascunho);
+  const traducoes = await getCollection("articles", ({ data }) => !data.rascunho);
 
-  return artigos.map((a) => ({
-    params: { slug: a.id },
-    props: { a, todos: artigos },
-  }));
+  return artigos.map((a) => {
+    const traducao = traducoes.find((t) => t.data.pt === a.id);
+    return {
+      params: { slug: a.id },
+      props: { a, todos: artigos, alternativa: traducao ? "/en/articles/" + traducao.id + "/" : undefined },
+    };
+  });
 }
 
-const { a, todos } = Astro.props;
+const { a, todos, alternativa } = Astro.props;
 const { Content } = await render(a);
 
 const fmt = (d) =>
@@ -60,6 +64,7 @@ const artigoSchema = {
 };
 ---
 <Base
+  alternativa={alternativa}
   titulo={a.data.titulo + " · " + perfil.nome}
   descricao={a.data.descricao ?? a.data.resumo}
   tipo="article"
