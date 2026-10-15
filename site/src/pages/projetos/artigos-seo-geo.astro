@@ -1,0 +1,59 @@
+---
+import Base from "../../layouts/Base.astro";
+import { artigosSeoSchema } from "../../dados/perfil";
+---
+<Base titulo="Artigos otimizados para Google e IA · Renan Barbosa" descricao="Case profissional: acompanhamento mensal e otimização de cerca de 20 artigos B2B em SEO, GEO e AEO, sem dados da empresa nem métricas." tituloCurto="Artigos no Google e na IA" schema={[artigosSeoSchema]}>
+  <article class="case-artigos">
+    <header class="env case-abertura">
+      <p class="etiqueta">Case profissional · empresa não identificada</p>
+      <h1>Cerca de 20 artigos acompanhados todo mês, no Google e nas respostas de IA.</h1>
+      <p class="introducao">Acompanhamento e otimização contínua dos artigos do blog de uma empresa B2B. Cada artigo responde por uma palavra-chave prioritária, e o trabalho cobre SEO, GEO e AEO.</p>
+      <dl class="ficha"><div><dt>Frentes</dt><dd>SEO · GEO · AEO · conteúdo</dd></div><div><dt>Papel</dt><dd>Acompanhamento, diagnóstico e otimização</dd></div><div><dt>Ritmo</dt><dd>Ciclo mensal, com reporte ao time de marketing</dd></div></dl>
+    </header>
+
+    <section class="env case-secao" id="contexto">
+      <div class="secao-titulo"><span class="rotulo">01 · contexto</span><h2>Publicar o artigo é só o começo.</h2></div>
+      <div class="texto"><p>Um artigo perde espaço quando a concorrência atualiza o conteúdo, quando a intenção de busca muda ou quando as respostas de IA passam a citar outras fontes. Por isso, cerca de 20 artigos ligados a palavras-chave prioritárias entraram em um acompanhamento fixo. O objetivo é melhorar a posição deles no Google e a presença nas respostas de ferramentas de IA.</p><div class="nota"><strong>Escopo</strong><p>Acompanhamento mensal, diagnóstico por artigo e otimização de conteúdo já publicado. O nome da empresa, as palavras-chave e os números ficam fora deste case.</p></div></div>
+    </section>
+
+    <section class="env case-secao" id="acompanhamento">
+      <div class="secao-titulo"><span class="rotulo">02 · acompanhamento</span><h2>Uma planilha que mostra onde cada artigo está e o que fazer com ele.</h2></div>
+      <div class="texto"><p>Cada artigo ocupa uma linha, com os mesmos campos todo mês:</p><ul class="campos" aria-label="Campos acompanhados por artigo"><li>Cluster</li><li>Palavra-chave</li><li>Posição no Google</li><li>Variação</li><li>Dificuldade</li><li>Volume de busca</li><li class="destaque">Visibilidade em IA</li><li class="destaque">Próxima ação</li></ul><p>A variação mostra a posição de origem e a de destino, e não só a diferença, para deixar claro de onde o artigo saiu e aonde chegou. Todo mês, a planilha vira uma apresentação para o time de marketing.</p></div>
+    </section>
+
+    <section class="env case-secao" id="otimizacoes">
+      <div class="secao-titulo"><span class="rotulo">03 · otimizações</span><h2>Quatro tipos de ajuste, escolhidos pelo diagnóstico.</h2></div>
+      <div class="texto"><ul class="lista"><li><strong>Ajustes on-page:</strong> título, meta description e headings revistos para a intenção de busca da palavra-chave.</li><li><strong>Links internos e clusters:</strong> artigos agrupados por tema, com links entre eles para reforçar o assunto como um todo.</li><li><strong>Estrutura para IA (GEO e AEO):</strong> respostas diretas, perguntas frequentes, dados estruturados e trechos fáceis de citar.</li><li><strong>Atualização de conteúdo:</strong> trechos desatualizados ou rasos reescritos, para o artigo continuar sendo uma boa resposta.</li></ul></div>
+    </section>
+
+    <section class="env case-secao" id="metodo">
+      <div class="secao-titulo"><span class="rotulo">04 · método</span><h2>Medir, ajustar e medir de novo.</h2></div>
+      <div class="texto"><p>O ciclo se repete todo mês: medir as posições e a visibilidade em IA, comparar com o mês anterior, decidir quais artigos recebem ajuste e registrar a próxima ação na planilha. Assim, cada mudança tem um antes e um depois para comparar.</p><div class="nota"><strong>Sem números atribuídos</strong><p>A evolução é medida todo mês, mas posições, volumes e dados internos da empresa ficam fora deste case, por regra deste portfólio.</p></div></div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .case-abertura { padding-block: 36px 40px; }
+  .etiqueta { font: 11px/1.6 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  h1 { max-width: 21ch; font-size: clamp(38px, 6vw, 72px); line-height: 1.05; }
+  .introducao { margin: 24px 0; max-width: 62ch; font-size: clamp(17px, 2vw, 20px); color: var(--muted); }
+  .ficha { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; margin: 40px 0 0; }
+  dt { font: 11px var(--mono); text-transform: uppercase; color: var(--muted); }
+  dd { margin: 8px 0 0; font-size: 14px; }
+  .case-secao { display: grid; grid-template-columns: 1fr 1.65fr; gap: 64px; padding-block: 64px; border-bottom: 1px solid var(--line); scroll-margin-top: 130px; }
+  .secao-titulo h2 { font-size: clamp(26px, 3vw, 32px); line-height: 1.15; }
+  .texto > p { color: var(--muted); }
+  .nota { margin: 24px 0; padding: 22px; border-left: 3px solid var(--line-strong); }
+  .nota p { margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+  .sequencia { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 24px 0; font: 12px var(--mono); }
+  .sequencia span:not([aria-hidden]) { border: 1px solid var(--line); padding: 10px 12px; }
+  .lista { padding-left: 20px; margin: 0; }
+  .lista li { margin-bottom: 14px; color: var(--muted); }
+  .lista strong { color: var(--text); }
+  .lista code { font: 13px var(--mono); }
+  @media (max-width: 760px) { .case-secao { grid-template-columns: 1fr; gap: 24px; padding-block: 40px; } .ficha { grid-template-columns: 1fr; gap: 20px; } }
+  .campos { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; padding: 0; list-style: none; }
+  .campos li { border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font: 12px var(--mono); letter-spacing: .04em; }
+  .campos li.destaque { border-color: var(--orange); color: #9A5A34; }
+</style>
