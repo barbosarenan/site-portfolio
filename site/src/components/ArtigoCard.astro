@@ -5,7 +5,7 @@ const { artigo, nivel = "h3", ordem = 0, prioridade = false, idioma = "pt" } = A
 const t = textos[idioma];
 const { titulo, resumo, data, tags } = artigo.data;
 const href = t.artigosBase + artigo.id + "/";
-const capa = artigo.data.capa ?? "/og.png";
+const capa = artigo.data.capa ?? (idioma === "en" ? "/og-en.jpg" : "/og.jpg");
 const Titulo = nivel;
 const dataCurta = data.toLocaleDateString(t.locale, { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" });
 ---

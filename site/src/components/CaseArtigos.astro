@@ -1,0 +1,52 @@
+---
+// Segundo case profissional, em formato compacto: texto à esquerda e, à direita,
+// um esboço da planilha de acompanhamento (sem dados reais, só a estrutura).
+const { idioma = "pt" } = Astro.props;
+const c = {
+  pt: {
+    etiqueta: "Case profissional · empresa não identificada",
+    titulo: "Artigos no Google e na IA",
+    texto: "Acompanhamento mensal e otimização de cerca de 20 artigos de um blog B2B, em SEO, GEO e AEO.",
+    frentes: "Frentes do projeto",
+    tags: ["Acompanhamento mensal", "On-page", "Links internos", "GEO e AEO"],
+    botao: "Ler o case",
+    href: "/projetos/artigos-seo-geo/",
+    colunas: ["Artigo", "Google", "IA", "Ação"],
+    acoes: ["On-page", "Links", "Estrutura IA", "Atualizar"],
+  },
+  en: {
+    etiqueta: "Professional case · company not disclosed",
+    titulo: "Articles in search and AI",
+    texto: "Monthly tracking and optimization of about 20 B2B blog articles across SEO, GEO and AEO.",
+    frentes: "Project scope",
+    tags: ["Monthly tracking", "On-page", "Internal links", "GEO and AEO"],
+    botao: "Read the case",
+    href: "/en/projects/seo-geo-articles/",
+    colunas: ["Article", "Google", "AI", "Action"],
+    acoes: ["On-page", "Links", "AI structure", "Update"],
+  },
+}[idioma];
+const larguras = [78, 62, 86, 54];
+---
+<article class="case-compacto">
+  <div class="case-copy">
+    <span class="case-etiqueta"><i aria-hidden="true"></i>{c.etiqueta}</span>
+    <h3>{c.titulo}</h3>
+    <p>{c.texto}</p>
+    <ul class="case-tags" aria-label={c.frentes}>
+      {c.tags.map((tag) => <li>{tag}</li>)}
+    </ul>
+    <a class="botao vazado" href={c.href}>{c.botao}</a>
+  </div>
+  <div class="planilha" aria-hidden="true">
+    <div class="planilha-linha cabeca">{c.colunas.map((col) => <span>{col}</span>)}</div>
+    {c.acoes.map((acao, i) => (
+      <div class="planilha-linha">
+        <span><b style={`width:${larguras[i]}%`}></b></span>
+        <span><b class="curta"></b></span>
+        <span><i class:list={{ cheio: i % 2 === 0 }}></i></span>
+        <span><em>{acao}</em></span>
+      </div>
+    ))}
+  </div>
+</article>
