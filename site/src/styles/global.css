@@ -16,8 +16,9 @@
  --tinta-verde: url("/figuras/grao.png") 0 0 / 180px 180px,
    url("/figuras/papel.jpg") 0 0 / 255px 255px,
    #2A6041;
- /* Verde sem retícula para áreas com texto: só papel multiplicado sobre a tinta. */
- --tinta-lisa: url("/figuras/papel.jpg") 0 0 / 255px 255px, #2A6041;
+ /* Verde das áreas com texto: grão leve (falhas de tinta a 35%) por cima, papel com fibras marcadas multiplicado, tinta verde.
+    Usar sempre com background-blend-mode: normal, multiply, normal. */
+ --tinta-lisa: url("/figuras/grao-leve.png") 0 0 / 180px 180px, url("/figuras/papel-forte.jpg") 0 0 / 255px 255px, #2A6041;
  --sans: "Inter", sans-serif; --serif: "Inter", sans-serif;
  --mono: "Roboto Mono", "Inter", monospace; --max: 1200px;
 }
@@ -160,7 +161,7 @@ a:hover { text-decoration-color: var(--orange); }
 .competencia { padding: 32px; border: 2px solid var(--line); display: flex; flex-direction: column; gap: 18px; min-width: 0; }
 .competencia p { margin: 0; }
 .competencia .text-link { margin-top: auto; }
-.sobre-faixa { background: var(--tinta-lisa); background-blend-mode: multiply, normal; color: var(--bg); }
+.sobre-faixa { background: var(--tinta-lisa); background-blend-mode: normal, multiply, normal; color: var(--bg); }
 .breve-perfil { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 80px; }
 .breve-perfil .rotulo, .breve-perfil a, .breve-perfil p { color: inherit; }
 .breve-perfil p { font-size: 20px; }
@@ -237,7 +238,7 @@ a:hover { text-decoration-color: var(--orange); }
   background: url("/figuras/grao.png") 0 0 / 180px 180px; }
 .figura svg.riso { display: block; width: 100%; height: auto; overflow: visible; mix-blend-mode: multiply; }
 /* botões cheios impressos com a mesma tinta */
-.botao:not(.vazado), .botao:not(.vazado):hover { background: var(--tinta-lisa); background-blend-mode: multiply, normal; }
+.botao:not(.vazado), .botao:not(.vazado):hover { background: var(--tinta-lisa); background-blend-mode: normal, multiply, normal; }
 .editorial-hero .figura { width: 100%; max-width: 500px; justify-self: center; }
 .case-visual .figura { width: 100%; max-width: 340px; margin-inline: auto; }
 .riso .tinta { fill: var(--text); }
@@ -419,14 +420,14 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -.03em; }
 .marca { display: flex; align-items: center; gap: 14px; text-transform: none; font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
 .marca-texto b { display: block; font-weight: 600; line-height: 1.1; }
 .marca-texto small { display: block; margin-top: 5px; font: 400 11px/1.2 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--suave); }
-.selo { position: relative; flex: none; display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--tinta-lisa); background-blend-mode: multiply, normal; color: var(--bg); font: 600 15px/1 var(--sans); letter-spacing: .02em; text-transform: none; }
+.selo { position: relative; flex: none; display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--tinta-lisa); background-blend-mode: normal, multiply, normal; color: var(--bg); font: 600 15px/1 var(--sans); letter-spacing: .02em; text-transform: none; }
 .selo::after { content: ""; position: absolute; right: -1px; bottom: 2px; width: 11px; height: 11px; border-radius: 50%; background: var(--orange); mix-blend-mode: multiply; }
 .selo.grande { width: 60px; height: 60px; font-size: 20px; background: var(--bg); color: var(--text); }
 .cabecalho nav { gap: 28px; font-family: var(--sans); text-transform: none; letter-spacing: 0; }
 .cabecalho nav a { font-size: 15px; }
 .cabecalho nav a[aria-current] { font-weight: 600; }
-.cabecalho nav a.nav-cta { padding: 10px 20px; border-radius: 999px; background: var(--tinta-lisa); background-blend-mode: multiply, normal; color: var(--bg); font-weight: 600; box-shadow: 3px 3px 0 var(--orange); }
-.cabecalho nav a.nav-cta:hover { color: var(--bg); background-size: 255px 255px, auto; }
+.cabecalho nav a.nav-cta { padding: 10px 20px; border-radius: 999px; background: var(--tinta-lisa); background-blend-mode: normal, multiply, normal; color: var(--bg); font-weight: 600; box-shadow: 3px 3px 0 var(--orange); }
+.cabecalho nav a.nav-cta:hover { color: var(--bg); background-size: 180px 180px, 255px 255px, auto; }
 .menu-toggle { border: 1.5px solid var(--text); border-radius: 50%; }
 
 /* Hero da home */
@@ -452,8 +453,8 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -.03em; }
 .case-etiqueta i { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
 .case-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 30px; padding: 0; list-style: none; }
 .case-tags li { border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; font-size: 13px; }
-.case-visual { position: relative; padding: 44px; border-left: 0; background: var(--tinta-lisa); background-blend-mode: multiply, normal; }
-.case-visual::after { content: ""; position: absolute; inset: 0; background: url("/figuras/grao.png") 0 0 / 180px 180px; opacity: .5; pointer-events: none; }
+.case-visual { position: relative; padding: 44px; border-left: 0; background: var(--tinta-lisa); background-blend-mode: normal, multiply, normal; }
+/* O grão do painel do case agora vem da própria --tinta-lisa. */
 .navegador { position: relative; z-index: 1; width: 100%; border-radius: 12px; overflow: hidden; background: var(--papel), var(--bg); box-shadow: 0 24px 50px -20px rgba(0, 0, 0, .45); }
 .navegador-barra { display: flex; gap: 6px; align-items: center; height: 30px; padding: 0 12px; border-bottom: 1px solid var(--linha-suave); }
 .navegador-barra i { width: 9px; height: 9px; border-radius: 50%; background: rgba(42, 96, 65, .35); }
@@ -472,7 +473,7 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -.03em; }
 .artigo-capa-topo { border: 1.5px solid var(--line); border-radius: var(--raio); }
 
 /* Rodapé fino, sem chamada separada */
-.rodape { background: var(--tinta-lisa); background-blend-mode: multiply, normal; color: var(--bg); }
+.rodape { background: var(--tinta-lisa); background-blend-mode: normal, multiply, normal; color: var(--bg); }
 .rodape a { color: var(--bg); }
 .rodape a:hover { color: var(--bg); }
 .convite { display: flex; justify-content: space-between; align-items: center; gap: 32px; padding: 44px 0; border-bottom: 1px solid rgba(244, 241, 234, .2); scroll-margin-top: 24px; }
@@ -518,7 +519,7 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -.03em; }
 /* AI Lab */
 .lab-hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: center; padding-block: 64px 56px; }
 .lab-hero h1 { font-size: clamp(36px, 4.6vw, 60px); line-height: 1.06; margin-bottom: 22px; }
-.github-card { position: relative; overflow: hidden; padding: 32px; border-radius: 22px; background: var(--tinta-lisa); background-blend-mode: multiply, normal; color: var(--bg); box-shadow: 6px 6px 0 var(--orange); }
+.github-card { position: relative; overflow: hidden; padding: 32px; border-radius: 22px; background: var(--tinta-lisa); background-blend-mode: normal, multiply, normal; color: var(--bg); box-shadow: 6px 6px 0 var(--orange); }
 .github-marca { position: absolute; right: -36px; bottom: -44px; width: 220px; height: 220px; fill: var(--bg); opacity: .08; }
 .github-topo { display: flex; align-items: center; gap: 16px; }
 .github-topo strong { display: block; font-size: 22px; letter-spacing: -.01em; }
