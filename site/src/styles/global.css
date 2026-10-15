@@ -601,3 +601,45 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -.03em; }
 @media (max-width: 420px) {
   .resumo-faixa > div, .resumo-faixa > div + div, .resumo-faixa > div:first-child, .resumo-faixa > div:last-child { flex-basis: 100%; }
 }
+
+/* Segundo case (compacto): mesmo cartão do site, sem sombra laranja, com esboço da planilha. */
+.case-compacto { display: grid; grid-template-columns: 1fr 1fr; margin-top: 28px; border: 1.5px solid var(--line); border-radius: var(--raio); overflow: hidden; background: var(--card); }
+.case-compacto .case-copy { padding: 40px 48px; }
+.case-compacto .case-copy h3 { font-size: 28px; }
+.case-compacto .case-tags { margin: 18px 0 26px; }
+.planilha { display: grid; align-content: center; gap: 8px; padding: 36px 40px; border-left: 1.5px solid var(--line); background: var(--papel), var(--bg); }
+.planilha-linha { display: grid; grid-template-columns: 1.6fr .8fr .5fr 1fr; gap: 12px; align-items: center; padding: 11px 14px; border: 1px solid var(--linha-suave); border-radius: 8px; background: var(--card); }
+.planilha-linha.cabeca { padding-block: 6px; border: 0; background: none; font: 400 10px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--suave); }
+.planilha-linha b { display: block; height: 7px; border-radius: 4px; background: rgba(42, 96, 65, .28); }
+.planilha-linha b.curta { width: 60%; background: var(--text); }
+.planilha-linha i { display: block; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--text); }
+.planilha-linha i.cheio { background: var(--orange); border-color: var(--orange); }
+.planilha-linha em { font: 400 10px var(--mono); font-style: normal; letter-spacing: .05em; text-transform: uppercase; padding: 3px 8px; border: 1px solid var(--orange); border-radius: 999px; color: #9A5A34; white-space: nowrap; }
+@media (max-width: 760px) {
+  .case-compacto { grid-template-columns: 1fr; }
+  .case-compacto .case-copy { padding: 28px 24px; }
+  .planilha { order: -1; padding: 20px; border-left: 0; border-bottom: 1.5px solid var(--line); }
+}
+
+/* Menu com seis itens: entre o tablet e o desktop largo, aperta o espaçamento para caber em uma linha. */
+@media (min-width: 761px) and (max-width: 1140px) {
+  .cabecalho nav { gap: 18px; }
+  .cabecalho nav a { font-size: 14px; }
+  .cabecalho nav a.nav-cta { padding: 9px 16px; }
+}
+@media (min-width: 761px) and (max-width: 960px) {
+  .marca-texto small { display: none; }
+}
+
+/* Página de serviços */
+.servicos-grupo .cards-grid.three { margin-bottom: 28px; }
+.servico-entrega { display: inline-block; margin-top: 14px; padding: 4px 10px; border-radius: 999px; background: rgba(42, 96, 65, .1); font: 400 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.links-prova { display: flex; flex-wrap: wrap; gap: 12px 28px; }
+.passos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin: 0 0 36px; padding: 0; list-style: none; counter-reset: passo; }
+.passos li { counter-increment: passo; padding: 24px; border: 1.5px solid var(--line); border-radius: var(--raio); background: var(--card); color: var(--suave); }
+.passos li::before { content: "0" counter(passo); display: block; margin-bottom: 10px; font: 400 12px var(--mono); letter-spacing: .07em; color: #B8693F; }
+.passos strong { display: block; margin-bottom: 6px; color: var(--text); font-size: 18px; }
+a.rotulo.status { text-decoration: none; }
+a.rotulo.status:hover { text-decoration: underline; text-decoration-color: var(--orange); }
+@media (max-width: 760px) { .passos { grid-template-columns: 1fr; } }
+.convite-servicos { text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 3px; white-space: nowrap; }
