@@ -1,0 +1,57 @@
+---
+import Base from "../../layouts/Base.astro";
+import { perfil } from "../../dados/perfil";
+import { trajetoriaEn, foraEn } from "../../dados/en";
+---
+<Base
+  idioma="en"
+  titulo={"About " + perfil.nome + " · Marketing analyst, SEO and AI"}
+  descricao="Renan Barbosa is a marketing analyst in Campinas, Brazil, working with technical SEO, B2B content and applied AI. Background, education and interests."
+  tipoPagina="ProfilePage"
+  tituloCurto="About"
+>
+  <section class="env sobre-hero">
+    <figure class="foto-perfil">
+      <picture>
+        <source srcset="/sobre/renan-barbosa.webp" type="image/webp" />
+        <img src={perfil.foto} width="640" height="640" alt="Photo of Renan Barbosa" fetchpriority="high" decoding="async" />
+      </picture>
+      <figcaption>Campinas, Brazil</figcaption>
+    </figure>
+    <div class="sobre-texto">
+      <span class="rotulo status">About</span>
+      <h1>Marketing as the foundation. Technology as an extension.</h1>
+      <p class="sobre-lead">I’m Renan, a marketing analyst based in Campinas, Brazil. I started with a technical course in IT and then studied Advertising and Marketing. SEO is where the two met: understanding how people search and, at the same time, working on the code that helps a page get found.</p>
+      <p>Today I work with technical SEO, B2B content and WordPress websites. When a manual process stops scaling, I build AI-assisted routines for auditing, internal link analysis and content production support. AI speeds up the analysis, but the decision about what gets published is still mine.</p>
+      <div class="acoes">
+        <a class="botao" href={perfil.linkedin} rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+        <a class="botao vazado" href={perfil.github} rel="me noopener">GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="env secao sobre-dois">
+    <div><span class="rotulo">Background</span><h2>From an IT technical course to technical SEO</h2></div>
+    <ol class="linha-tempo">
+      {trajetoriaEn.map((t) => (
+        <li class:list={{ atual: t.atual }}>
+          <span class="rotulo">{t.quando}</span>
+          <h3>{t.titulo}</h3>
+          <p>{t.texto}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="env secao">
+    <div class="section-head"><div><span class="rotulo">Outside work</span><h2>A bit more about me</h2></div></div>
+    <div class="fora-grade">
+      {foraEn.map((f) => (
+        <article class="fora-card">
+          <p class="rotulo">{f.titulo}</p>
+          <p>{f.texto}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,103 @@
+---
+import Base from "../../layouts/Base.astro";
+import { perfil, repositorios, idPessoa } from "../../dados/perfil";
+import { labEn, reposEn } from "../../dados/en";
+
+const githubUser = perfil.github.replace(/\/$/, "").split("/").pop();
+const githubBase = perfil.github.replace(/\/$/, "");
+const githubIcon = "M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z";
+const repos = repositorios.map((r) => ({ ...r, ...(reposEn[r.nome] ?? {}) }));
+
+const repoList = {
+  "@type": "ItemList",
+  name: "Public repositories by " + perfil.nome,
+  itemListElement: repos.map((r, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "SoftwareSourceCode",
+      name: r.titulo,
+      description: r.texto,
+      codeRepository: githubBase + "/" + r.nome,
+      programmingLanguage: r.linguagem,
+      author: { "@id": idPessoa },
+    },
+  })),
+};
+---
+<Base
+  idioma="en"
+  titulo={"AI Lab: experiments with AI and automation · " + perfil.nome}
+  descricao="Prototypes and experiments by Renan Barbosa with generative AI, automation and web development, with the code open on GitHub."
+  tipoPagina="CollectionPage"
+  tituloCurto="AI Lab"
+  schema={[repoList]}
+>
+  <section class="env lab-hero">
+    <div>
+      <span class="rotulo status">AI Lab</span>
+      <h1>Experiments with AI and automation, <em>with open code.</em></h1>
+      <p class="resumo">Prototypes and tests. Each card says what was built, what stage it is in and where to see the code.</p>
+    </div>
+    <aside class="github-card" aria-label="GitHub profile">
+      <svg class="github-marca" viewBox="0 0 16 16" aria-hidden="true"><path d={githubIcon} /></svg>
+      <div class="github-topo">
+        <span class="selo grande" aria-hidden="true">RB</span>
+        <div><strong>{perfil.nome}</strong><span class="rotulo">@{githubUser}</span></div>
+      </div>
+      <p>Marketing, SEO and generative AI. Code for the prototypes, this website and my experiments.</p>
+      <a class="botao claro" href={perfil.github} rel="me noopener">
+        <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d={githubIcon} fill="currentColor" /></svg>
+        View profile on GitHub
+      </a>
+    </aside>
+  </section>
+
+  <section class="env secao">
+    <div class="section-head">
+      <div><span class="rotulo">01 · Experiments</span><h2>What I’m testing</h2></div>
+    </div>
+    <div class="cards-grid">
+      {labEn.map((item, i) => (
+        <article class="project-card">
+          <div class="project-top">
+            <span class="project-number">{String(i + 1).padStart(2, "0")}</span>
+            <span class="project-tag">{item.stack}</span>
+          </div>
+          <h3>{item.titulo}</h3>
+          <p>{item.texto}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="env secao">
+    <div class="section-head">
+      <div><span class="rotulo">02 · GitHub</span><h2>Repositories</h2></div>
+      <a class="text-link" href={perfil.github} rel="me noopener">github.com/{githubUser} <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="repos-grade">
+      {repos.map((r) => (
+        <article class="repo-card">
+          <div class="repo-topo">
+            <span class="estagio">{r.estagio}</span>
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d={githubIcon} fill="currentColor" /></svg>
+          </div>
+          <h3><a class="repo-link" href={githubBase + "/" + r.nome} rel="noopener">{r.titulo}</a></h3>
+          <code>{githubUser}/{r.nome}</code>
+          <p>{r.texto}</p>
+          <div class="repo-rodape">
+            <span class="linguagem"><i style={`background:${r.cor}`}></i>{r.linguagem}</span>
+            <span aria-hidden="true">View on GitHub ↗</span>
+          </div>
+        </article>
+      ))}
+      <a class="repo-card repo-todos" href={perfil.github} rel="me noopener">
+        <span class="rotulo">All repositories</span>
+        <strong>github.com/{githubUser}</strong>
+        <p>Code, commits and work in progress.</p>
+        <span class="botao">Open profile ↗</span>
+      </a>
+    </div>
+  </section>
+</Base>

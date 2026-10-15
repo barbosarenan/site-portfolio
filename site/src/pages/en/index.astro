@@ -1,0 +1,77 @@
+---
+import Figura from "../../components/Figura.astro";
+import Base from "../../layouts/Base.astro";
+import CaseDestaque from "../../components/CaseDestaque.astro";
+import ArtigoCard from "../../components/ArtigoCard.astro";
+import { perfil } from "../../dados/perfil";
+import { getCollection } from "astro:content";
+
+const byOrder = (a, b) => (a.data.ordem ?? 999) - (b.data.ordem ?? 999) || b.data.data - a.data.data;
+const articles = (await getCollection("articles", ({ data }) => !data.rascunho))
+  .sort(byOrder).slice(0, 3);
+const skills = [
+  { titulo: "SEO and web", texto: "Diagnosis, content architecture and building pages that explain the offer.", href: "/en/projects/institutional-website/", link: "See the redesign case" },
+  { titulo: "Content", texto: "Editorial planning based on search queries, intent and business context.", href: "/en/articles/search-console-content-ideas/", link: "Read about the planning method" },
+  { titulo: "Applied AI", texto: "Using AI to analyze and review content, with criteria that support human decisions.", href: "/en/articles/audit-before-publishing/", link: "Read about the editorial audit" },
+];
+---
+<Base idioma="en" titulo={perfil.nome + " · SEO, content and applied AI"} descricao="Renan Barbosa, marketing analyst in Campinas, Brazil. Technical SEO, B2B content and applied AI: a professional case, experiments and articles.">
+  <section class="env editorial-hero">
+<div class="hero-copy" data-revela>
+    <span class="rotulo status">Open to freelance projects</span>
+    <h1>SEO and content, with AI <em>in the process.</em></h1>
+    <p>I am a marketing analyst based in Campinas, Brazil. I plan and execute SEO, content and websites, and I use AI to analyze and review the work.</p>
+    <div class="acoes"><a class="botao" href="#trabalhos">See my work</a><a class="botao vazado" href="/en/articles/">Read articles</a></div>
+</div><Figura />
+  </section>
+  <div class="env resumo-faixa">
+    <div><span class="rotulo">Role</span>Marketing Analyst</div>
+    <div><span class="rotulo">Focus</span>Technical SEO, B2B content and AI</div>
+    <div><span class="rotulo">Education</span>Advertising and Marketing, postgraduate degree in Marketing</div>
+    <div><span class="rotulo">Based in</span>Campinas, Brazil</div>
+  </div>
+
+  <section class="env secao" id="trabalhos">
+    <div class="section-head" data-revela>
+      <div><span class="rotulo">01 · Projects</span><h2>Selected work</h2></div>
+      <div class="links-secao">
+        <a class="text-link" href="/en/projects/">All projects <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href="/en/lab/">Experiments in the AI Lab <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <div data-revela><CaseDestaque idioma="en" /></div>
+  </section>
+
+  <section class="env secao">
+    <div class="section-head" data-revela>
+      <div><span class="rotulo">02 · Skills</span><h2>From analysis to delivery</h2></div>
+    </div>
+    <div class="competencias">
+      {skills.map((item, i) => (
+        <article class="competencia" data-revela style={`--d:${i}`}>
+          <h3>{item.titulo}</h3>
+          <p>{item.texto}</p>
+          <a class="text-link" href={item.href}>{item.link} <span aria-hidden="true">↗</span></a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="sobre-faixa" id="sobre"><div class="env secao breve-perfil" data-revela>
+    <div><span class="rotulo">03 · About</span><h2>Marketing with<br /> a technical toolkit</h2></div>
+    <div>
+      <p>My background is in marketing. Working with SEO, content and website management expanded that toolkit into web development, automation and artificial intelligence.</p>
+      <a class="text-link" href="/en/about/">Read my story <span aria-hidden="true">↗</span></a>
+    </div>
+  </div></section>
+
+  <section class="env secao" id="artigos">
+    <div class="section-head" data-revela>
+      <div><span class="rotulo">04 · Articles</span><h2>Notes and methods</h2></div>
+      <a class="text-link" href="/en/articles/">All articles <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="artigos-grade">
+      {articles.map((a, i) => <ArtigoCard artigo={a} ordem={i} idioma="en" />)}
+    </div>
+  </section>
+</Base>
