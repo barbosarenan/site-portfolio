@@ -5,14 +5,16 @@ import path from "node:path";
 
 // Datas dos artigos para o <lastmod> do sitemap: usa "atualizado" quando existe, senão "data".
 // O build roda na pasta "site" (Root Directory da Vercel), então o caminho parte dela.
-const pastaArtigos = path.join(process.cwd(), "src", "content", "artigos");
 const datasArtigos = {};
-for (const arquivo of fs.existsSync(pastaArtigos) ? fs.readdirSync(pastaArtigos) : []) {
-  if (!arquivo.endsWith(".md")) continue;
-  const texto = fs.readFileSync(path.join(pastaArtigos, arquivo), "utf8");
-  const frontmatter = texto.split("---")[1] ?? "";
-  const data = (frontmatter.match(/^atualizado:\s*(\S+)/m) ?? frontmatter.match(/^data:\s*(\S+)/m) ?? [])[1];
-  if (data) datasArtigos["/artigos/" + arquivo.replace(/\.md$/, "") + "/"] = new Date(data).toISOString();
+for (const [pasta, prefixo] of [["artigos", "/artigos/"], ["articles", "/en/articles/"]]) {
+  const pastaArtigos = path.join(process.cwd(), "src", "content", pasta);
+  for (const arquivo of fs.existsSync(pastaArtigos) ? fs.readdirSync(pastaArtigos) : []) {
+    if (!arquivo.endsWith(".md")) continue;
+    const texto = fs.readFileSync(path.join(pastaArtigos, arquivo), "utf8");
+    const frontmatter = texto.split("---")[1] ?? "";
+    const data = (frontmatter.match(/^atualizado:\s*(\S+)/m) ?? frontmatter.match(/^data:\s*(\S+)/m) ?? [])[1];
+    if (data) datasArtigos[prefixo + arquivo.replace(/\.md$/, "") + "/"] = new Date(data).toISOString();
+  }
 }
 
 export default defineConfig({
