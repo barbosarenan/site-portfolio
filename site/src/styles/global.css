@@ -643,3 +643,12 @@ a.rotulo.status { text-decoration: none; }
 a.rotulo.status:hover { text-decoration: underline; text-decoration-color: var(--orange); }
 @media (max-width: 760px) { .passos { grid-template-columns: 1fr; } }
 .convite-servicos { text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 3px; white-space: nowrap; }
+
+/* Home: entre "Trabalhos selecionados" e "Competências" o padding das duas seções somava 176 px sem nada no meio.
+   Reduz para 96 px e marca a divisão com a mesma linha fina usada acima dos trabalhos. */
+#trabalhos { padding-bottom: 48px; }
+#trabalhos + .secao { padding-top: 48px; border-top: 1px solid var(--linha-suave); }
+@media (max-width: 760px) {
+  #trabalhos { padding-bottom: 36px; }
+  #trabalhos + .secao { padding-top: 36px; }
+}
