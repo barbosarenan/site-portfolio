@@ -24,11 +24,11 @@ const canonica = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <a class="pular" href="#conteudo">Pular para o conteúdo</a>
-    <aside class="aviso" aria-label="Identificação do projeto"><div><p><strong>Projeto demonstrativo</strong> · Empresa fictícia · {depois ? "Versão proposta" : "Versão inicial simulada"}</p><a href="/projetos/compasso/">Voltar ao case <span aria-hidden="true">↗</span></a></div></aside>
+    <aside class="aviso" aria-label="Identificação do projeto"><div><p><strong>Projeto demonstrativo</strong> · Empresa fictícia · {depois ? "Versão proposta" : "Versão inicial simulada"}</p><a href="/projetos/compasso/">Voltar ao case&nbsp;<span aria-hidden="true">↗</span></a></div></aside>
     <header class="cabecalho-demo env"><a class="marca" href={depois ? "/demonstracoes/compasso/depois/" : "/demonstracoes/compasso/antes/"} aria-label="Compasso, início da demonstração">compasso<span>.</span></a>{depois ? <nav aria-label="Navegação da demonstração"><a href="#como-funciona">Como funciona</a><a href="#recursos">Recursos</a><a href="#duvidas">Dúvidas</a></nav> : <span class="label">organize o seu tempo</span>}</header>
     <main id="conteudo">
       <section class:list={["env", "hero", { "hero-antes": !depois }]}>
-        <div class="hero-texto"><p class="label">{depois ? "Sua rotina, no seu ritmo" : "Bem-vindo à Compasso"}</p><h1>{conteudo.h1}</h1><p class="subtitulo">{conteudo.abertura}</p><a class="botao" href={depois ? "#agenda" : "#saiba-mais"}>{conteudo.acao} <span aria-hidden="true">↗</span></a>{depois && <p class="legenda">Interface ilustrativa. Sem cadastro ou reservas reais.</p>}</div>
+        <div class="hero-texto"><p class="label">{depois ? "Sua rotina, no seu ritmo" : "Bem-vindo à Compasso"}</p><h1>{conteudo.h1}</h1><p class="subtitulo">{conteudo.abertura}</p><a class="botao" href={depois ? "#agenda" : "#saiba-mais"}>{conteudo.acao}&nbsp;<span aria-hidden="true">↗</span></a>{depois && <p class="legenda">Interface ilustrativa. Sem cadastro ou reservas reais.</p>}</div>
         <div class="hero-arte" aria-hidden="true"><span class="arte-topo">{depois ? "Uma rotina mais organizada" : "O seu próximo passo"}</span><div class="disco disco-um"></div><div class="disco disco-dois"></div><div class="disco disco-tres"></div><span class="arte-rodape">{depois ? "Serviços · horários · agendamentos" : "Simplicidade · conexão · possibilidades"}</span></div>
       </section>
 
