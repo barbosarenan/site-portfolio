@@ -1,6 +1,7 @@
 ---
 import Base from "../../../layouts/Base.astro";
 import CasesBento from "../../../components/CasesBento.astro";
+import FiguraProjetos from "../../../components/FiguraProjetos.astro";
 import { perfil, idPessoa } from "../../../dados/perfil";
 import { projectsEn } from "../../../dados/en";
 
@@ -19,10 +20,13 @@ const list = {
 };
 ---
 <Base idioma="en" titulo={"SEO, content and web projects · " + perfil.nome} descricao="Professional cases, a demo project and personal projects by Renan Barbosa in SEO, GEO, content and web." tipoPagina="CollectionPage" tituloCurto="Projects" schema={[list]}>
-  <section class="env abertura">
+  <section class="env abertura abertura-figura">
+    <div>
     <span class="rotulo">Projects</span>
     <h1>Ideas, decisions<br /> and deliverables.</h1>
     <p class="resumo">A selection of work that shows how I connect marketing, content and technology. Each project states what kind of work it is and its scope.</p>
+    </div>
+    <FiguraProjetos idioma="en" />
   </section>
   <section class="env secao">
     <div class="section-head"><div><span class="rotulo">Featured</span><h2>Professional cases</h2></div></div>
