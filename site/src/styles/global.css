@@ -846,3 +846,15 @@ article .case-secao.env { padding-block: 56px; }
 .c-citn.eu { fill: #F4F1EA; }
 .c-liga { fill: none; stroke: var(--orange); stroke-width: 1.2; stroke-dasharray: 3 3; }
 @media (max-width: 760px) { .bento-visual { height: 168px; padding: 4px; } }
+
+/* 20. Figura animada do topo de Projetos (FiguraProjetos) e ajuste comum às figuras animadas por script. */
+.fig-projetos .pf, .fig-projetos .pl { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.fig-projetos .pt { opacity: 0; }
+/* o script desenha as linhas quadro a quadro: a transição de entrada das figuras estáticas atrasaria o traço */
+.js .fig-projetos .fio, .js .fig-jornada .fio { transition: none; }
+.abertura-figura { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+.abertura-figura .figura { width: 100%; max-width: 330px; justify-self: center; }
+@media (max-width: 760px) {
+  .abertura-figura { grid-template-columns: 1fr; gap: 28px; }
+  .abertura-figura .figura { max-width: 240px; }
+}
