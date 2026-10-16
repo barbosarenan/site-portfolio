@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import Chamada from "../../components/Chamada.astro";
 import CasesBento from "../../components/CasesBento.astro";
+import FiguraProjetos from "../../components/FiguraProjetos.astro";
 import { perfil, casos, idPessoa, compassoSchema, siteInstitucionalSchema, artigosSeoSchema } from "../../dados/perfil";
 // Os cases profissionais ficam no destaque. O Compasso continua aqui, marcado como demonstrativo.
 // Protótipos com código (Personal Bot, este portfólio) ficam só no AI Lab.
@@ -30,10 +31,13 @@ const lista = {
 };
 ---
 <Base titulo={"Projetos de SEO, conteúdo e web · " + perfil.nome} descricao="Cases profissionais, projeto demonstrativo e projetos pessoais de Renan Barbosa em SEO, GEO, conteúdo e web." tipoPagina="CollectionPage" tituloCurto="Projetos" schema={[siteInstitucionalSchema, artigosSeoSchema, compassoSchema, lista]}>
-  <section class="env abertura">
+  <section class="env abertura abertura-figura">
+    <div>
     <span class="rotulo">Projetos</span>
     <h1>Ideias, decisões<br /> e entregas.</h1>
     <p class="resumo">Uma seleção de trabalhos para mostrar como conecto marketing, conteúdo e tecnologia. Cada projeto apresenta sua natureza e seu escopo.</p>
+    </div>
+    <FiguraProjetos />
   </section>
   <section class="env secao">
     <div class="section-head"><div><span class="rotulo">Em destaque</span><h2>Cases profissionais</h2></div></div>
