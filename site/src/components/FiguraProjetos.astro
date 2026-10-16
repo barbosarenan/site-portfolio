@@ -1,0 +1,115 @@
+---
+// Figura do topo da página Projetos: animação em três estados que acompanha o título.
+// 01 Ideias (círculos soltos) → 02 Decisões (figura de rede, com o caminho laranja escolhido)
+// → 03 Entregas (três cards prontos, o do meio com a faixa laranja).
+// Todas as formas são <rect> com cantos arredondados: um círculo é um rect com rx = metade da largura,
+// então dá para transformar círculo em card sem trocar de elemento.
+// O HTML sai no estado 01; o script só anima com a figura visível. Com "reduzir movimento", fica no 02.
+const { idioma = "pt" } = Astro.props;
+const textos = {
+  pt: {
+    etapas: ["Ideias", "Decisões", "Entregas"],
+    descricao: "Animação em três etapas: círculos soltos se ligam em uma rede com um caminho destacado em laranja e depois viram três cards, o do meio com uma faixa laranja.",
+  },
+  en: {
+    etapas: ["Ideas", "Decisions", "Deliverables"],
+    descricao: "Three-step animation: scattered circles connect into a network with one path highlighted in orange, then turn into three cards, the middle one with an orange band.",
+  },
+}[idioma];
+
+const c = (cx: number, cy: number, r: number) => ({ x: cx - r, y: cy - r, w: 2 * r, h: 2 * r, rx: r });
+const inicio = [c(26, 30, 8), c(72, 22, 7), c(96, 76, 9), c(44, 64, 5), c(18, 94, 6), c(66, 98, 5), c(92, 40, 5)];
+const acentoInicio = c(56, 46, 5);
+const fios = [[30, 95, 20, 40], [30, 95, 45, 35], [60, 95, 45, 35], [60, 95, 75, 30], [90, 95, 75, 30], [90, 95, 100, 45]];
+const linhasCard = [[64, 20], [71, 15], [78, 18], [85, 12]];
+---
+<figure class="figura fig-projetos" data-anima data-projetos>
+  <svg class="riso" viewBox="0 0 120 120" role="img" aria-label={textos.descricao} focusable="false">
+    <g class="tinta">
+      {fios.map(([x1, y1, x2, y2]) => <line class="fio pf" x1={x1} y1={y1} x2={x2} y2={y2} pathLength="1" />)}
+    </g>
+    <line class="acento fio pl" x1="60" y1="95" x2="100" y2="45" pathLength="1" />
+    <g class="tinta">
+      {inicio.map((p) => <rect class="pp" x={p.x} y={p.y} width={p.w} height={p.h} rx={p.rx} />)}
+    </g>
+    {[8, 45, 82].map((x) => linhasCard.map(([y, w]) => <rect class="janela pt" x={x + 5} y={y} width={w} height="2.6" />))}
+    <rect class="janela pj" x={acentoInicio.x} y={acentoInicio.y} width={acentoInicio.w} height={acentoInicio.h} rx={acentoInicio.rx} />
+    <rect class="acento pa" x={acentoInicio.x} y={acentoInicio.y} width={acentoInicio.w} height={acentoInicio.h} rx={acentoInicio.rx} />
+  </svg>
+  <ol class="jornada-etapas" aria-hidden="true">
+    {textos.etapas.map((etapa, i) => <li class:list={{ ativa: i === 0 }}>{etapa}</li>)}
+  </ol>
+</figure>
+
+<script>
+  type Forma = { x: number; y: number; w: number; h: number; rx: number };
+  const c = (cx: number, cy: number, r: number): Forma => ({ x: cx - r, y: cy - r, w: 2 * r, h: 2 * r, rx: r });
+  const s1 = [c(26, 30, 8), c(72, 22, 7), c(96, 76, 9), c(44, 64, 5), c(18, 94, 6), c(66, 98, 5), c(92, 40, 5)];
+  const s2 = [c(30, 95, 14), c(60, 95, 14), c(90, 95, 14), c(20, 40, 6), c(45, 35, 6), c(75, 30, 6), c(100, 45, 6)];
+  const s3: Forma[] = [
+    { x: 8, y: 44, w: 30, h: 62, rx: 5 }, { x: 45, y: 44, w: 30, h: 62, rx: 5 }, { x: 82, y: 44, w: 30, h: 62, rx: 5 },
+    { x: 8, y: 24, w: 22, h: 4, rx: 2 }, { x: 37, y: 24, w: 22, h: 4, rx: 2 }, { x: 66, y: 24, w: 22, h: 4, rx: 2 }, { x: 95, y: 24, w: 17, h: 4, rx: 2 },
+  ];
+  const acentos: Forma[] = [c(56, 46, 5), c(100, 45, 6), { x: 45, y: 44, w: 30, h: 11, rx: 5 }];
+  const estados = [s1, s2, s3];
+
+  const PARADO = 2200, MOVE = 1300, ETAPA = PARADO + MOVE, CICLO = 3 * ETAPA;
+  const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+  const suave = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const limita = (v: number) => Math.min(1, Math.max(0, v));
+
+  for (const fig of document.querySelectorAll<HTMLElement>("[data-projetos]")) {
+    const pecas = [...fig.querySelectorAll<SVGRectElement>(".pp")];
+    const fios = [...fig.querySelectorAll<SVGLineElement>(".pf")];
+    const linha = fig.querySelector<SVGLineElement>(".pl")!;
+    const textos = [...fig.querySelectorAll<SVGRectElement>(".pt")];
+    const janela = fig.querySelector<SVGRectElement>(".pj")!;
+    const acento = fig.querySelector<SVGRectElement>(".pa")!;
+    const etapas = [...fig.querySelectorAll<HTMLLIElement>(".jornada-etapas li")];
+
+    const aplica = (el: SVGRectElement, a: Forma, b: Forma, t: number) => {
+      el.setAttribute("x", lerp(a.x, b.x, t).toFixed(2));
+      el.setAttribute("y", lerp(a.y, b.y, t).toFixed(2));
+      el.setAttribute("width", lerp(a.w, b.w, t).toFixed(2));
+      el.setAttribute("height", lerp(a.h, b.h, t).toFixed(2));
+      el.setAttribute("rx", lerp(a.rx, b.rx, t).toFixed(2));
+    };
+
+    const desenha = (ms: number) => {
+      const tc = ms % CICLO;
+      const de = Math.floor(tc / ETAPA), para = (de + 1) % 3;
+      const dentro = tc - de * ETAPA;
+      const t = dentro < PARADO ? 0 : suave((dentro - PARADO) / MOVE);
+      pecas.forEach((el, i) => aplica(el, estados[de][i], estados[para][i], t));
+      aplica(acento, acentos[de], acentos[para], t);
+      aplica(janela, acentos[de], acentos[para], t);
+      const v2 = de === 1 ? 1 - t : para === 1 ? t : 0;
+      const v3 = de === 2 ? 1 - t : para === 2 ? t : 0;
+      fios.forEach((l, i) => (l.style.strokeDashoffset = String(1 - limita(v2 * 1.5 - i * 0.08))));
+      linha.style.strokeDashoffset = String(1 - limita(v2 * 1.6 - 0.5));
+      textos.forEach((r) => (r.style.opacity = String(Math.max(0, v3 * 1.6 - 0.6))));
+      const ativa = t > 0.5 ? para : de;
+      etapas.forEach((li, i) => li.classList.toggle("ativa", i === ativa));
+    };
+
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      desenha(ETAPA);
+      continue;
+    }
+
+    desenha(0);
+    let visivel = false;
+    let relogio = 0, ultimo = 0, rodando = false;
+    const quadro = (agora: number) => {
+      if (!rodando) return;
+      if (ultimo) relogio += Math.min(agora - ultimo, 100);
+      ultimo = agora;
+      desenha(relogio);
+      requestAnimationFrame(quadro);
+    };
+    const liga = () => { if (!rodando && visivel && !document.hidden) { rodando = true; ultimo = 0; requestAnimationFrame(quadro); } };
+    const desliga = () => { rodando = false; };
+    new IntersectionObserver((e) => { visivel = e[0].isIntersecting; visivel && !document.hidden ? setTimeout(liga, relogio ? 0 : 1200) : desliga(); }, { threshold: 0.2 }).observe(fig);
+    document.addEventListener("visibilitychange", () => (document.hidden || !visivel ? desliga() : liga()));
+  }
+</script>
