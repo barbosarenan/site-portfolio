@@ -2,8 +2,7 @@
 import FiguraJornada from "../components/FiguraJornada.astro";
 import Base from "../layouts/Base.astro";
 import Chamada from "../components/Chamada.astro";
-import CaseDestaque from "../components/CaseDestaque.astro";
-import CaseArtigos from "../components/CaseArtigos.astro";
+import CasesBento from "../components/CasesBento.astro";
 import ArtigoCard from "../components/ArtigoCard.astro";
 import { perfil } from "../dados/perfil";
 import { getCollection } from "astro:content";
@@ -41,8 +40,7 @@ const competencias = [
         <a class="text-link" href="/lab/">Experimentos no AI Lab&nbsp;<span aria-hidden="true">↗</span></a>
       </div>
     </div>
-    <div data-revela><CaseDestaque /></div>
-    <div data-revela><CaseArtigos /></div>
+    <CasesBento />
   </section>
 
   <section class="env secao">
