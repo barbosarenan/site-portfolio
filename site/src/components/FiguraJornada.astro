@@ -1,0 +1,144 @@
+---
+// Figura do hero da home: uma animação em três estados, sempre na mesma ordem.
+// 01 informação solta → 02 organizada (funil) → 03 encontrada e citada (resultados de busca ligados a uma página).
+// O HTML já sai no estado 01 (a arte de antes); o script só anima quando a figura está na tela.
+// Com "reduzir movimento" ativado, a figura fica parada no estado 02.
+const { idioma = "pt" } = Astro.props;
+const textos = {
+  pt: {
+    etapas: ["Informação solta", "Organizada", "Encontrada e citada"],
+    descricao: "Animação em três etapas: retângulos soltos se organizam em um funil que entra em um bloco verde; depois viram resultados de busca ligados a uma página, com um trecho destacado em laranja.",
+  },
+  en: {
+    etapas: ["Scattered information", "Organized", "Found and cited"],
+    descricao: "Three-step animation: scattered rectangles line up into a funnel that enters a green block; then they become search results linked to a page, with one passage highlighted in orange.",
+  },
+}[idioma];
+
+// Estado 01: as mesmas 30 peças da arte original, ordenadas por coluna.
+const pecas = [
+  ...[10, 25, 40, 55, 70, 85, 100].map((y) => [10, y]),
+  ...[17, 32, 47, 62, 77, 92].map((y) => [20, y]),
+  ...[10, 25, 40, 55, 70, 85, 100].map((y) => [30, y]),
+  ...[15, 38, 58, 80, 98].map((y) => [40, y]),
+  ...[22, 45, 65, 88].map((y) => [50, y]),
+  [60, 52],
+];
+const resultados = [12, 32, 52, 72, 92];
+const linhasPagina = [[20, 22], [28, 30], [33, 26], [38, 30], [72, 30], [77, 24], [82, 30], [87, 18]];
+---
+<figure class="figura fig-jornada" data-anima data-jornada>
+  <svg class="riso" viewBox="0 0 120 120" role="img" aria-label={textos.descricao} focusable="false">
+    <g class="tinta">
+      {pecas.map(([x, y]) => <rect class="jp" x={x} y={y} width="5" height="10" />)}
+      <rect class="jb" x="78" y="20" width="35" height="80" rx="4" />
+    </g>
+    <g class="tinta">
+      {resultados.map((y) => <line class="fio jf" x1="58" y1={y + 5} x2="74" y2="60" pathLength="1" />)}
+    </g>
+    <rect class="janela jj" x="89" y="54" width="10" height="17" />
+    {linhasPagina.map(([y, w]) => <rect class="janela jt" x="80" y={y} width={w} height="3" />)}
+    <rect class="acento ja" x="90" y="55" width="7" height="14" rx="1" />
+  </svg>
+  <ol class="jornada-etapas" aria-hidden="true">
+    {textos.etapas.map((etapa, i) => <li class:list={{ ativa: i === 0 }}>{etapa}</li>)}
+  </ol>
+</figure>
+
+<script>
+  type Caixa = { x: number; y: number; w: number; h: number; o?: number };
+  const ordena = (a: Caixa[]) => a.sort((p, q) => p.x - q.x || p.y - q.y);
+
+  const s1: Caixa[] = ordena([
+    ...[10, 25, 40, 55, 70, 85, 100].map((y) => ({ x: 10, y })),
+    ...[17, 32, 47, 62, 77, 92].map((y) => ({ x: 20, y })),
+    ...[10, 25, 40, 55, 70, 85, 100].map((y) => ({ x: 30, y })),
+    ...[15, 38, 58, 80, 98].map((y) => ({ x: 40, y })),
+    ...[22, 45, 65, 88].map((y) => ({ x: 50, y })),
+    { x: 60, y: 52 },
+  ].map((p) => ({ ...p, w: 5, h: 10, o: 1 })));
+
+  // 02: funil 7-6-5-4-3-2-1 centrado no bloco; 2 peças já entram no bloco.
+  const funil: Caixa[] = [];
+  [7, 6, 5, 4, 3, 2, 1].forEach((n, k) => {
+    const x = 6 + k * 10, topo = 60 - (n * 15 - 5) / 2;
+    for (let j = 0; j < n; j++) funil.push({ x, y: topo + j * 15, w: 5, h: 10, o: 1 });
+  });
+  const s2 = ordena(funil).concat([{ x: 93, y: 55, w: 5, h: 10, o: 0 }, { x: 93, y: 55, w: 5, h: 10, o: 0 }]);
+
+  // 03: as 10 peças da esquerda viram 5 resultados (título + trecho); o resto entra na página.
+  const titulos = [38, 30, 44, 26, 34];
+  const res: Caixa[] = [];
+  [12, 32, 52, 72, 92].forEach((y, i) => { res.push({ x: 4, y, w: titulos[i], h: 5, o: 1 }); res.push({ x: 4, y: y + 8, w: 50, h: 2.4, o: 1 }); });
+  res.sort((a, b) => a.y - b.y);
+  const s3 = s2.map((_, i) => (i < 10 ? res[i] : { x: 90, y: 56, w: 5, h: 8, o: 0 }));
+
+  const estados = [s1, s2, s3];
+  const blocos = [{ x: 78, y: 20, w: 35, h: 80 }, { x: 78, y: 14, w: 35, h: 92 }, { x: 74, y: 10, w: 42, h: 100 }];
+  const janelas = [{ x: 89, y: 54, w: 10, h: 17 }, { x: 89, y: 51.5, w: 13, h: 17 }, { x: 79, y: 47, w: 32, h: 18 }];
+  const acentos = [{ x: 90, y: 55, w: 7, h: 14 }, { x: 90, y: 52.5, w: 10, h: 14 }, { x: 80, y: 48, w: 30, h: 16 }];
+
+  const PARADO = 2200, MOVE = 1300, ETAPA = PARADO + MOVE, CICLO = 3 * ETAPA;
+  const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+  const suave = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  for (const fig of document.querySelectorAll<HTMLElement>("[data-jornada]")) {
+    const pecas = [...fig.querySelectorAll<SVGRectElement>(".jp")];
+    const bloco = fig.querySelector<SVGRectElement>(".jb")!;
+    const janela = fig.querySelector<SVGRectElement>(".jj")!;
+    const acento = fig.querySelector<SVGRectElement>(".ja")!;
+    const fios = [...fig.querySelectorAll<SVGLineElement>(".jf")];
+    const textos = [...fig.querySelectorAll<SVGRectElement>(".jt")];
+    const etapas = [...fig.querySelectorAll<HTMLLIElement>(".jornada-etapas li")];
+
+    const aplica = (el: SVGRectElement, a: Caixa, b: Caixa, t: number) => {
+      el.setAttribute("x", lerp(a.x, b.x, t).toFixed(2));
+      el.setAttribute("y", lerp(a.y, b.y, t).toFixed(2));
+      el.setAttribute("width", lerp(a.w, b.w, t).toFixed(2));
+      el.setAttribute("height", lerp(a.h, b.h, t).toFixed(2));
+      if (a.o !== undefined && b.o !== undefined) {
+        // quem some, some cedo; quem aparece, aparece no fim: evita peças fantasmas se cruzando.
+        const o = a.o === b.o ? a.o : b.o > a.o ? Math.max(0, (t - 0.55) / 0.45) : Math.max(0, 1 - t / 0.4);
+        el.style.opacity = String(o);
+      }
+    };
+
+    const desenha = (ms: number) => {
+      const tc = ms % CICLO;
+      const de = Math.floor(tc / ETAPA), para = (de + 1) % 3;
+      const dentro = tc - de * ETAPA;
+      const t = dentro < PARADO ? 0 : suave((dentro - PARADO) / MOVE);
+      pecas.forEach((el, i) => aplica(el, estados[de][i], estados[para][i], t));
+      aplica(bloco, blocos[de], blocos[para], t);
+      aplica(janela, janelas[de], janelas[para], t);
+      aplica(acento, acentos[de], acentos[para], t);
+      const v3 = de === 2 ? 1 - t : para === 2 ? t : 0;
+      fios.forEach((l, i) => (l.style.strokeDashoffset = String(1 - Math.min(1, Math.max(0, v3 * 1.4 - i * 0.08)))));
+      textos.forEach((r) => (r.style.opacity = String(v3)));
+      const ativa = t > 0.5 ? para : de;
+      etapas.forEach((li, i) => li.classList.toggle("ativa", i === ativa));
+    };
+
+    // Movimento reduzido: fica parado no estado 02 (organizado).
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      desenha(ETAPA);
+      continue;
+    }
+
+    desenha(0);
+    let visivel = false;
+    let relogio = 0, ultimo = 0, rodando = false;
+    const quadro = (agora: number) => {
+      if (!rodando) return;
+      if (ultimo) relogio += Math.min(agora - ultimo, 100);
+      ultimo = agora;
+      desenha(relogio);
+      requestAnimationFrame(quadro);
+    };
+    const liga = () => { if (!rodando && visivel && !document.hidden) { rodando = true; ultimo = 0; requestAnimationFrame(quadro); } };
+    const desliga = () => { rodando = false; };
+    // Só anima com a figura visível e a aba aberta. Espera a entrada da figura terminar.
+    new IntersectionObserver((e) => { visivel = e[0].isIntersecting; visivel && !document.hidden ? setTimeout(liga, relogio ? 0 : 1200) : desliga(); }, { threshold: 0.2 }).observe(fig);
+    document.addEventListener("visibilitychange", () => (document.hidden || !visivel ? desliga() : liga()));
+  }
+</script>
