@@ -1,0 +1,75 @@
+---
+// "Trabalhos selecionados" da home em formato bento: dois cards lado a lado (um embaixo do outro no celular).
+// Cada card tem um visual curto em cima, texto embaixo, e o card inteiro é clicável pelo link do título.
+// A página Projetos continua com os cards grandes (CaseDestaque e CaseArtigos).
+const { idioma = "pt" } = Astro.props;
+const cases = {
+  pt: [
+    {
+      etiqueta: "Case profissional · web · SEO",
+      titulo: "Site institucional B2B",
+      texto: "Redesign em WordPress organizado em torno de um novo posicionamento.",
+      tags: ["Tema próprio", "SEO técnico", "Performance"],
+      href: "/projetos/site-institucional/",
+      visual: "site",
+    },
+    {
+      etiqueta: "Case profissional · SEO · GEO · AEO",
+      titulo: "Artigos no Google e na IA",
+      texto: "Acompanhamento mensal e otimização de cerca de 20 artigos B2B.",
+      tags: ["On-page", "Links internos", "GEO e AEO"],
+      href: "/projetos/artigos-seo-geo/",
+      visual: "planilha",
+    },
+  ],
+  en: [
+    {
+      etiqueta: "Professional case · web · SEO",
+      titulo: "B2B institutional website",
+      texto: "WordPress redesign organized around a new positioning.",
+      tags: ["Custom theme", "Technical SEO", "Performance"],
+      href: "/en/projects/institutional-website/",
+      visual: "site",
+    },
+    {
+      etiqueta: "Professional case · SEO · GEO · AEO",
+      titulo: "Articles in search and AI",
+      texto: "Monthly tracking and optimization of about 20 B2B articles.",
+      tags: ["On-page", "Internal links", "GEO and AEO"],
+      href: "/en/projects/seo-geo-articles/",
+      visual: "planilha",
+    },
+  ],
+}[idioma];
+const rotuloTags = idioma === "en" ? "Project scope" : "Frentes do projeto";
+---
+<div class="bento">
+  {cases.map((c, i) => (
+    <div class="bento-item" data-revela style={`--d:${i}`}>
+    <article class:list={["bento-card", { destaque: i === 0 }]}>
+      <div class:list={["bento-visual", c.visual]} aria-hidden="true">
+        {c.visual === "site" ? (
+          <div class="bento-site"><i></i><i></i><i></i><i></i></div>
+        ) : (
+          <div class="bento-planilha">
+            {[1, 0, 1].map((cheio) => (
+              <span><b></b><b class="curta"></b><u class:list={{ cheio: cheio === 1 }}></u><s></s></span>
+            ))}
+          </div>
+        )}
+      </div>
+      <div class="bento-corpo">
+        <p class="bento-etiqueta">{c.etiqueta}</p>
+        <h3><a class="bento-link" href={c.href}>{c.titulo}</a></h3>
+        <p class="bento-texto">{c.texto}</p>
+        <div class="bento-rodape">
+          <ul class="case-tags" aria-label={rotuloTags}>
+            {c.tags.map((tag) => <li>{tag}</li>)}
+          </ul>
+          <span class="bento-seta" aria-hidden="true">↗</span>
+        </div>
+      </div>
+    </article>
+    </div>
+  ))}
+</div>
