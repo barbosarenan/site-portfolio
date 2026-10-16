@@ -1,8 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Chamada from "../../components/Chamada.astro";
-import CaseDestaque from "../../components/CaseDestaque.astro";
-import CaseArtigos from "../../components/CaseArtigos.astro";
+import CasesBento from "../../components/CasesBento.astro";
 import { perfil, casos, idPessoa, compassoSchema, siteInstitucionalSchema, artigosSeoSchema } from "../../dados/perfil";
 // Os cases profissionais ficam no destaque. O Compasso continua aqui, marcado como demonstrativo.
 // Protótipos com código (Personal Bot, este portfólio) ficam só no AI Lab.
@@ -38,8 +37,7 @@ const lista = {
   </section>
   <section class="env secao">
     <div class="section-head"><div><span class="rotulo">Em destaque</span><h2>Cases profissionais</h2></div></div>
-    <CaseDestaque />
-    <CaseArtigos />
+    <CasesBento />
   </section>
   <section class="env secao">
     <div class="section-head">
